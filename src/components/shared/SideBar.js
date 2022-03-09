@@ -20,7 +20,7 @@ import BookIcon from '@mui/icons-material/Book';
 import HomeIcon from '@mui/icons-material/Home';
 import Home from '../Home'
 import PageNotFound from '../PageNotFound'
-import Promotions from '../promotions/Promotions'
+import ListPromotions from '../promotions/ListPromotions'
 import PromotionDetails from '../promotions/PromotionDetails'
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom'
 
@@ -86,7 +86,7 @@ const menuItems = [
   {
     text: 'Promotion',
     icon: SchoolIcon,
-    link: "/promotion",
+    link: "/promotions",
   },
 ];
 

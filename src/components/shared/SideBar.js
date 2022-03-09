@@ -1,4 +1,4 @@
-import React from 'react'
+import  {React, useState } from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -22,7 +22,7 @@ import Home from '../Home'
 import PageNotFound from '../PageNotFound'
 import Promotions from '../promotions/Promotions'
 import PromotionDetails from '../promotions/PromotionDetails'
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom'
+import {Link, Route, Routes } from 'react-router-dom'
 
 const drawerWidth = 240;
 
@@ -93,7 +93,7 @@ const menuItems = [
 
 function SideBar() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -161,7 +161,7 @@ function SideBar() {
             <Route path='*' element={<PageNotFound />} />
             <Route exact path='/' element={<Home />} />
             <Route exact path='/promotions' element={<Promotions />} />
-            <Route exact path='/promotions/:id' element={<PromotionDetails />} />
+            <Route exact path='/promotions/:codeFormation/:anneeUniversitaire' element={<PromotionDetails />} />
           </Routes>
       </Main>
     </Box>

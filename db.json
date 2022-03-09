@@ -1,10 +1,8 @@
 {
-    "promotions":[
+    "promotions": [
         {
-            "id": {
-              "anneeUniversitaire": "2013-2014",
-              "codeFormation": "M2DOSI"
-            },
+            "anneeUniversitaire": "2013-2014",
+            "codeFormation": "M2DOSI",
             "commentaire": null,
             "dateRentree": "2013-09-07",
             "dateReponseLalp": "1999-05-05",
@@ -14,29 +12,65 @@
             "processusStage": "EC",
             "siglePromotion": "DOSI4",
             "enseignant": {
-              "noEnseignant": 0,
-              "adresse": "Iure ut ut aliquam e",
-              "codePostal": "13",
-              "emailPerso": "ryvycyj@mailinator.com",
-              "emailUbo": "kykynu@mailinator.com",
-              "mobile": "+33615469821",
-              "nom": "Minus saepe perspici",
-              "pays": "Maroc",
-              "prenom": "Culpa soluta quas e",
-              "sexe": "H",
-              "telephone": "+33615469821",
-              "type": null,
-              "ville": "Fes"
+                "noEnseignant": 0,
+                "adresse": "Iure ut ut aliquam e",
+                "codePostal": "13",
+                "emailPerso": "ryvycyj@mailinator.com",
+                "emailUbo": "kykynu@mailinator.com",
+                "mobile": "+33615469821",
+                "nom": "Minus saepe perspici",
+                "pays": "Maroc",
+                "prenom": "Culpa soluta quas e",
+                "sexe": "H",
+                "telephone": "+33615469821",
+                "type": null,
+                "ville": "Fes"
             },
             "formation": {
-              "codeFormation": "M2DOSI",
-              "debutAccreditation": null,
-              "diplome": "M3",
-              "doubleDiplome": "M",
-              "finAccreditation": null,
-              "n0Annee": null,
-              "nomFormation": "DOSIII"
+                "codeFormation": "M2DOSI",
+                "debutAccreditation": null,
+                "diplome": "M3",
+                "doubleDiplome": "M",
+                "finAccreditation": null,
+                "n0Annee": null,
+                "nomFormation": "DOSIII"
             }
-          }
+        },
+        {
+            "anneeUniversitaire": "2021-2024",
+            "codeFormation": "M2DOSI",
+            "commentaire": null,
+            "dateRentree": null,
+            "dateReponseLalp": null,
+            "dateReponseLp": null,
+            "lieuRentree": "",
+            "nbMaxEtudiant": 0,
+            "processusStage": "",
+            "siglePromotion": null,
+            "enseignant": {
+                "noEnseignant": 0,
+                "adresse": "Iure ut ut aliquam e",
+                "codePostal": "13",
+                "emailPerso": "ryvycyj@mailinator.com",
+                "emailUbo": "kykynu@mailinator.com",
+                "mobile": "+33615469821",
+                "nom": "Minus saepe perspici",
+                "pays": "Maroc",
+                "prenom": "Culpa soluta quas e",
+                "sexe": "H",
+                "telephone": "+33615469821",
+                "type": null,
+                "ville": "Fes"
+            },
+            "formation": {
+                "codeFormation": "M2DOSI",
+                "debutAccreditation": null,
+                "diplome": "M3",
+                "doubleDiplome": "M",
+                "finAccreditation": null,
+                "n0Annee": null,
+                "nomFormation": "DOSIII"
+            }
+        }
     ]
 }

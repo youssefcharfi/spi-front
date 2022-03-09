@@ -20,7 +20,7 @@ import BookIcon from '@mui/icons-material/Book';
 import HomeIcon from '@mui/icons-material/Home';
 import Home from '../Home'
 import PageNotFound from '../PageNotFound'
-import Promotions from '../promotions/Promotions'
+import ListPromotions from '../promotions/ListPromotions'
 import PromotionDetails from '../promotions/PromotionDetails'
 import {Link, Route, Routes } from 'react-router-dom'
 
@@ -86,7 +86,7 @@ const menuItems = [
   {
     text: 'Promotion',
     icon: SchoolIcon,
-    link: "/promotion",
+    link: "/promotions",
   },
 ];
 
@@ -160,8 +160,8 @@ function SideBar() {
           <Routes>
             <Route path='*' element={<PageNotFound />} />
             <Route exact path='/' element={<Home />} />
-            <Route exact path='/promotions' element={<Promotions />} />
-            <Route exact path='/promotions/:codeFormation/:anneeUniversitaire' element={<PromotionDetails />} />
+            <Route exact path='/promotions' element={<ListPromotions />} />
+            <Route exact path='/promotions/:id' element={<PromotionDetails />} />
           </Routes>
       </Main>
     </Box>

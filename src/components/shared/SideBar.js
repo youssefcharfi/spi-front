@@ -160,7 +160,7 @@ function SideBar() {
           <Routes>
             <Route path='*' element={<PageNotFound />} />
             <Route exact path='/' element={<Home />} />
-            <Route exact path='/promotions' element={<Promotions />} />
+            <Route exact path='/promotions' element={<ListPromotions />} />
             <Route exact path='/promotions/:id' element={<PromotionDetails />} />
           </Routes>
       </Main>

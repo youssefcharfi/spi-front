@@ -1,3 +1,4 @@
+
 import './App.css';
 import SideBar from './components/shared/SideBar';
 import * as React from 'react';
@@ -7,6 +8,6 @@ function App() {
      <SideBar />
   </div>
   );
-}
+};
 
 export default App;

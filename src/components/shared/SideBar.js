@@ -117,15 +117,13 @@ function SideBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {menuItems.map(({ text, icon: Icon, link }, index) => (
-            <Link to={link}>
+          {menuItems.map(({ text, icon: Icon }, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
                   <Icon />
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
-            </Link>
           ))}
         </List>
         <Divider />

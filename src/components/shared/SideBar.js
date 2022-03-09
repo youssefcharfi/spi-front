@@ -18,9 +18,32 @@ import ListItemText from '@mui/material/ListItemText';
 import SchoolIcon from '@mui/icons-material/School';
 import BookIcon from '@mui/icons-material/Book';
 import HomeIcon from '@mui/icons-material/Home';
-import { Link } from 'react-router-dom';
+import Home from '../Home'
+import PageNotFound from '../PageNotFound'
+import Promotions from '../promotions/Promotions'
+import PromotionDetails from '../promotions/PromotionDetails'
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom'
 
 const drawerWidth = 240;
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  }),
+);
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -47,6 +70,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
+
+
 const menuItems = [
   {
     text: 'Dashboard',
@@ -56,12 +81,12 @@ const menuItems = [
   {
     text: 'Formation',
     icon: BookIcon,
-    link:"/formation",
+    link: "/formation",
   },
   {
     text: 'Promotion',
     icon: SchoolIcon,
-    link:"/promotion",
+    link: "/promotion",
   },
 ];
 
@@ -117,17 +142,28 @@ function SideBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {menuItems.map(({ text, icon: Icon }, index) => (
-              <ListItem button key={text}>
+          {menuItems.map(({ text, icon: Icon, link }, index) => (
+            <Link to={link} key={index} style={{textDecoration:"none",color:"black"}}>
+              <ListItem button key={index}>
                 <ListItemIcon>
                   <Icon />
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
+            </Link>
           ))}
         </List>
         <Divider />
       </Drawer>
+      <Main open={open}>
+        <DrawerHeader />
+          <Routes>
+            <Route path='*' element={<PageNotFound />} />
+            <Route exact path='/' element={<Home />} />
+            <Route exact path='/promotions' element={<Promotions />} />
+            <Route exact path='/promotions/:id' element={<PromotionDetails />} />
+          </Routes>
+      </Main>
     </Box>
   );
 }

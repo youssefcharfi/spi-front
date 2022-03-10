@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 import React from "react";
 import { Row, Col, Divider, Button } from "antd";
+=======
+
+import React from "react";
+>>>>>>> 741989c0a95350501ad18c0a20b6dece87e1609a
 import { DataGrid } from "@mui/x-data-grid";
+import { Button, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import get from "lodash/get";
 import cuid from "cuid";
 
@@ -202,15 +209,23 @@ const columns = [
 ];
 
 const Promotion = () => {
+  const navigate = useNavigate();
   return (
     <div style={{ height: 400, width: "95%", margin: "50px" }}>
-      <Row justify="space-between">
-        <h1 className="h1">Promotions</h1>
-        <Button type="primary" onClick={() => {}}>
-          Ajouter
-        </Button>
-      </Row>
-      <Divider />
+      <Grid container spacing={2} columns={20}>
+        <Grid item xs={17}>
+          <h1 className="h1">Promotions</h1>
+        </Grid>
+        <Grid item xs={3}>
+          <Button
+            variant="contained"
+            onClick={() => navigate("/promotions/create")}
+          >
+            Ajouter Promotion
+          </Button>
+        </Grid>
+      </Grid>
+
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid

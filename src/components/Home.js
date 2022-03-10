@@ -1,6 +1,4 @@
 import React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 function Home() {
   return (
   <div>

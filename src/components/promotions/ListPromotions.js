@@ -1,4 +1,4 @@
-/*import React from "react";
+import React from "react";
 import { Row, Col, Divider, Button } from "antd";
 import { DataGrid } from "@mui/x-data-grid";
 import get from "lodash/get";
@@ -227,4 +227,3 @@ const Promotion = () => {
 };
 
 export default Promotion;
-*/

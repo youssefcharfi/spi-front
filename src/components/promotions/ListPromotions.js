@@ -8,8 +8,8 @@ import cuid from "cuid";
 const rows = [
   {
     id: {
-      annee_Universitaire: "2013-2016",
-      code_Formation: "M2DOSII",
+      annee_Universitaire: "2013-2014",
+      code_Formation: "M2DOSI",
     },
     commentaire: null,
     date_Rentree: "2013-09-07",
@@ -37,8 +37,8 @@ const rows = [
   },
   {
     id: {
-      annee_Universitaire: "2013-2014",
-      code_Formation: "M2DOSI2",
+      annee_Universitaire: "2021-2024",
+      code_Formation: "M2DOSI",
     },
     commentaire: null,
     date_Rentree: "2013-09-07",

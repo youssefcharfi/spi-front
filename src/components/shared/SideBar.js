@@ -75,17 +75,17 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 const menuItems = [
   {
-    text: "Dashboard",
+    text: "Home",
     icon: HomeIcon,
     link: "/",
   },
   {
-    text: "Formation",
+    text: "Formations",
     icon: BookIcon,
     link: "/formations",
   },
   {
-    text: "Promotion",
+    text: "Promotions",
     icon: SchoolIcon,
     link: "/promotions",
   },
@@ -118,7 +118,7 @@ function SideBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+            SPI APP
           </Typography>
         </Toolbar>
       </AppBar>
@@ -136,6 +136,7 @@ function SideBar() {
         open={open}
       >
         <DrawerHeader>
+          <img height="70px" width="90px" src="https://www.cmibrest.fr/sites/mobilite-brest.ueb.eu/files/styles/large/public/UBO.gif?itok=CHTFJbWk"/> <Typography style={{float:'left', fontSize:'22px'}}>SPI APP</Typography> 
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />

@@ -87,7 +87,7 @@ const menuItems = [
     text: 'Promotion',
     icon: SchoolIcon,
     link: "/promotion",
-  },
+  }
 ];
 
 

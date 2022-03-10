@@ -21,6 +21,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import Home from "../Home";
 import PageNotFound from "../PageNotFound";
 import ListPromotions from "../promotions/ListPromotions";
+import Formations from '../formations/Formations'
 import PromotionDetails from "../promotions/PromotionDetails";
 import CreatePromotion from "../promotions/CreatePromotion";
 import { Link, Route, Routes } from "react-router-dom";
@@ -81,7 +82,7 @@ const menuItems = [
   {
     text: "Formation",
     icon: BookIcon,
-    link: "/formation",
+    link: "/formations",
   },
   {
     text: "Promotion",
@@ -178,6 +179,11 @@ function SideBar() {
             exact
             path="/promotions/:codeFormation/:anneeUniversitaire"
             element={<PromotionDetails />}
+          />
+          <Route
+            exact
+            path="/formations"
+            element={<Formations />}
           />
         </Routes>
       </Main>

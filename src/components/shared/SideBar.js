@@ -1,4 +1,4 @@
-import {React,useState} from "react";
+import { React, useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -23,7 +23,8 @@ import PageNotFound from "../PageNotFound";
 import ListPromotions from "../promotions/ListPromotions";
 import PromotionDetails from "../promotions/PromotionDetails";
 import CreatePromotion from "../promotions/CreatePromotion";
-import {Link, Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes } from "react-router-dom";
+import Candidats from "../candidats/Candidats";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -173,7 +174,11 @@ function SideBar() {
             path="/promotions/create"
             element={<CreatePromotion />}
           />
-          <Route exact path='/promotions/:codeFormation/:anneeUniversitaire'  element={<PromotionDetails />} />
+          <Route
+            exact
+            path="/promotions/:codeFormation/:anneeUniversitaire"
+            element={<PromotionDetails />}
+          />
         </Routes>
       </Main>
     </Box>

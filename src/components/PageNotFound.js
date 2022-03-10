@@ -1,8 +1,26 @@
 import React from 'react'
+import { Grid } from '@mui/material'
+import Typography from "@mui/material/Typography"
 
 function PageNotFound() {
   return (
-    <div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio beatae dicta tenetur commodi quas iure distinctio, magni nemo. Iure minus maiores fugit natus molestias libero a nobis nostrum temporibus consectetur!</div>
+    <Grid
+    container
+    spacing={0}
+    direction="column"
+    alignItems="center"
+    justifyContent="center"
+    style={{ minHeight: '100vh'}}
+  >
+  
+    <Grid item xs={3}>
+    <Typography color="red" fontSize="30px">
+                404 Page Not Found 
+          </Typography>
+    </Grid>   
+     
+  </Grid> 
+
   )
 }
 

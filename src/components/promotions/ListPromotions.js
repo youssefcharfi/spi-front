@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import React from "react";
-import { Row, Col, Divider, Button } from "antd";
-=======
 
 import React from "react";
->>>>>>> 741989c0a95350501ad18c0a20b6dece87e1609a
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";

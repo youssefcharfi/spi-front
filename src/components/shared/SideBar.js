@@ -173,7 +173,7 @@ function SideBar() {
             path="/promotions/create"
             element={<CreatePromotion />}
           />
-          <Route exact path='/promotions/:codeFormation/:anneeUniversitaire'  element={<PromotionDetails />} />
+          <Route exact path='/promotions/:codeFormation/:anneeUniversitaire' element={<PromotionDetails />} />
         </Routes>
       </Main>
     </Box>

@@ -1,110 +1,101 @@
-import React, { useEffect, useState } from 'react'
-import { Container } from '@mui/material';
-import axios from 'axios';
-import {useParams} from 'react-router'
+import React, { useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
+import SwipeableViews from 'react-swipeable-views';
+import { useTheme } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import { green } from '@mui/material/colors';
+import Box from '@mui/material/Box';
+import TabPanel from './TabPanel';
+import Promotion from './Promotion';
+
 
 function PromotionDetails() {
 
-    const [promotion, setPromotion] = useState({})
+    const theme = useTheme();
+    const [value, setValue] = React.useState(0);
 
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    const handleChangeIndex = (index) => {
+        setValue(index);
+    };
 
     const { codeFormation, anneeUniversitaire } = useParams()
 
-    useEffect(() => {
-        axios.get(`http://localhost:9000/promotions?anneeUniversitaire=${anneeUniversitaire}&codeFormation=${codeFormation}`)
-            .then(res => {
-                 setPromotion(res.data[0])
-            })
-            .catch(err => console.log(err))
-    }, [])
-
     return (
-        <Container>
+        <>
             <div id="card2" className="p-1 mt-1 text-center mb-3 card">
                 <div className="card-body">
-                    <h5 className="card-title" style={{ color: 'black', textDecoration: "none" }}> <i style={{ color: "#0EA0E8" }} className="fas fa-book-reader mx-1"></i> Promotion : {promotion.codeFormation} {promotion.anneeUniversitaire}</h5>
+                    <h5 className="card-title" style={{ color: 'black', textDecoration: "none" }}> <i style={{ color: "#0EA0E8" }} className="fas fa-book-reader mx-1"></i> Promotion : {codeFormation} {anneeUniversitaire}</h5>
                 </div>
             </div>
-            <div className="card-body">
-            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Enseignant</h6>
-                                </div>
-                                <div className="col-sm-9 text-secondary">
-                                    {promotion.enseignant?.prenom} {promotion.enseignant?.nom}
-                                </div>
-                            </div>
-                            <hr />
-                            {promotion.commentaire !== "" ? (
-                                <>
-                                    <div className="row">
-                                        <div className="col-sm-3">
-                                            <h6 className="mb-0">Commentaire</h6>
-                                        </div>
-                                        <div className="col-sm-9 text-secondary">
-                                            {promotion.commentaire}
-                                        </div>
-                                    </div>
-                                    <hr />
-                                </>
-                            ) : null}
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Date Rentrée</h6>
-                                </div>
-                                <div className="col-sm-9 text-secondary">
-                                    {promotion.dateRentree}
-                                </div>
-                            </div>
-                            <hr />
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Date Reponse Lalp</h6>
-                                </div>
-                                <div className="col-sm-9 text-secondary">
-                                    {promotion.dateReponseLalp}
-                                </div>
-                            </div>
-                            <hr />
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Lieu Rentrée</h6>
-                                </div>
-                                <div className="col-sm-9 text-secondary">
-                                    {promotion.lieuRentree}
-                                </div>
-                            </div>
-                            <hr />
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Nbr Max Etudiant</h6>
-                                </div>
-                                <div className="col-sm-9 text-secondary">
-                                    {promotion.nbMaxEtudiant}
-                                </div>
-                            </div>
-                            <hr />
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Processus Stage</h6>
-                                </div>
-                                <div className="col-sm-9 text-secondary">
-                                    {promotion.processusStage}
-                                </div>
-                            </div>
-                            <hr />
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Single Promotion</h6>
-                                </div>
-                                <div className="col-sm-9 text-secondary">
-                                    {promotion.siglePromotion}
-                                </div>
-                            </div>
-            </div>
-        </Container>
 
+            <Box
+                sx={{
+                    bgcolor: 'background.paper',
+                    width: 1540,
+                    position: 'relative',
+                    minHeight: 200,
+                }}
+            >
+                <AppBar position="static" color="default">
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        variant="fullWidth"
+                        aria-label="action tabs example"
+                    >
+                        <Tab label="Details" {...a11yProps(0)} />
+                        <Tab label="Candidats" {...a11yProps(1)} />
+                        <Tab label="Etudiants" {...a11yProps(2)} />
+                    </Tabs>
+                </AppBar>
+                <SwipeableViews
+                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                    index={value}
+                    onChangeIndex={handleChangeIndex}
+                >
+                    <TabPanel value={value} index={0} dir={theme.direction}>
+                        <Promotion codeFormation={codeFormation} anneeUniversitaire={anneeUniversitaire}></Promotion>
+                    </TabPanel>
+                    <TabPanel value={value} index={1} dir={theme.direction}>
+                        List Candidats here
+                    </TabPanel>
+                    <TabPanel value={value} index={2} dir={theme.direction}>
+                        List Etudiants here
+                    </TabPanel>
+                </SwipeableViews>
+            </Box>
+        </>
     )
+};
+
+function a11yProps(index) {
+    return {
+        id: `action-tab-${index}`,
+        'aria-controls': `action-tabpanel-${index}`,
+    };
 }
+
+const fabStyle = {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+};
+
+const fabGreenStyle = {
+    color: 'common.white',
+    bgcolor: green[500],
+    '&:hover': {
+        bgcolor: green[600],
+    },
+};
+
 
 export default PromotionDetails

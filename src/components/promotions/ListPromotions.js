@@ -1,4 +1,3 @@
-
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Grid } from "@mui/material";
@@ -154,13 +153,13 @@ const rows = [
   },
 ];
 
-const columns = [
+const columns = ({ navigate }) => [
   {
-    headerName: "Code Formation",
-    field: "code_Formation",
+    headerName: "Année Universitaire",
+    field: "annee_Universitaire",
     type: "string",
-    width: 200,
-    valueGetter: (params) => `${params.row.id.code_Formation || ""}`,
+    width: 150,
+    valueGetter: (params) => `${params.row.id.annee_Universitaire || ""}`,
   },
   {
     headerName: "Enseignant",
@@ -170,13 +169,7 @@ const columns = [
     valueGetter: (params) =>
       `${params.row.enseignant.nom || ""}` + `${params.row.enseignant.prenom}`,
   },
-  {
-    headerName: "Année Universitaire",
-    field: "annee_Universitaire",
-    type: "string",
-    width: 150,
-    valueGetter: (params) => `${params.row.id.annee_Universitaire || ""}`,
-  },
+
   {
     field: "sigle_Promotion",
     headerName: "Sigle Promotion",
@@ -190,16 +183,53 @@ const columns = [
     width: 200,
   },
   {
+    field: "date_Reponse_Lp",
+    headerName: "Date réponse LP",
+    type: "string",
+    width: 200,
+  },
+  {
+    field: "date_Reponse_Lalp",
+    headerName: "Date réponse LP",
+    type: "string",
+    width: 200,
+  },
+  {
+    field: "date_rentree",
+    headerName: "Date réponse LP",
+    type: "string",
+    width: 200,
+  },
+  {
+    field: "lieu_rentree",
+    headerName: "Date réponse LP",
+    type: "string",
+    width: 200,
+  },
+  {
     field: "processus_Stage",
     headerName: "Processus Stage",
     type: "string",
     width: 200,
   },
+
   {
-    field: "date_Reponse_Lp",
-    headerName: "Date réponse LP",
-    type: "string",
+    headerName: "details",
+    field: "detail",
     width: 200,
+    renderCell: (params) => {
+      return (
+        <Button
+          onClick={() =>
+            navigate(
+              `/promotions/${params.row.id.code_Formation}/${params.row.id.annee_Universitaire}`
+            )
+          }
+        >
+          Click
+        </Button>
+      );
+    },
   },
 ];
 
@@ -209,7 +239,7 @@ const Promotion = () => {
     <div style={{ height: 400, width: "95%", margin: "50px" }}>
       <Grid container spacing={2} columns={20}>
         <Grid item xs={17}>
-          <h1 className="h1">Promotions</h1>
+          <h1 className="h1">Promotions DOSI</h1>
         </Grid>
         <Grid item xs={3}>
           <Button
@@ -226,7 +256,7 @@ const Promotion = () => {
           <DataGrid
             getRowId={(id) => get(id, "code_Formation", cuid())}
             rows={rows}
-            columns={columns}
+            columns={columns({ navigate })}
             pageSize={10}
             rowsPerPageOptions={[5]}
           />

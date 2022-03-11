@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import cuid from "cuid";
 import CreatePromoPopUp from "./CreatePromoPopUp";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { Popover } from "antd";
+import { Modal } from "antd";
 
 const rows = [
   {
@@ -239,7 +240,20 @@ const columns = ({ navigate }) => [
 const Promotion = () => {
   const navigate = useNavigate();
 
-  const content = <CreatePromoPopUp />;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  // const handleOk = () => {
+  //   setIsModalVisible(false);
+  // };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <div style={{ height: 400, width: "95%", margin: "50px" }}>
       <Grid container spacing={2} columns={20}>
@@ -247,9 +261,10 @@ const Promotion = () => {
           <h1 className="h1">Promotions DOSI</h1>
         </Grid>
         <Grid item xs={3}>
-          <Popover content={content} title="Title" trigger="click">
+          {/* <Popover content={content} title="Title" trigger="click">
             <AddBoxIcon fontSize="large" color="primary" />
-          </Popover>
+          </Popover> */}
+          <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
 
           {/* <Button
             variant="contained"
@@ -262,6 +277,16 @@ const Promotion = () => {
 
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
+          <Modal
+            title={<h3>Formulaire d'ajout étudiant</h3>}
+            visible={isModalVisible}
+            cancelButtonProps={{ style: { display: "none" } }}
+            okButtonProps={{ style: { display: "none" } }}
+            // onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <CreatePromoPopUp />;
+          </Modal>
           <DataGrid
             getRowId={(id) => get(id, "code_Formation", cuid())}
             rows={rows}

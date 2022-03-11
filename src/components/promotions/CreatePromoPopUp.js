@@ -46,9 +46,9 @@ function CreatePromoPopUp() {
               onFinish={(values) => onFinish(values)}
               layout="vertical"
             >
-              <Row justify="space-between">
+              {/* <Row justify="space-between">
                 <h1>AJOUTER PROMOTION</h1>
-              </Row>
+              </Row> */}
 
               <Divider className="d_10" />
               <Row justify="space-between">

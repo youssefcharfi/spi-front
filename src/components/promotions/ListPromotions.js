@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -8,210 +8,206 @@ import CreatePromoPopUp from "./CreatePromoPopUp";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { Popover } from "antd";
 import { Modal } from "antd";
+import axios from "axios";
 
-const rows = [
-  {
-    id: {
-      annee_Universitaire: "2013-2014",
-      code_Formation: "M2DOSI",
-    },
-    commentaire: null,
-    date_Rentree: "2013-09-07",
-    date_Reponse_Lalp: "1999-05-05",
-    date_Reponse_Lp: "2013-05-04",
-    lieu_Rentree: "LC117B",
-    nb_Max_Etudiant: 25,
-    processus_Stage: "EC",
-    sigle_Promotion: "DOSI4",
-    enseignant: {
-      no_Enseignant: 0,
-      adresse: "Iure ut ut aliquam e",
-      code_Postal: "13",
-      email_Perso: "ryvycyj@mailinator.com",
-      email_Ubo: "kykynu@mailinator.com",
-      mobile: "+33615469821",
-      nom: "Minus saepe perspici",
-      pays: "Maroc",
-      prenom: "Culpa soluta quas e",
-      sexe: "H",
-      telephone: "+33615469821",
-      type: null,
-      ville: "Fes",
-    },
-  },
-  {
-    id: {
-      annee_Universitaire: "2021-2024",
-      code_Formation: "M2DOSI",
-    },
-    commentaire: null,
-    date_Rentree: "2013-09-07",
-    date_Reponse_Lalp: "1999-05-05",
-    date_Reponse_Lp: "2013-05-04",
-    lieu_Rentree: "LC117B",
-    nb_Max_Etudiant: 25,
-    processus_Stage: "EC",
-    sigle_Promotion: "DOSI4",
-    enseignant: {
-      no_Enseignant: 0,
-      adresse: "Iure ut ut aliquam e",
-      code_Postal: "13",
-      email_Perso: "ryvycyj@mailinator.com",
-      email_Ubo: "kykynu@mailinator.com",
-      mobile: "+33615469821",
-      nom: "Minus saepe perspici",
-      pays: "Maroc",
-      prenom: "Culpa soluta quas e",
-      sexe: "H",
-      telephone: "+33615469821",
-      type: null,
-      ville: "Fes",
-    },
-  },
-  {
-    id: {
-      annee_Universitaire: "2017-2018",
-      code_Formation: "M2DOSI3",
-    },
-    commentaire: null,
-    date_Rentree: "2013-09-07",
-    date_Reponse_Lalp: "1999-05-05",
-    date_Reponse_Lp: "2013-05-04",
-    lieu_Rentree: "LC117B",
-    nb_Max_Etudiant: 25,
-    processus_Stage: "EC",
-    sigle_Promotion: "DOSI4",
-    enseignant: {
-      no_Enseignant: 0,
-      adresse: "Iure ut ut aliquam e",
-      code_Postal: "13",
-      email_Perso: "ryvycyj@mailinator.com",
-      email_Ubo: "kykynu@mailinator.com",
-      mobile: "+33615469821",
-      nom: "Minus saepe perspici",
-      pays: "Maroc",
-      prenom: "Culpa soluta quas e",
-      sexe: "H",
-      telephone: "+33615469821",
-      type: null,
-      ville: "Fes",
-    },
-  },
-  {
-    id: {
-      annee_Universitaire: "2019-2020",
-      code_Formation: "M2DOSI6",
-    },
-    commentaire: null,
-    date_Rentree: "2013-09-07",
-    date_Reponse_Lalp: "1999-05-05",
-    date_Reponse_Lp: "2013-05-04",
-    lieu_Rentree: "LC117B",
-    nb_Max_Etudiant: 25,
-    processus_Stage: "EC",
-    sigle_Promotion: "DOSI4",
-    enseignant: {
-      no_Enseignant: 0,
-      adresse: "Iure ut ut aliquam e",
-      code_Postal: "13",
-      email_Perso: "ryvycyj@mailinator.com",
-      email_Ubo: "kykynu@mailinator.com",
-      mobile: "+33615469821",
-      nom: "Minus saepe perspici",
-      pays: "Maroc",
-      prenom: "Culpa soluta quas e",
-      sexe: "H",
-      telephone: "+33615469821",
-      type: null,
-      ville: "Fes",
-    },
-  },
-  {
-    id: {
-      annee_Universitaire: "2021-2022",
-      code_Formation: "M2DOSI7",
-    },
-    commentaire: null,
-    date_Rentree: "2013-09-07",
-    date_Reponse_Lalp: "1999-05-05",
-    date_Reponse_Lp: "2013-05-04",
-    lieu_Rentree: "LC117B",
-    nb_Max_Etudiant: 25,
-    processus_Stage: "EC",
-    sigle_Promotion: "DOSI4",
-    enseignant: {
-      no_Enseignant: 0,
-      adresse: "Iure ut ut aliquam e",
-      code_Postal: "13",
-      email_Perso: "ryvycyj@mailinator.com",
-      email_Ubo: "kykynu@mailinator.com",
-      mobile: "+33615469821",
-      nom: "Minus saepe perspici",
-      pays: "Maroc",
-      prenom: "Culpa soluta quas e",
-      sexe: "H",
-      telephone: "+33615469821",
-      type: null,
-      ville: "Fes",
-    },
-  },
-];
+// const rows = [
+//   {
+//     id: {
+//       anneeUniversitaire: "2013-2014",
+//       codeFormation: "M2DOSI",
+//     },
+//     commentaire: null,
+//     dateRentree: "2013-09-07",
+//     dateReponseLalp: "1999-05-05",
+//     dateReponseLp: "2013-05-04",
+//     lieuRentree: "LC117B",
+//     nbMaxEtudiant: 25,
+//     processusStage: "EC",
+//     siglePromotion: "DOSI4",
+//     enseignant: {
+//       noEnseignant: 0,
+//       adresse: "Iure ut ut aliquam e",
+//       codePostal: "13",
+//       emailPerso: "ryvycyj@mailinator.com",
+//       emailUbo: "kykynu@mailinator.com",
+//       mobile: "+33615469821",
+//       nom: "Minus saepe perspici",
+//       pays: "Maroc",
+//       prenom: "Culpa soluta quas e",
+//       sexe: "H",
+//       telephone: "+33615469821",
+//       type: null,
+//       ville: "Fes",
+//     },
+//   },
+//   {
+//     id: {
+//       anneeUniversitaire: "2021-2024",
+//       codeFormation: "M2DOSI",
+//     },
+//     commentaire: null,
+//     dateRentree: "2013-09-07",
+//     dateReponseLalp: "1999-05-05",
+//     dateReponseLp: "2013-05-04",
+//     lieuRentree: "LC117B",
+//     nbMaxEtudiant: 25,
+//     processusStage: "EC",
+//     siglePromotion: "DOSI4",
+//     enseignant: {
+//       noEnseignant: 0,
+//       adresse: "Iure ut ut aliquam e",
+//       codePostal: "13",
+//       emailPerso: "ryvycyj@mailinator.com",
+//       emailUbo: "kykynu@mailinator.com",
+//       mobile: "+33615469821",
+//       nom: "Minus saepe perspici",
+//       pays: "Maroc",
+//       prenom: "Culpa soluta quas e",
+//       sexe: "H",
+//       telephone: "+33615469821",
+//       type: null,
+//       ville: "Fes",
+//     },
+//   },
+//   {
+//     id: {
+//       anneeUniversitaire: "2017-2018",
+//       codeFormation: "M2DOSI3",
+//     },
+//     commentaire: null,
+//     dateRentree: "2013-09-07",
+//     dateReponseLalp: "1999-05-05",
+//     dateReponseLp: "2013-05-04",
+//     lieuRentree: "LC117B",
+//     nbMaxEtudiant: 25,
+//     processusStage: "EC",
+//     siglePromotion: "DOSI4",
+//     enseignant: {
+//       noEnseignant: 0,
+//       adresse: "Iure ut ut aliquam e",
+//       codePostal: "13",
+//       emailPerso: "ryvycyj@mailinator.com",
+//       emailUbo: "kykynu@mailinator.com",
+//       mobile: "+33615469821",
+//       nom: "Minus saepe perspici",
+//       pays: "Maroc",
+//       prenom: "Culpa soluta quas e",
+//       sexe: "H",
+//       telephone: "+33615469821",
+//       type: null,
+//       ville: "Fes",
+//     },
+//   },
+//   {
+//     id: {
+//       anneeUniversitaire: "2019-2020",
+//       codeFormation: "M2DOSI6",
+//     },
+//     commentaire: null,
+//     dateRentree: "2013-09-07",
+//     dateReponseLalp: "1999-05-05",
+//     dateReponseLp: "2013-05-04",
+//     lieuRentree: "LC117B",
+//     nbMaxEtudiant: 25,
+//     processusStage: "EC",
+//     siglePromotion: "DOSI4",
+//     enseignant: {
+//       noEnseignant: 0,
+//       adresse: "Iure ut ut aliquam e",
+//       codePostal: "13",
+//       emailPerso: "ryvycyj@mailinator.com",
+//       emailUbo: "kykynu@mailinator.com",
+//       mobile: "+33615469821",
+//       nom: "Minus saepe perspici",
+//       pays: "Maroc",
+//       prenom: "Culpa soluta quas e",
+//       sexe: "H",
+//       telephone: "+33615469821",
+//       type: null,
+//       ville: "Fes",
+//     },
+//   },
+//   {
+//     id: {
+//       annee_Universitaire: "2021-2022",
+//       code_Formation: "M2DOSI7",
+//     },
+//     commentaire: null,
+//     date_Rentree: "2013-09-07",
+//     date_Reponse_Lalp: "1999-05-05",
+//     date_Reponse_Lp: "2013-05-04",
+//     lieu_Rentree: "LC117B",
+//     nb_Max_Etudiant: 25,
+//     processus_Stage: "EC",
+//     sigle_Promotion: "DOSI4",
+//     enseignant: {
+//       no_Enseignant: 0,
+//       adresse: "Iure ut ut aliquam e",
+//       code_Postal: "13",
+//       email_Perso: "ryvycyj@mailinator.com",
+//       email_Ubo: "kykynu@mailinator.com",
+//       mobile: "+33615469821",
+//       nom: "Minus saepe perspici",
+//       pays: "Maroc",
+//       prenom: "Culpa soluta quas e",
+//       sexe: "H",
+//       telephone: "+33615469821",
+//       type: null,
+//       ville: "Fes",
+//     },
+//   },
+// ];
 
 const columns = ({ navigate }) => [
   {
     headerName: "Année Universitaire",
-    field: "annee_Universitaire",
+    field: "anneeUniversitaire",
     type: "string",
     width: 150,
-    valueGetter: (params) => `${params.row.id.annee_Universitaire || ""}`,
+    valueGetter: (params) => `${params.row.anneeUniversitaire || ""}`,
   },
   {
     headerName: "Enseignant",
-    field: "enseignant",
+    field: "enseignantByNoEnseignant",
     type: "string",
     width: 300,
     valueGetter: (params) =>
-      `${params.row.enseignant.nom || ""}` + `${params.row.enseignant.prenom}`,
+      `${params.row.enseignantByNoEnseignant.nom || ""}` +
+      ` ${params.row.enseignantByNoEnseignant.prenom}`,
   },
 
   {
-    field: "sigle_Promotion",
-    headerName: "Sigle Promotion",
-    type: "string",
-    width: 200,
-  },
-  {
-    field: "nb_Max_Etudiant",
+    field: "nbMaxEtudiant",
     headerName: "Nombre max des étudiants",
     type: "string",
     width: 200,
   },
   {
-    field: "date_Reponse_Lp",
+    field: "dateReponseLp",
     headerName: "Date réponse LP",
     type: "string",
     width: 200,
   },
   {
-    field: "date_Reponse_Lalp",
-    headerName: "Date réponse LP",
+    field: "dateReponseLalp",
+    headerName: "Date réponse LalP",
     type: "string",
     width: 200,
   },
   {
-    field: "date_rentree",
-    headerName: "Date réponse LP",
+    field: "dateRentree",
+    headerName: "Date de rentrée",
     type: "string",
     width: 200,
   },
   {
-    field: "lieu_rentree",
-    headerName: "Date réponse LP",
+    field: "lieuRentree",
+    headerName: "Lieu de rentrée",
     type: "string",
     width: 200,
   },
   {
-    field: "processus_Stage",
+    field: "processusStage",
     headerName: "Processus Stage",
     type: "string",
     width: 200,
@@ -226,7 +222,7 @@ const columns = ({ navigate }) => [
         <Button
           onClick={() =>
             navigate(
-              `/promotions/${params.row.id.code_Formation}/${params.row.id.annee_Universitaire}`
+              `/promotions/${params.row.codeFormation}/${params.row.anneeUniversitaire}`
             )
           }
         >
@@ -238,6 +234,22 @@ const columns = ({ navigate }) => [
 ];
 
 const Promotion = () => {
+  const [promo, setPromo] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8034/promotion/`)
+      .then((res) => {
+        if (res.data == undefined) {
+          navigate("*", { replace: true });
+        } else {
+          console.log(res.data);
+          setPromo(res.data);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   const navigate = useNavigate();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -258,12 +270,9 @@ const Promotion = () => {
     <div style={{ height: 400, width: "95%", margin: "50px" }}>
       <Grid container spacing={2} columns={20}>
         <Grid item xs={17}>
-          <h1 className="h1">Promotions DOSI</h1>
+          <h3 className="h1">Promotions DOSI</h3>
         </Grid>
         <Grid item xs={3}>
-          {/* <Popover content={content} title="Title" trigger="click">
-            <AddBoxIcon fontSize="large" color="primary" />
-          </Popover> */}
           <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
 
           {/* <Button
@@ -288,8 +297,9 @@ const Promotion = () => {
             <CreatePromoPopUp />;
           </Modal>
           <DataGrid
-            getRowId={(id) => get(id, "code_Formation", cuid())}
-            rows={rows}
+            // getRowId={(id) => get(id, "codeFormation", cuid())}
+            getRowId={(promo) => promo.anneeUniversitaire + promo.codeFormation}
+            rows={promo}
             columns={columns({ navigate })}
             pageSize={10}
             rowsPerPageOptions={[5]}

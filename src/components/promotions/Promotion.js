@@ -9,12 +9,13 @@ function Promotion({ codeFormation, anneeUniversitaire }) {
     let navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:9000/promotions?anneeUniversitaire=${anneeUniversitaire}&codeFormation=${codeFormation}`)
+        axios.get(`http://localhost:8034/promotion/${codeFormation}/${anneeUniversitaire}`)
             .then(res => {
-                if (res.data[0] == undefined) navigate("*", { replace: true })
-                else setPromotion(res.data[0])
+                setPromotion(res.data)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                if(err.response.status === 404) navigate("*", { replace: true })
+            })
     }, [])
 
 
@@ -25,11 +26,11 @@ function Promotion({ codeFormation, anneeUniversitaire }) {
                     <h6 className="mb-0">Enseignant</h6>
                 </div>
                 <div className="col-sm-9 text-secondary">
-                    {promotion.enseignant?.prenom} {promotion.enseignant?.nom}
+                    {promotion.enseignantByNoEnseignant?.prenom} {promotion.enseignantByNoEnseignant?.nom}
                 </div>
             </div>
             <hr />
-            {promotion.commentaire !== "" ? (
+            {promotion.commentaire !== null ? (
                 <>
                     <div className="row">
                         <div className="col-sm-3">

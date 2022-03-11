@@ -73,11 +73,11 @@ function Candidats() {
     {
       field: "universiteOrigine",
       headerName: "universiteOrigine",
-      description: "This column has a value getter and is not sortable.",
+      //   description: "This column has a value getter and is not sortable.",
       sortable: false,
       width: 160,
-      valueGetter: (params) =>
-        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+      //   valueGetter: (params) =>
+      //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     { field: "listeSelection", headerName: "listeSelection", width: 130 },
     { field: "selectionNoOrdre", headerName: "selectionNoOrdre", width: 130 },
@@ -89,14 +89,18 @@ function Candidats() {
   ];
   return (
     <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={candidats}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        getRowId={(row) => row.noCandidat}
-        checkboxSelection
-      />
+      {candidats.length > 0 ? (
+        <DataGrid
+          rows={candidats}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          getRowId={(row) => row.noCandidat}
+          checkboxSelection
+        />
+      ) : (
+        <h1> " il n y a pas de candidat à afficher pour cette formation"</h1>
+      )}
     </div>
   );
 }

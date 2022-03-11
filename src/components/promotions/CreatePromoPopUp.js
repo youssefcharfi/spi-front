@@ -21,9 +21,7 @@ const { RangePicker } = DatePicker;
 
 const rules = [{ required: true, message: "champs obligatoire!!" }];
 
-const View = ({}) => {
-  const [teacher, setTeacher] = useState(null);
-  const [formation, setFormation] = useState(null);
+function CreatePromoPopUp() {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
@@ -35,21 +33,6 @@ const View = ({}) => {
       ...rest
     } = values;
 
-    /*  const data = {
-      dateReponseLalp: moment(dateReponseLalp).format("YYYY-MM-DD"),
-      dateReponseLp: moment(dateReponseLp).format("YYYY-MM-DD"),
-      dateRentree: moment(dateRentree).format("YYYY-MM-DD"),
-      ...rest,
-      enseignant: teacher,
-      formation,
-      id: {
-        anneeUniversitaire:
-          moment(anneeUniversitaire[0]).format("YYYY") +
-          "-" +
-          moment(anneeUniversitaire[1]).format("YYYY"),
-        codeFormation: get(formation, "codeFormation"),
-      },
-    }; */
     console.log("values :>> ", values);
   };
 
@@ -181,6 +164,6 @@ const View = ({}) => {
       </Row>
     </div>
   );
-};
+}
 
-export default memo(View);
+export default CreatePromoPopUp;

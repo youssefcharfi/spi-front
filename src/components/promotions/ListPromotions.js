@@ -4,6 +4,9 @@ import { Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import get from "lodash/get";
 import cuid from "cuid";
+import CreatePromoPopUp from "./CreatePromoPopUp";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import { Popover } from "antd";
 
 const rows = [
   {
@@ -235,6 +238,8 @@ const columns = ({ navigate }) => [
 
 const Promotion = () => {
   const navigate = useNavigate();
+
+  const content = <CreatePromoPopUp />;
   return (
     <div style={{ height: 400, width: "95%", margin: "50px" }}>
       <Grid container spacing={2} columns={20}>
@@ -242,12 +247,16 @@ const Promotion = () => {
           <h1 className="h1">Promotions DOSI</h1>
         </Grid>
         <Grid item xs={3}>
-          <Button
+          <Popover content={content} title="Title" trigger="click">
+            <AddBoxIcon fontSize="large" color="primary" />
+          </Popover>
+
+          {/* <Button
             variant="contained"
             onClick={() => navigate("/promotions/create")}
           >
             Ajouter Promotion
-          </Button>
+          </Button> */}
         </Grid>
       </Grid>
 

@@ -278,7 +278,7 @@ const Promotion = () => {
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
           <Modal
-            title={<h3>Formulaire d'ajout étudiant</h3>}
+            title={<h3 style={{marginTop:'15px',marginLeft:'15px'}}>Formulaire d'ajout étudiant</h3>}
             visible={isModalVisible}
             cancelButtonProps={{ style: { display: "none" } }}
             okButtonProps={{ style: { display: "none" } }}

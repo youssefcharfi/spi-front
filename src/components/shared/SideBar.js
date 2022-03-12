@@ -25,7 +25,7 @@ import Formations from '../formations/Formations'
 import PromotionDetails from "../promotions/PromotionDetails";
 import CreatePromotion from "../promotions/CreatePromotion";
 import { Link, Route, Routes } from "react-router-dom";
-import Candidats from "../candidats/Candidats";
+import ServerError from "../ServerError";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -168,6 +168,7 @@ function SideBar() {
         <DrawerHeader />
         <Routes>
           <Route path="*" element={<PageNotFound />} />
+          <Route exact path="/erreur.jsp" element={<ServerError />} />
           <Route exact path="/" element={<Home />} />
 
           <Route exact path="/promotions" element={<ListPromotions />} />

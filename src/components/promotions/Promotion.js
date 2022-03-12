@@ -14,7 +14,8 @@ function Promotion({ codeFormation, anneeUniversitaire }) {
                 setPromotion(res.data)
             })
             .catch(err => {
-                if(err.response.status === 404) navigate("*", { replace: true })
+                if(!err.response) navigate("/erreur.jsp")
+                else if(err.response.status === 404) navigate("*", { replace: true })
             })
     }, [])
 
@@ -84,7 +85,7 @@ function Promotion({ codeFormation, anneeUniversitaire }) {
                     <h6 className="mb-0">Processus Stage</h6>
                 </div>
                 <div className="col-sm-9 text-secondary">
-                    {promotion.processusStage}
+                    {promotion.git}
                 </div>
             </div>
             <hr />

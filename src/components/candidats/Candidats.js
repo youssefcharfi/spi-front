@@ -2,93 +2,82 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 import { DataGrid } from "@mui/x-data-grid";
-function Candidats() {
-  const [candidats, setCandidats] = useState([
-    {
-      adresse: "aaaaaaa",
-      codePostal: "aaaaaaa",
-      confirmationCandidat: "aaaaaaa",
-      dateNaissance: "aaaaaaa",
-      dateReponseCandidat: "aaaaaaa",
-      email: "aaaaaaa",
-      lieuNaissance: "aaaaaaa",
-      listeSelection: "aaaaaaa",
-      mobile: "aaaaaaa",
-      nationalite: "aaaaaaa",
-      noCandidat: "aaaaaaa",
-      nom: "aaaaaaa",
-      paysOrigine: "aaaaaaa",
-      prenom: "aaaaaaa",
-      selectionNoOrdre: "aaaaaaa",
-      sexe: "aaaaaaa",
-      telephone: "aaaaaaa",
-      universiteOrigine: "aaaaaaa",
-      ville: "aaaaaaa",
-    },
-    {
-      adresse: "bbbbbbbb",
-      codePostal: "bbbbbbbb",
-      confirmationCandidat: "bbbbbbbb",
-      dateNaissance: "bbbbbbbb",
-      dateReponseCandidat: "bbbbbbbb",
-      email: "bbbbbbbb",
-      lieuNaissance: "bbbbbbbb",
-      listeSelection: "bbbbbbbb",
-      mobile: "bbbbbbbb",
-      nationalite: "bbbbbbbb",
-      noCandidat: "bbbbbbbb",
-      nom: "bbbbbbbb",
-      paysOrigine: "bbbbbbbb",
-      prenom: "bbbbbbbb",
-      selectionNoOrdre: "bbbbbbbb",
-      sexe: "bbbbbbbb",
-      telephone: "bbbbbbbb",
-      universiteOrigine: "bbbbbbbb",
-      ville: "bbbbbbbb",
-    },
-  ]);
+function Candidats({ candidats }) {
+  console.log(candidats);
+  //   const [candidats, setCandidats] = useState([
+  //     {
+  //       adresse: "aaaaaaa",
+  //       codePostal: "aaaaaaa",
+  //       confirmationCandidat: "aaaaaaa",
+  //       dateNaissance: "aaaaaaa",
+  //       dateReponseCandidat: "aaaaaaa",
+  //       email: "aaaaaaa",
+  //       lieuNaissance: "aaaaaaa",
+  //       listeSelection: "aaaaaaa",
+  //       mobile: "aaaaaaa",
+  //       nationalite: "aaaaaaa",
+  //       noCandidat: "aaaaaaa",
+  //       nom: "aaaaaaa",
+  //       paysOrigine: "aaaaaaa",
+  //       prenom: "aaaaaaa",
+  //       selectionNoOrdre: "aaaaaaa",
+  //       sexe: "aaaaaaa",
+  //       telephone: "aaaaaaa",
+  //       universiteOrigine: "aaaaaaa",
+  //       ville: "aaaaaaa",
+  //     },
+  //     {
+  //       adresse: "bbbbbbbb",
+  //       codePostal: "bbbbbbbb",
+  //       confirmationCandidat: "bbbbbbbb",
+  //       dateNaissance: "bbbbbbbb",
+  //       dateReponseCandidat: "bbbbbbbb",
+  //       email: "bbbbbbbb",
+  //       lieuNaissance: "bbbbbbbb",
+  //       listeSelection: "bbbbbbbb",
+  //       mobile: "bbbbbbbb",
+  //       nationalite: "bbbbbbbb",
+  //       noCandidat: "bbbbbbbb",
+  //       nom: "bbbbbbbb",
+  //       paysOrigine: "bbbbbbbb",
+  //       prenom: "bbbbbbbb",
+  //       selectionNoOrdre: "bbbbbbbb",
+  //       sexe: "bbbbbbbb",
+  //       telephone: "bbbbbbbb",
+  //       universiteOrigine: "bbbbbbbb",
+  //       ville: "bbbbbbbb",
+  //     },
+  //   ]);
   const { codeFormation, anneeUniversitaire } = useParams();
 
-  //   useEffect(() => {
-  //     axios
-  //       .get(
-  //         `http://localhost:9000/candidats?anneeUniversitaire=${anneeUniversitaire}&codeFormation=${codeFormation}`
-  //       )
-  //       .then((res) => {
-  //         setCandidats(res.data);
-  //         console.log(res.data);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }, []);
   const columns = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "prenom", headerName: "prenom", width: 130 },
-    { field: "nom", headerName: "nom", width: 130 },
+    { field: "prenom", headerName: "Prenom", width: 130 },
+    { field: "nom", headerName: "Nom", width: 130 },
     {
       field: "email",
-      headerName: "email",
+      headerName: "Email",
       //   type: 'number',
-      width: 90,
+      minWidth: 250,
     },
     {
       field: "universiteOrigine",
-      headerName: "universiteOrigine",
+      headerName: "Universite d'origine",
       //   description: "This column has a value getter and is not sortable.",
       sortable: false,
-      width: 160,
+      width: 145,
       //   valueGetter: (params) =>
       //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
-    { field: "listeSelection", headerName: "listeSelection", width: 130 },
-    { field: "selectionNoOrdre", headerName: "selectionNoOrdre", width: 130 },
+    { field: "listeSelection", headerName: "listeSelection", width: 105 },
+    { field: "selectionNoOrdre", headerName: "selectionNoOrdre", width: 150 },
     {
       field: "confirmationCandidat",
       headerName: "confirmationCandidat",
-      width: 130,
+      width: 160,
     },
   ];
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 375, maxWidth: "75%" }}>
       {candidats.length > 0 ? (
         <DataGrid
           rows={candidats}
@@ -96,7 +85,7 @@ function Candidats() {
           pageSize={5}
           rowsPerPageOptions={[5]}
           getRowId={(row) => row.noCandidat}
-          checkboxSelection
+          //   checkboxSelection
         />
       ) : (
         <h1> " il n y a pas de candidat à afficher pour cette formation"</h1>

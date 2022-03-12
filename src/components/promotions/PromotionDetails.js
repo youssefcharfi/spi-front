@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
@@ -10,8 +10,24 @@ import Box from "@mui/material/Box";
 import TabPanel from "./TabPanel";
 import Promotion from "./Promotion";
 import Candidats from "../candidats/Candidats";
+import axios from "axios";
 
 function PromotionDetails() {
+  const [promotion, setPromotion] = useState({});
+  let navigate = useNavigate();
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:8034/promotion/${codeFormation}/${anneeUniversitaire}`
+      )
+      .then((res) => {
+        setPromotion(res.data);
+      })
+      .catch((err) => {
+        if (!err.response) navigate("/erreur.jsp");
+        else if (err.response.status === 404) navigate("*", { replace: true });
+      });
+  }, []);
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
@@ -72,12 +88,13 @@ function PromotionDetails() {
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
             <Promotion
-              codeFormation={codeFormation}
-              anneeUniversitaire={anneeUniversitaire}
+              // codeFormation={codeFormation}
+              // anneeUniversitaire={anneeUniversitaire}
+              promotion={promotion}
             ></Promotion>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <Candidats />
+            <Candidats candidats={promotion.candidats} />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
             List Etudiants here

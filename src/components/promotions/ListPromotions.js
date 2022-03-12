@@ -10,154 +10,6 @@ import { Popover } from "antd";
 import { Modal } from "antd";
 import axios from "axios";
 
-// const rows = [
-//   {
-//     id: {
-//       anneeUniversitaire: "2013-2014",
-//       codeFormation: "M2DOSI",
-//     },
-//     commentaire: null,
-//     dateRentree: "2013-09-07",
-//     dateReponseLalp: "1999-05-05",
-//     dateReponseLp: "2013-05-04",
-//     lieuRentree: "LC117B",
-//     nbMaxEtudiant: 25,
-//     processusStage: "EC",
-//     siglePromotion: "DOSI4",
-//     enseignant: {
-//       noEnseignant: 0,
-//       adresse: "Iure ut ut aliquam e",
-//       codePostal: "13",
-//       emailPerso: "ryvycyj@mailinator.com",
-//       emailUbo: "kykynu@mailinator.com",
-//       mobile: "+33615469821",
-//       nom: "Minus saepe perspici",
-//       pays: "Maroc",
-//       prenom: "Culpa soluta quas e",
-//       sexe: "H",
-//       telephone: "+33615469821",
-//       type: null,
-//       ville: "Fes",
-//     },
-//   },
-//   {
-//     id: {
-//       anneeUniversitaire: "2021-2024",
-//       codeFormation: "M2DOSI",
-//     },
-//     commentaire: null,
-//     dateRentree: "2013-09-07",
-//     dateReponseLalp: "1999-05-05",
-//     dateReponseLp: "2013-05-04",
-//     lieuRentree: "LC117B",
-//     nbMaxEtudiant: 25,
-//     processusStage: "EC",
-//     siglePromotion: "DOSI4",
-//     enseignant: {
-//       noEnseignant: 0,
-//       adresse: "Iure ut ut aliquam e",
-//       codePostal: "13",
-//       emailPerso: "ryvycyj@mailinator.com",
-//       emailUbo: "kykynu@mailinator.com",
-//       mobile: "+33615469821",
-//       nom: "Minus saepe perspici",
-//       pays: "Maroc",
-//       prenom: "Culpa soluta quas e",
-//       sexe: "H",
-//       telephone: "+33615469821",
-//       type: null,
-//       ville: "Fes",
-//     },
-//   },
-//   {
-//     id: {
-//       anneeUniversitaire: "2017-2018",
-//       codeFormation: "M2DOSI3",
-//     },
-//     commentaire: null,
-//     dateRentree: "2013-09-07",
-//     dateReponseLalp: "1999-05-05",
-//     dateReponseLp: "2013-05-04",
-//     lieuRentree: "LC117B",
-//     nbMaxEtudiant: 25,
-//     processusStage: "EC",
-//     siglePromotion: "DOSI4",
-//     enseignant: {
-//       noEnseignant: 0,
-//       adresse: "Iure ut ut aliquam e",
-//       codePostal: "13",
-//       emailPerso: "ryvycyj@mailinator.com",
-//       emailUbo: "kykynu@mailinator.com",
-//       mobile: "+33615469821",
-//       nom: "Minus saepe perspici",
-//       pays: "Maroc",
-//       prenom: "Culpa soluta quas e",
-//       sexe: "H",
-//       telephone: "+33615469821",
-//       type: null,
-//       ville: "Fes",
-//     },
-//   },
-//   {
-//     id: {
-//       anneeUniversitaire: "2019-2020",
-//       codeFormation: "M2DOSI6",
-//     },
-//     commentaire: null,
-//     dateRentree: "2013-09-07",
-//     dateReponseLalp: "1999-05-05",
-//     dateReponseLp: "2013-05-04",
-//     lieuRentree: "LC117B",
-//     nbMaxEtudiant: 25,
-//     processusStage: "EC",
-//     siglePromotion: "DOSI4",
-//     enseignant: {
-//       noEnseignant: 0,
-//       adresse: "Iure ut ut aliquam e",
-//       codePostal: "13",
-//       emailPerso: "ryvycyj@mailinator.com",
-//       emailUbo: "kykynu@mailinator.com",
-//       mobile: "+33615469821",
-//       nom: "Minus saepe perspici",
-//       pays: "Maroc",
-//       prenom: "Culpa soluta quas e",
-//       sexe: "H",
-//       telephone: "+33615469821",
-//       type: null,
-//       ville: "Fes",
-//     },
-//   },
-//   {
-//     id: {
-//       annee_Universitaire: "2021-2022",
-//       code_Formation: "M2DOSI7",
-//     },
-//     commentaire: null,
-//     date_Rentree: "2013-09-07",
-//     date_Reponse_Lalp: "1999-05-05",
-//     date_Reponse_Lp: "2013-05-04",
-//     lieu_Rentree: "LC117B",
-//     nb_Max_Etudiant: 25,
-//     processus_Stage: "EC",
-//     sigle_Promotion: "DOSI4",
-//     enseignant: {
-//       no_Enseignant: 0,
-//       adresse: "Iure ut ut aliquam e",
-//       code_Postal: "13",
-//       email_Perso: "ryvycyj@mailinator.com",
-//       email_Ubo: "kykynu@mailinator.com",
-//       mobile: "+33615469821",
-//       nom: "Minus saepe perspici",
-//       pays: "Maroc",
-//       prenom: "Culpa soluta quas e",
-//       sexe: "H",
-//       telephone: "+33615469821",
-//       type: null,
-//       ville: "Fes",
-//     },
-//   },
-// ];
-
 const columns = ({ navigate }) => [
   {
     headerName: "Année Universitaire",
@@ -233,12 +85,13 @@ const columns = ({ navigate }) => [
   },
 ];
 
-const Promotion = () => {
+const Promotion = ({ codeFormation }) => {
   const [promo, setPromo] = useState([]);
+  codeFormation = "M2DOSI";
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8034/promotion/`)
+      .get(`http://localhost:8034/promotion/` + codeFormation)
       .then((res) => {
         if (res.data == undefined) {
           navigate("*", { replace: true });
@@ -247,7 +100,16 @@ const Promotion = () => {
           setPromo(res.data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+    // .catch((err) => console.log(err));
+
+    //
   }, []);
 
   const navigate = useNavigate();
@@ -287,7 +149,11 @@ const Promotion = () => {
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
           <Modal
-            title={<h3 style={{marginTop:'15px',marginLeft:'15px'}}>Formulaire d'ajout étudiant</h3>}
+            title={
+              <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
+                Formulaire d'ajout étudiant
+              </h3>
+            }
             visible={isModalVisible}
             cancelButtonProps={{ style: { display: "none" } }}
             okButtonProps={{ style: { display: "none" } }}
@@ -301,8 +167,12 @@ const Promotion = () => {
             getRowId={(promo) => promo.anneeUniversitaire + promo.codeFormation}
             rows={promo}
             columns={columns({ navigate })}
-            pageSize={10}
-            rowsPerPageOptions={[5]}
+            hideFooter="true"
+            // pageSize={10}
+            // rowsPerPageOptions=""
+            // options={{
+            //   paging: false,
+            // }}
           />
         </div>
       </div>

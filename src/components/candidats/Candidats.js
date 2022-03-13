@@ -2,53 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 import { DataGrid } from "@mui/x-data-grid";
+import { Grid } from "@mui/material";
+import Typography from "@mui/material/Typography";
 function Candidats({ candidats }) {
   console.log(candidats);
-  //   const [candidats, setCandidats] = useState([
-  //     {
-  //       adresse: "aaaaaaa",
-  //       codePostal: "aaaaaaa",
-  //       confirmationCandidat: "aaaaaaa",
-  //       dateNaissance: "aaaaaaa",
-  //       dateReponseCandidat: "aaaaaaa",
-  //       email: "aaaaaaa",
-  //       lieuNaissance: "aaaaaaa",
-  //       listeSelection: "aaaaaaa",
-  //       mobile: "aaaaaaa",
-  //       nationalite: "aaaaaaa",
-  //       noCandidat: "aaaaaaa",
-  //       nom: "aaaaaaa",
-  //       paysOrigine: "aaaaaaa",
-  //       prenom: "aaaaaaa",
-  //       selectionNoOrdre: "aaaaaaa",
-  //       sexe: "aaaaaaa",
-  //       telephone: "aaaaaaa",
-  //       universiteOrigine: "aaaaaaa",
-  //       ville: "aaaaaaa",
-  //     },
-  //     {
-  //       adresse: "bbbbbbbb",
-  //       codePostal: "bbbbbbbb",
-  //       confirmationCandidat: "bbbbbbbb",
-  //       dateNaissance: "bbbbbbbb",
-  //       dateReponseCandidat: "bbbbbbbb",
-  //       email: "bbbbbbbb",
-  //       lieuNaissance: "bbbbbbbb",
-  //       listeSelection: "bbbbbbbb",
-  //       mobile: "bbbbbbbb",
-  //       nationalite: "bbbbbbbb",
-  //       noCandidat: "bbbbbbbb",
-  //       nom: "bbbbbbbb",
-  //       paysOrigine: "bbbbbbbb",
-  //       prenom: "bbbbbbbb",
-  //       selectionNoOrdre: "bbbbbbbb",
-  //       sexe: "bbbbbbbb",
-  //       telephone: "bbbbbbbb",
-  //       universiteOrigine: "bbbbbbbb",
-  //       ville: "bbbbbbbb",
-  //     },
-  //   ]);
-  const { codeFormation, anneeUniversitaire } = useParams();
+  //   candidats = [];
 
   const columns = [
     { field: "prenom", headerName: "Prenom", width: 130 },
@@ -63,13 +21,18 @@ function Candidats({ candidats }) {
       field: "universiteOrigine",
       headerName: "Universite d'origine",
       //   description: "This column has a value getter and is not sortable.",
-      sortable: false,
+      //   sortable: false,
       width: 145,
       //   valueGetter: (params) =>
       //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
     { field: "listeSelection", headerName: "listeSelection", width: 105 },
-    { field: "selectionNoOrdre", headerName: "selectionNoOrdre", width: 150 },
+    {
+      field: "selectionNoOrdre",
+      headerName: "selectionNoOrdre",
+      type: "number",
+      width: 150,
+    },
     {
       field: "confirmationCandidat",
       headerName: "confirmationCandidat",
@@ -88,7 +51,19 @@ function Candidats({ candidats }) {
           //   checkboxSelection
         />
       ) : (
-        <h1> " il n y a pas de candidat à afficher pour cette formation"</h1>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Grid item xs={3}>
+            <Typography color="red" fontSize="30px">
+              il n y a pas de candidat à afficher pour cette formation
+            </Typography>
+          </Grid>
+        </Grid>
       )}
     </div>
   );

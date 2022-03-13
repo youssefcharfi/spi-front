@@ -11,6 +11,7 @@ import TabPanel from "./TabPanel";
 import Promotion from "./Promotion";
 import Candidats from "../candidats/Candidats";
 import axios from "axios";
+import Etudiants from "../etudiants/Etudiants";
 
 function PromotionDetails() {
   const [promotion, setPromotion] = useState({});
@@ -97,7 +98,7 @@ function PromotionDetails() {
             <Candidats candidats={promotion.candidats} />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            List Etudiants here
+            <Etudiants etudiants={promotion.etudiants} />
           </TabPanel>
         </SwipeableViews>
       </Box>

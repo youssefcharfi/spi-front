@@ -1,22 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import axios from "axios";
+// import axios from "axios";
 import { Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
 export default function Etudiants({ etudiants }) {
-  //   const [etudiants, setEtudiants] = useState([]);
-
-  //   useEffect(() => {
-  //     axios
-  //       .get(
-  //         `http://localhost:9000/etudiants?codeformation=${codeFormation}&anneeuniversitaire=${anneUniversitaire}`
-  //       )
-  //       .then((res) => {
-  //         setEtudiants(res.data);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }, []);
   const columns = [
     { field: "noEtudiant", headerName: "Numero Etudiant", width: 130 },
     { field: "nom", headerName: "Nom", width: 130 },
@@ -57,7 +45,7 @@ export default function Etudiants({ etudiants }) {
         >
           <Grid item xs={3}>
             <Typography color="red" fontSize="30px">
-              il n y a pas d'étudiants' à afficher pour cette formation
+              il n y a pas d'étudiants' à afficher pour cette promotion
             </Typography>
           </Grid>
         </Grid>

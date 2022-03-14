@@ -240,9 +240,12 @@ const Promotion = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  /* useEffect(() => {
+ /*
+   useEffect(() => {
+     
+     
     setLoading(true);
-    axios
+   axios
       .get(`http://localhost:8034/promotion/`)
       .then((res) => {
         console.log("res :>> ", res);
@@ -255,11 +258,13 @@ const Promotion = () => {
         }
       })
       .catch((err) => {
-        setLoading(false);
-        setError(true);
-      });
-  }, []); */
+        if (!err.response) navigate("/erreur.jsp");
+        else if (err.response.status === 404) navigate("*", { replace: true });
 
+      });   
+  }, []); 
+  
+*/
   const navigate = useNavigate();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -316,17 +321,12 @@ const Promotion = () => {
             getRowId={(promo) => promo.anneeUniversitaire + promo.codeFormation}
             rows={promo}
             columns={columns({ navigate })}
-            pageSize={10}
-            rowsPerPageOptions={[5]}
-             localization={{
-        body: {
-            emptyDataSourceMessage: (
-                <Button color="primary" className={classes.button}>
-                    Create your ad now
-                </Button>
-            ),
-        },
-    }}
+            hideFooter="true"
+            // pageSize={10}
+            // rowsPerPageOptions=""
+            // options={{
+            //   paging: false,
+            // }}
           />
         </div>
       </div>

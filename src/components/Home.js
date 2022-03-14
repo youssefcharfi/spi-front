@@ -22,9 +22,6 @@ function Home() {
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2} columns={12}>
                     <Grid item xs={6}>
-                    <Link to="/promotions"><Item sx={{ boxShadow: 3 }}><i style={{ color: "#0EA0E8" }} className="fa-solid fa-graduation-cap mx-1"></i>  Promotions</Item></Link>
-                    </Grid>
-                    <Grid item xs={6}>
                         <Link to="/formations"><Item sx={{ boxShadow: 3 }}><i style={{ color: "#0EA0E8" }} className="fa fa-calendar mx-1"></i>  Formations</Item></Link>
                     </Grid>
                 </Grid>

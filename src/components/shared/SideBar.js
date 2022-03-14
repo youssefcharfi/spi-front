@@ -83,12 +83,7 @@ const menuItems = [
     text: "Formations",
     icon: BookIcon,
     link: "/formations",
-  },
-  {
-    text: "Promotions",
-    icon: SchoolIcon,
-    link: "/promotions",
-  },
+  }
 ];
 
 function SideBar() {
@@ -171,7 +166,7 @@ function SideBar() {
           <Route exact path="/erreur.jsp" element={<ServerError />} />
           <Route exact path="/" element={<Home />} />
 
-          <Route exact path="/promotions" element={<ListPromotions />} />
+          <Route exact path="/promotions/:codeFormation" element={<ListPromotions />} />
           <Route
             exact
             path="/promotions/create"

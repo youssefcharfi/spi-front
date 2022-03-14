@@ -19,7 +19,7 @@ function PromotionDetails() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:8034/promotion/${codeFormation}/${anneeUniversitaire}`
+        `http://localhost:8034/promotions/${codeFormation}/${anneeUniversitaire}`
       )
       .then((res) => {
         setPromotion(res.data);

@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router";
 import get from "lodash/get";
 import cuid from "cuid";
 import CreatePromoPopUp from "./CreatePromoPopUp";
@@ -85,13 +86,15 @@ const columns = ({ navigate }) => [
   },
 ];
 
-const Promotion = ({ codeFormation }) => {
+const Promotion = () => {
+
+  const { codeFormation } = useParams();
+
   const [promo, setPromo] = useState([]);
-  codeFormation = "M2DOSI";
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8034/promotion/` + codeFormation)
+      .get(`http://localhost:8034/promotions/` + codeFormation)
       .then((res) => {
         if (res.data == undefined) {
           navigate("*", { replace: true });

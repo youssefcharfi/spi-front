@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import {
   Row,
   Col,
@@ -22,6 +22,34 @@ const { RangePicker } = DatePicker;
 const rules = [{ required: true, message: "champs obligatoire!!" }];
 
 function CreatePromoPopUp() {
+  const [enseignants, setEnseignants] = useState([]);
+  useEffect(async () => {
+    const mockApi = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        let data = [];
+        for (let i = 0; i < 5; i++) {
+          data.push({
+            no_Enseignant: `${i}`,
+            nom: "SALIOU",
+            prenom: "Philippe",
+            sexe: "H",
+            type: "PRAG",
+            pays: "FR",
+            ville: "Brest",
+            adresse: "Adresse Brest",
+            email_Perso: "philippe.saliou@gmail.com",
+            email_Ubo: "philippe.saliou@univ_brest.com",
+            mobile: "+33 7 43 34 25 76",
+            telephone: "+33 6 32 00 85 19",
+            code_Postal: "29 200",
+          });
+        }
+        resolve(data);
+      }, 1000);
+    });
+    await mockApi.then((data) => setEnseignants(data));
+  }, []);
+  console.log("enseignants :>> ", enseignants);
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
@@ -36,6 +64,7 @@ function CreatePromoPopUp() {
     console.log("values :>> ", values);
   };
 
+
   return (
     <div className="container__antd p-top-20">
       <Row justify="center">
@@ -45,6 +74,7 @@ function CreatePromoPopUp() {
               form={form}
               onFinish={(values) => onFinish(values)}
               layout="vertical"
+              initialValues={{ formation: "à recuperer" }}
             >
               <Row justify="space-between">
                 <Col xs={24} sm={24} md={11} lg={11} xl={11}>
@@ -129,17 +159,15 @@ function CreatePromoPopUp() {
 
                   <Item label="Enseignant" name="enseignant" rules={rules}>
                     <Select size="large">
-                      <Option key={1}>Teacher 1</Option>
-                      <Option key={2}>Teacher 2</Option>
-                      <Option key={3}>Teacher 3</Option>
+                      {enseignants.map(({ no_Enseignant, nom, prenom }) => (
+                        <Option key={no_Enseignant}>
+                          {nom} {prenom}
+                        </Option>
+                      ))}
                     </Select>
                   </Item>
                   <Item label="Formation" name="formation" rules={rules}>
-                    <Select size="large">
-                      <Option key={1}>Formation 1</Option>
-                      <Option key={2}>Formation 2</Option>
-                      <Option key={3}>Formation 3</Option>
-                    </Select>
+                    <Input size="large" disabled />
                   </Item>
                 </Col>
               </Row>

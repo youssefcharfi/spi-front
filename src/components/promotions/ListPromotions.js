@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 import get from "lodash/get";
 import cuid from "cuid";
 import CreatePromoPopUp from "./CreatePromoPopUp";
+import Error from "../shared/Error";
+import Loader from "../shared/Loader";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import Stack from "@mui/material/Stack";
+
 import { Popover } from "antd";
 import { Modal } from "antd";
 import axios from "axios";
@@ -87,19 +91,29 @@ const columns = ({ navigate }) => [
 
 const Promotion = ({ codeFormation }) => {
   const [promo, setPromo] = useState([]);
+<<<<<<< HEAD
   codeFormation = "M2DOSI";
 
+=======
+ // const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
+>>>>>>> df14acf (gestion error affichage)
   useEffect(() => {
+    setLoading(true);
     axios
       .get(`http://localhost:8034/promotion/` + codeFormation)
       .then((res) => {
+        console.log("res :>> ", res);
         if (res.data == undefined) {
           navigate("*", { replace: true });
         } else {
           console.log(res.data);
+          setLoading(false);
           setPromo(res.data);
         }
       })
+<<<<<<< HEAD
       .catch(function (error) {
         if (error.response) {
           console.log(error.response.data);
@@ -110,8 +124,15 @@ const Promotion = ({ codeFormation }) => {
     // .catch((err) => console.log(err));
 
     //
+=======
+      .catch((err) => {
+      /*  setLoading(false);
+        setError(true);
+        */
+      });
+>>>>>>> df14acf (gestion error affichage)
   }, []);
-
+ 
   const navigate = useNavigate();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -128,6 +149,8 @@ const Promotion = ({ codeFormation }) => {
     setIsModalVisible(false);
   };
 
+  if (loading) return <Loader />;
+ // if (error) return <Error message={"Une Erreur est survenue"} />;
   return (
     <div style={{ height: 400, width: "95%", margin: "50px" }}>
       <Grid container spacing={2} columns={20}>
@@ -151,9 +174,16 @@ const Promotion = ({ codeFormation }) => {
           <Modal
             title={
               <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
+<<<<<<< HEAD
                 Formulaire d'ajout étudiant
               </h3>
             }
+=======
+                Formulaire d'ajout promotion
+              </h3>
+            }
+            width={800}
+>>>>>>> df14acf (gestion error affichage)
             visible={isModalVisible}
             cancelButtonProps={{ style: { display: "none" } }}
             okButtonProps={{ style: { display: "none" } }}
@@ -167,12 +197,28 @@ const Promotion = ({ codeFormation }) => {
             getRowId={(promo) => promo.anneeUniversitaire + promo.codeFormation}
             rows={promo}
             columns={columns({ navigate })}
+<<<<<<< HEAD
             hideFooter="true"
             // pageSize={10}
             // rowsPerPageOptions=""
             // options={{
             //   paging: false,
             // }}
+=======
+            pageSize={10}
+            rowsPerPageOptions={[5]}
+            components={{
+              NoRowsOverlay: () => (
+                <Stack
+                  height="100%"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  Aucune promotion trouvée
+                </Stack>
+              ),
+            }}
+>>>>>>> df14acf (gestion error affichage)
           />
         </div>
       </div>

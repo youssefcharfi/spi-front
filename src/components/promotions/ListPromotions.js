@@ -3,13 +3,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
-import get from "lodash/get";
-import cuid from "cuid";
 import CreatePromoPopUp from "./CreatePromoPopUp";
 import Error from "../shared/Error";
 import Loader from "../shared/Loader";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import { Popover } from "antd";
 import { Modal } from "antd";
 import axios from "axios";
 
@@ -241,13 +238,12 @@ const Promotion = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
- /*
-   useEffect(() => {
-     
-     
+  const { codeFormation } = useParams()
+
+  useEffect(() => {
     setLoading(true);
-   axios
-      .get(`http://localhost:8034/promotion/`)
+    axios
+      .get(`http://localhost:8034/promotions/${codeFormation}`)
       .then((res) => {
         console.log("res :>> ", res);
         if (res.data == undefined) {
@@ -262,10 +258,10 @@ const Promotion = () => {
         if (!err.response) navigate("/erreur.jsp");
         else if (err.response.status === 404) navigate("*", { replace: true });
 
-      });   
-  }, []); 
-  
-*/
+      });
+  }, []);
+
+
   const navigate = useNavigate();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -323,11 +319,11 @@ const Promotion = () => {
             rows={promo}
             columns={columns({ navigate })}
             hideFooter="true"
-            // pageSize={10}
-            // rowsPerPageOptions=""
-            // options={{
-            //   paging: false,
-            // }}
+          // pageSize={10}
+          // rowsPerPageOptions=""
+          // options={{
+          //   paging: false,
+          // }}
           />
         </div>
       </div>

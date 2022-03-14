@@ -240,6 +240,7 @@ function Candidats({ candidats }) {
       dateReponseCandidat: null,
     },
   ];
+  //   candidats = [];
 
   const columns = [
     { field: "prenom", headerName: "Prenom", width: 130 },
@@ -307,7 +308,7 @@ function Candidats({ candidats }) {
           justifyContent="center"
         >
           <Grid item xs={3}>
-            <Typography color="red" fontSize="30px">
+            <Typography color="darkGray" fontSize="30px">
               il n y a pas de candidat à afficher pour cette promotion
             </Typography>
           </Grid>

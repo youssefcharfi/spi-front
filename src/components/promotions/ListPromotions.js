@@ -91,7 +91,7 @@ const Promotion = ({ codeFormation }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8034/promotion/` + codeFormation)
+      .get(`http://localhost:8034/promotion/`+codeFormation)
       .then((res) => {
         if (res.data == undefined) {
           navigate("*", { replace: true });
@@ -132,7 +132,7 @@ const Promotion = ({ codeFormation }) => {
     <div style={{ height: 400, width: "95%", margin: "50px" }}>
       <Grid container spacing={2} columns={20}>
         <Grid item xs={17}>
-          <h3 className="h1">Promotions DOSI</h3>
+          <h3 className="h1">Promotions {codeFormation}</h3>
         </Grid>
         <Grid item xs={3}>
           <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
@@ -151,7 +151,7 @@ const Promotion = ({ codeFormation }) => {
           <Modal
             title={
               <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-                Formulaire d'ajout étudiant
+                Formulaire d'ajout Promotion
               </h3>
             }
             visible={isModalVisible}
@@ -160,7 +160,7 @@ const Promotion = ({ codeFormation }) => {
             // onOk={handleOk}
             onCancel={handleCancel}
           >
-            <CreatePromoPopUp />;
+            <CreatePromoPopUp codeFormation={codeFormation}/>;
           </Modal>
           <DataGrid
             // getRowId={(id) => get(id, "codeFormation", cuid())}

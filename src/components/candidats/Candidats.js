@@ -11,7 +11,7 @@ import { Modal } from "antd";
 import AddCandidat from "./AddCandidat";
 function Candidats({ promotion }) {
   console.log(promotion.candidats);
-  //   promotion.candidats = [];
+  //promotion.candidats = [];
 
   const columns = [
     { field: "prenom", headerName: "Prenom", width: 130 },
@@ -81,12 +81,12 @@ function Candidats({ promotion }) {
         okButtonProps={{ style: { display: "none" } }}
         // onOk={handleOk}
         onCancel={handleCancel}
+        width={1000}
       >
         <AddCandidat
           codeFormation={promotion.codeFormation}
           anneeUniversitaire={promotion.anneeUniversitaire}
         />
-        ;
       </Modal>
 
       {promotion.candidats.length > 0 ? (

@@ -19,7 +19,7 @@ function PromotionDetails() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:8034/promotion/${codeFormation}/${anneeUniversitaire}`
+        `http://localhost:8034/promotions/${codeFormation}/${anneeUniversitaire}`
       )
       .then((res) => {
         setPromotion(res.data);
@@ -95,7 +95,7 @@ function PromotionDetails() {
             ></Promotion>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <Candidats candidats={promotion.candidats} />
+            <Candidats promotion={promotion} />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
             <Etudiants etudiants={promotion.etudiants} />

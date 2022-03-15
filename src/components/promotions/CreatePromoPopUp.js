@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import {
   Row,
   Col,
@@ -86,6 +86,7 @@ const recupererEnseignant = (enseignant) => {
               form={form}
               onFinish={(values) => onFinish(values)}
               layout="vertical"
+              initialValues={{ formation: "à recuperer" }}
             >
               <Row justify="space-between">
                 <Col xs={24} sm={24} md={11} lg={11} xl={11}>

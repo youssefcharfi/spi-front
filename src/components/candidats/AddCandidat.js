@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useState } from "react";
 import {
   Row,
   Col,
@@ -7,33 +7,52 @@ import {
   Button,
   Form,
   Select,
-  Divider,
-  InputNumber,
+  // Divider,
+  // InputNumber,
   DatePicker,
 } from "antd";
-import get from "lodash/get";
-import moment from "moment";
+// import get from "lodash/get";
+// import moment from "moment";
+import dateFormat from "dateformat";
+import axios from "axios";
 
 const { Item } = Form;
 const { Option } = Select;
-const { TextArea } = Input;
-const { RangePicker } = DatePicker;
 
 const rules = [{ required: true, message: "champs obligatoire!!" }];
 
-function AddCandidat() {
+function AddCandidat({ codeFormation, anneeUniversitaire }) {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    const {
-      anneeUniversitaire,
-      dateReponseLalp,
-      dateReponseLp,
-      dateRentree,
-      ...rest
-    } = values;
-
+    // const {
+    //   // anneeUniversitaire,
+    //   // dateNaissance,
+    //   // ...rest
+    // } = values;
+    const dateNaissanceFormatee = dateFormat(
+      values.dateNaissance,
+      "yyyy-mm-dd"
+    );
+    const candidat = {
+      ...values,
+      codeFormation: codeFormation,
+      anneeUniversitaire: anneeUniversitaire,
+      dateNaissance: dateNaissanceFormatee,
+    };
+    console.log("candidats :>> ", JSON.stringify(candidat));
     console.log("values :>> ", values);
+
+    axios
+      .post(`http://localhost:8034/candidats`, candidat)
+      .then((res) => {
+        console.log("res: ", res);
+        console.log("data: ", res.data);
+        console.log("error: ", res.error);
+      })
+      .catch((error) => {
+        console.log(error); //Logs a string: Error: Request failed with status code 404
+      });
   };
   return (
     <div className="container__antd p-top-20">
@@ -46,112 +65,91 @@ function AddCandidat() {
               layout="vertical"
             >
               <Row justify="space-between">
-                <h1>AJOUTER PROMOTION</h1>
-              </Row>
-
-              <Divider className="d_10" />
-              <Row justify="space-between">
                 <Col xs={24} sm={24} md={11} lg={11} xl={11}>
-                  <Item
-                    label="Nombre max d'étudiant"
-                    name="nbMaxEtudiant"
-                    rules={rules}
-                  >
-                    <InputNumber
-                      type="number"
-                      size="large"
-                      min={0}
-                      style={{ width: "100%" }}
-                    />
+                  <Item label="Code de formation" name="codeFormation">
+                    <Input defaultValue={codeFormation} disabled={true} />
                   </Item>
-                  <Item
-                    label="Lieu de Rentrée"
-                    name="lieuRentree"
-                    rules={rules}
-                  >
+                  <Item label="Nom" name="nom" rules={rules}>
                     <Input size="large" />
                   </Item>
-                  <Item
-                    label="Processus Stage"
-                    name="processusStage"
-                    rules={rules}
-                  >
-                    <Input size="large" />
-                  </Item>
-                  <Item
-                    rules={rules}
-                    label="Sigle Promotion"
-                    name="siglePromotion"
-                  >
-                    <Input size="large" />
+                  <Item label="Sexe" name="sexe" rules={rules}>
+                    <Select size="large">
+                      <Option key={"H"}>Homme</Option>
+                      <Option key={"F"}>Femme</Option>
+                    </Select>
                   </Item>
 
                   <Item
-                    label="Année Universitaire"
-                    name="anneeUniversitaire"
+                    label="Date de naissance"
+                    name="dateNaissance"
                     rules={rules}
                   >
-                    <RangePicker
+                    <DatePicker
                       size="large"
-                      picker="year"
                       style={{ width: "100%" }}
+                      placeholder="Date de naissance"
+                      // picker="day"
                     />
+                  </Item>
+
+                  <Item label="Nationalité" name="nationalite" rules={rules}>
+                    <Input size="large" />
+                  </Item>
+                  <Item label="Mobile" name="mobile" rules={rules}>
+                    <Input size="large" />
+                  </Item>
+                  <Item label="Adresse" name="adresse" rules={rules}>
+                    <Input size="large" />
+                  </Item>
+                  <Item label="Ville" name="ville" rules={rules}>
+                    <Input size="large" />
                   </Item>
                 </Col>
 
                 <Col xs={24} sm={24} md={11} lg={11} xl={11}>
-                  <Item label="Date Rentree" name="dateRentree" rules={rules}>
-                    <DatePicker
-                      size="large"
-                      style={{ width: "100%" }}
-                      placeholder="Date de Rentree"
-                    />
+                  <Item label="Année Universitaire" name="anneeUniversitaire">
+                    <Input defaultValue={anneeUniversitaire} disabled={true} />
                   </Item>
 
-                  <Item
-                    label="Date Reponse La lp"
-                    name="dateReponseLalp"
-                    rules={rules}
-                  >
-                    <DatePicker
-                      size="large"
-                      style={{ width: "100%" }}
-                      placeholder="Date Reponse La LP"
-                    />
+                  <Item label="Prenom" name="prenom" rules={rules}>
+                    <Input size="large" />
+                  </Item>
+                  <Item label="Email" name="email" rules={rules}>
+                    <Input size="large" />
                   </Item>
                   <Item
-                    label="Date Reponse LP"
-                    name="dateReponseLp"
+                    label="Lieu de naissance"
+                    name="lieuNaissance"
                     rules={rules}
                   >
-                    <DatePicker
-                      size="large"
-                      style={{ width: "100%" }}
-                      placeholder="Date Reponse LP"
-                    />
+                    <Input size="large" />
+                  </Item>
+                  <Item label="Pays d'origine" name="paysOrigine" rules={rules}>
+                    <Input size="large" />
                   </Item>
 
-                  <Item label="Enseignant" name="enseignant" rules={rules}>
-                    <Select size="large">
-                      <Option key={1}>Teacher 1</Option>
-                      <Option key={2}>Teacher 2</Option>
-                      <Option key={3}>Teacher 3</Option>
-                    </Select>
+                  <Item label="Telephone" name="telephone" rules={rules}>
+                    <Input size="large" />
                   </Item>
-                  <Item label="Formation" name="formation" rules={rules}>
-                    <Select size="large">
-                      <Option key={1}>Formation 1</Option>
-                      <Option key={2}>Formation 2</Option>
-                      <Option key={3}>Formation 3</Option>
-                    </Select>
+                  <Item label="Code postal" name="codePostal" rules={rules}>
+                    <Input size="large" />
+                  </Item>
+                  <Item
+                    label="Universite d'origine"
+                    name="universiteOrigine"
+                    rules={rules}
+                  >
+                    <Input size="large" />
                   </Item>
                 </Col>
               </Row>
-
-              <Item label="Commentaire" name="commentaire">
-                <TextArea rows={3} placeholder="commentaire..." />
+              <Item label="listeSelection" name="listeSelection" rules={rules}>
+                <Select size="large">
+                  <Option key={"LP"}>Liste Principale</Option>
+                  <Option key={"LA"}>Liste d'Attente</Option>
+                  <Option key={"NR"}>Non Retenu</Option>
+                </Select>
               </Item>
-
               <Row justify="end">
                 <Button htmlType="submit" size="large" type="primary">
                   AJOUTER

@@ -10,10 +10,14 @@ import {
   Divider,
   InputNumber,
   DatePicker,
+  Checkbox,
+  Modal
 } from "antd";
+import axios from "axios";
 import get from "lodash/get";
 import moment from "moment";
-
+import { Radio } from "antd";
+import EnseignantList from "../enseignant/EnseignantList";
 const { Item } = Form;
 const { Option } = Select;
 const { TextArea } = Input;
@@ -21,52 +25,60 @@ const { RangePicker } = DatePicker;
 
 const rules = [{ required: true, message: "champs obligatoire!!" }];
 
-function CreatePromoPopUp() {
-  const [enseignants, setEnseignants] = useState([]);
-  useEffect(async () => {
-    const mockApi = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        let data = [];
-        for (let i = 0; i < 5; i++) {
-          data.push({
-            no_Enseignant: `${i}`,
-            nom: "SALIOU",
-            prenom: "Philippe",
-            sexe: "H",
-            type: "PRAG",
-            pays: "FR",
-            ville: "Brest",
-            adresse: "Adresse Brest",
-            email_Perso: "philippe.saliou@gmail.com",
-            email_Ubo: "philippe.saliou@univ_brest.com",
-            mobile: "+33 7 43 34 25 76",
-            telephone: "+33 6 32 00 85 19",
-            code_Postal: "29 200",
-          });
-        }
-        resolve(data);
-      }, 1000);
-    });
-    await mockApi.then((data) => setEnseignants(data));
-  }, []);
-  console.log("enseignants :>> ", enseignants);
+function CreatePromoPopUp({codeFormation}) {
   const [form] = Form.useForm();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [processusStage, setProcessusStage] = useState(null);
+  const [enseignant, setEnseignant] = useState(0);
 
-  const onFinish = (values) => {
-    const {
-      anneeUniversitaire,
-      dateReponseLalp,
-      dateReponseLp,
-      dateRentree,
-      ...rest
-    } = values;
-
-    console.log("values :>> ", values);
+  const showModal = () => {
+    setIsModalVisible(true);
   };
 
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
 
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const onFinish = (values) => {
+    values.processusStage = processusStage;
+    values.noEnseignant = enseignant;
+    values.codeFormation = codeFormation;
+    values.dateReponseLalp = moment(values.dateReponseLalp).format("YYYY-MM-DD");
+    values.dateReponseLp = moment(values.dateReponseLp).format("YYYY-MM-DD");
+    values.dateRentree=  moment(values.dateRentree).format("YYYY-MM-DD");
+    values.anneeUniversitaire= moment(values.anneeUniversitaire[0]).format("YYYY") +"-" +moment(values.anneeUniversitaire[1]).format("YYYY")
+    console.log("values :>> ", values);
+
+    axios
+      .post(`http://localhost:8034/promotions/`, values)
+      .then((res) => {
+        console.log("res: ", res);
+        console.log("data: ", res.data);
+        console.log("error: ", res.error);
+      })
+      .catch((error) => {
+        console.log(error); //Logs a string: Error: Request failed with status code 404
+      });
+  };
+  const handleChangeProcessus = (e) => {
+    if(e.target.checked)
+      setProcessusStage("RECH");
+    else
+      setProcessusStage(null);
+  }
+const recupererEnseignant = (enseignant) => {
+  setEnseignant(enseignant.noEnseignant);
+  handleCancel();
+  document.getElementById("enseignant").value = enseignant.nom + ' ' + enseignant.prenom;
+};
   return (
     <div className="container__antd p-top-20">
+      <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <EnseignantList recupererEnseignant={recupererEnseignant}/>
+      </Modal>
       <Row justify="center">
         <Col span={24}>
           <Card className="card">
@@ -98,18 +110,10 @@ function CreatePromoPopUp() {
                     <Input size="large" />
                   </Item>
                   <Item
-                    label="Processus Stage"
-                    name="processusStage"
-                    rules={rules}
+                    label="Formation"
+                    name="codeFormation"
                   >
-                    <Input size="large" />
-                  </Item>
-                  <Item
-                    rules={rules}
-                    label="Sigle Promotion"
-                    name="siglePromotion"
-                  >
-                    <Input size="large" />
+                    <Input size="large" defaultValue={codeFormation} disabled={true}/>
                   </Item>
 
                   <Item
@@ -157,21 +161,17 @@ function CreatePromoPopUp() {
                     />
                   </Item>
 
-                  <Item label="Enseignant" name="enseignant" rules={rules}>
-                    <Select size="large">
-                      {enseignants.map(({ no_Enseignant, nom, prenom }) => (
-                        <Option key={no_Enseignant}>
-                          {nom} {prenom}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Item>
-                  <Item label="Formation" name="formation" rules={rules}>
-                    <Input size="large" disabled />
+                  <Item
+                    label="Enseignant"
+                    name="noEnseignant"
+                  >
+                    <input onClick={showModal} id="enseignant" className="ant-input ant-input-lg" readOnly/>
                   </Item>
                 </Col>
               </Row>
-
+              <Item name="processusStage">
+                <Checkbox  id="processusStage" onChange={handleChangeProcessus}>Avec ou Sans Stage</Checkbox>
+              </Item>
               <Item label="Commentaire" name="commentaire">
                 <TextArea rows={3} placeholder="commentaire..." />
               </Item>

@@ -25,10 +25,10 @@ export default function EnseignantList({recupererEnseignant}) {
           })
   }, [])
 
-  let listItem = (enseignant) => {
+  let listItem = (enseignant, index) => {
     return (
-      <div>
-        <ListItem alignItems="flex-start" style={{cursor:'pointer'}} className="my-3" onClick={() => {
+      <div key={index}>
+        <ListItem  alignItems="flex-start" style={{cursor:'pointer'}} className="my-3" onClick={() => {
           recupererEnseignant(enseignant);
         } }>
           <ListItemAvatar>
@@ -56,9 +56,9 @@ export default function EnseignantList({recupererEnseignant}) {
     )
   };
   return (
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+    <List sx={{ width: '100%', bgcolor: 'background.paper' , maxHeight:'500px' , overflowY:"scroll" }}>
       {
-        enseignants.map((enseignant) => listItem(enseignant))
+        enseignants.map((enseignant,i) => listItem(enseignant,i))
       }
     </List>
   );

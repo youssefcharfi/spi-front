@@ -61,7 +61,7 @@ function Candidats({ promotion, universite }) {
       },
     },
 
-    { field: "listeSelection", headerName: "listeSelection", width: 200 },
+    { field: "listeSelection", headerName: "listeSelection", width: 150 },
     {
       field: "selectionNoOrdre",
       headerName: "selectionNoOrdre",
@@ -72,11 +72,11 @@ function Candidats({ promotion, universite }) {
       headerName: "confirmationCandidat",
       field: "detail",
       width: 200,
-
+      align: "center",
       renderCell: (params) => {
         return params.row.confirmationCandidat == "O" ? (
           <CheckBoxIcon
-            style={{ justifyContent: "center" }}
+            style={{ alignItems: "center", justifyContent: "center" }}
             fontSize="large"
             color="success"
           />
@@ -102,7 +102,7 @@ function Candidats({ promotion, universite }) {
   };
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 429, width: "100%" }}>
       <Grid container spacing={2} columns={20}>
         <Grid item xs={17}></Grid>
         <Grid item xs={3}>
@@ -143,6 +143,7 @@ function Candidats({ promotion, universite }) {
           pageSize={5}
           rowsPerPageOptions={[5]}
           getRowId={(row) => row.noCandidat}
+          style={{ height: "87%" }}
           //   checkboxSelection
         />
       ) : (

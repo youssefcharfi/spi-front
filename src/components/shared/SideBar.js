@@ -157,7 +157,6 @@ function SideBar() {
             </Link>
           ))}
         </List>
-        <Divider />
       </Drawer>
       <Main open={open}>
         <DrawerHeader />

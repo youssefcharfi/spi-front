@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button, Grid } from "@mui/material";
+import { Button, Container, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
 import CreatePromoPopUp from "./CreatePromoPopUp";
@@ -8,24 +8,26 @@ import Error from "../shared/Error";
 import Loader from "../shared/Loader";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
-import { Modal } from "antd";
+import { Modal, Tooltip } from "antd";
 import axios from "axios";
 import "toastr/build/toastr.css";
 import toastr from "toastr";
+import InfoIcon from '@mui/icons-material/Info';
+import ServerError from "../ServerError";
 
 const columns = ({ navigate }) => [
   {
     headerName: "Année Universitaire",
     field: "anneeUniversitaire",
     type: "string",
-    width: 150,
+    flex: 0.3,
     valueGetter: (params) => `${params.row.anneeUniversitaire || ""}`,
   },
   {
     headerName: "Enseignant",
     field: "enseignantByNoEnseignant",
     type: "string",
-    width: 300,
+    flex: 0.3,
     valueGetter: (params) =>
       `${params.row?.enseignantByNoEnseignant.nom || ""}` +
       ` ${params.row?.enseignantByNoEnseignant.prenom}`,
@@ -33,58 +35,58 @@ const columns = ({ navigate }) => [
 
   {
     field: "nbMaxEtudiant",
-    headerName: "Nombre max des étudiants",
+    headerName: "Max des étudiants",
     type: "string",
-    width: 200,
+    flex: 0.3,
   },
   {
     field: "dateReponseLp",
     headerName: "Date réponse LP",
     type: "string",
-    width: 200,
+    flex: 0.3,
   },
   {
     field: "dateReponseLalp",
     headerName: "Date réponse LalP",
     type: "string",
-    width: 200,
+    flex: 0.3,
   },
   {
     field: "dateRentree",
     headerName: "Date de rentrée",
     type: "string",
-    width: 200,
+    flex: 0.3,
   },
   {
     field: "lieuRentree",
     headerName: "Lieu de rentrée",
     type: "string",
-    width: 200,
+    flex: 0.3,
   },
   {
     field: "processusStage",
     headerName: "Processus Stage",
     type: "string",
-    width: 200,
+    flex: 0.3,
     valueGetter: (params) =>
-      params.row.processusStage != null ?  params.row.processusStage : "Pas de processus stage"
+      params.row.processusStage != null ? params.row.processusStage : "Pas de processus stage"
   },
 
   {
     headerName: "details",
     field: "detail",
-    width: 200,
+    flex: 0.20,
     renderCell: (params) => {
       return (
-        <Button
+        <IconButton
           onClick={() =>
             navigate(
               `/promotions/${params.row.codeFormation}/${params.row.anneeUniversitaire}`
             )
           }
         >
-          Click
-        </Button>
+          <InfoIcon fontSize="small" color="primary" />
+        </IconButton>
       );
     },
   },
@@ -93,6 +95,7 @@ const columns = ({ navigate }) => [
 const Promotion = () => {
   const [promo, setPromo] = useState([]);
   const [error, setError] = useState(false);
+  const [errorServer, setErrorServer] = useState(false)
   const [loading, setLoading] = useState(false);
   const { codeFormation } = useParams();
 
@@ -102,18 +105,13 @@ const Promotion = () => {
       .get(`http://localhost:8034/promotions/${codeFormation}`)
       .then((res) => {
         setLoading(false);
-        console.log("res :>> ", res);
-        if (res.data == undefined) {
-          navigate("*", { replace: true });
-        } else {
-          console.log(res.data);
-          setLoading(false);
-          setPromo(res.data);
-        }
-      }, [])
+        setErrorServer(false)
+        setError(false);
+        setPromo(res.data);
+      })
       .catch((err) => {
         setLoading(false);
-        if (!err.response) navigate("/erreur.jsp");
+        if (!err.response) setErrorServer(true);
         else if (err.response.status === 404) setError(true);
       });
   }, []);
@@ -143,33 +141,21 @@ const Promotion = () => {
   const handleReset = () => {
     form.resetFields();
   };
-  if (loading) return <Loader />;
-  if (error)
-    return (
-      <Error
-        message={
-          "Aucune promotion n'est disponible pour la formation " + codeFormation
-        }
-      />
-    );
+  if (loading) return <Loader />
+  if (error) return  <Error message={"Aucune promotion n'est disponible pour la formation " + codeFormation}/>
+  if(errorServer) return <ServerError/>
   return (
-    <div style={{ height: 400, width: "95%", margin: "50px" }}>
-      <Grid container spacing={2} columns={20}>
-        <Grid item xs={17}>
-          <h3 className="h1">Promotions {codeFormation}</h3>
+    <Container style={{ height: 319 }} maxWidth>
+      <Grid container sx={{ display: 'flex', justifyContent: 'space-between', mb: 4 }}>
+        <Grid item>
+          <h4 className="h2">Promotion : {codeFormation}</h4>
         </Grid>
-        <Grid item xs={3}>
-          <IconButton aria-label="add" style={{float:"right"}}>
-            <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
-          </IconButton>
-          {/* <AddBoxIcon fontSize="large" color="primary" onClick={showModal} style={{cursor:"pointer",float:"right"}}/> */}
-
-          {/* <Button
-            variant="contained"
-            onClick={() => navigate("/promotions/create")}
-          >
-            Ajouter Promotion
-          </Button> */}
+        <Grid item>
+          <Tooltip title="Ajouter" placement="bottom">
+            <IconButton aria-label="add">
+              <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
+            </IconButton>
+          </Tooltip>
         </Grid>
       </Grid>
 
@@ -184,7 +170,6 @@ const Promotion = () => {
             visible={isModalVisible}
             cancelButtonProps={{ style: { display: "none" } }}
             okButtonProps={{ style: { display: "none" } }}
-            // onOk={handleOk}
             onCancel={handleCancel}
             width={1000}
           >
@@ -196,20 +181,14 @@ const Promotion = () => {
             />
           </Modal>
           <DataGrid
-            // getRowId={(id) => get(id, "codeFormation", cuid())}
             getRowId={(promo) => promo.anneeUniversitaire + promo.codeFormation}
             rows={promo}
             columns={columns({ navigate })}
             hideFooter="true"
-            // pageSize={10}
-            // rowsPerPageOptions=""
-            // options={{
-            //   paging: false,
-            // }}
           />
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

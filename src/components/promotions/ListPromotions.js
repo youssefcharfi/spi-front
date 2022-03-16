@@ -7,11 +7,11 @@ import CreatePromoPopUp from "./CreatePromoPopUp";
 import Error from "../shared/Error";
 import Loader from "../shared/Loader";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import IconButton from "@mui/material/IconButton";
 import { Modal } from "antd";
 import axios from "axios";
-import 'toastr/build/toastr.css';
+import "toastr/build/toastr.css";
 import toastr from "toastr";
-
 
 const columns = ({ navigate }) => [
   {
@@ -92,14 +92,14 @@ const Promotion = () => {
   const [promo, setPromo] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { codeFormation } = useParams()
+  const { codeFormation } = useParams();
 
   useEffect(() => {
     setLoading(true);
     axios
       .get(`http://localhost:8034/promotions/${codeFormation}`)
       .then((res) => {
-        setLoading(false)
+        setLoading(false);
         console.log("res :>> ", res);
         if (res.data == undefined) {
           navigate("*", { replace: true });
@@ -108,19 +108,18 @@ const Promotion = () => {
           setLoading(false);
           setPromo(res.data);
         }
-      },[])
+      }, [])
       .catch((err) => {
-        setLoading(false)
+        setLoading(false);
         if (!err.response) navigate("/erreur.jsp");
         else if (err.response.status === 404) setError(true);
-
       });
   }, []);
 
   const ajoutPromo = (promotion) => {
     setPromo([promotion, ...promo]);
     toastr.info("Promotion à été ajouter avec succeés");
-  }
+  };
 
   const navigate = useNavigate();
 
@@ -134,16 +133,23 @@ const Promotion = () => {
   //   setIsModalVisible(false);
   // };
   const [form, setForm] = useState({});
-  
+
   const handleCancel = () => {
     setIsModalVisible(false);
     form.resetFields();
   };
   const handleReset = () => {
     form.resetFields();
-  }
-  if (loading) return <Loader />
-  if (error) return <Error message={"Aucune promotion n'est disponible pour la formation "+codeFormation} />
+  };
+  if (loading) return <Loader />;
+  if (error)
+    return (
+      <Error
+        message={
+          "Aucune promotion n'est disponible pour la formation " + codeFormation
+        }
+      />
+    );
   return (
     <div style={{ height: 400, width: "95%", margin: "50px" }}>
       <Grid container spacing={2} columns={20}>
@@ -151,7 +157,10 @@ const Promotion = () => {
           <h3 className="h1">Promotions {codeFormation}</h3>
         </Grid>
         <Grid item xs={3}>
-          <AddBoxIcon fontSize="large" color="primary" onClick={showModal} style={{cursor:"pointer",float:"right"}}/>
+          <IconButton aria-label="add">
+            <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
+          </IconButton>
+          {/* <AddBoxIcon fontSize="large" color="primary" onClick={showModal} style={{cursor:"pointer",float:"right"}}/> */}
 
           {/* <Button
             variant="contained"
@@ -177,7 +186,12 @@ const Promotion = () => {
             onCancel={handleCancel}
             width={1000}
           >
-            <CreatePromoPopUp codeFormation={codeFormation} ajoutPromo={ajoutPromo} formulaire={setForm} resetForm={handleReset}/>
+            <CreatePromoPopUp
+              codeFormation={codeFormation}
+              ajoutPromo={ajoutPromo}
+              formulaire={setForm}
+              resetForm={handleReset}
+            />
           </Modal>
           <DataGrid
             // getRowId={(id) => get(id, "codeFormation", cuid())}
@@ -185,11 +199,11 @@ const Promotion = () => {
             rows={promo}
             columns={columns({ navigate })}
             hideFooter="true"
-          // pageSize={10}
-          // rowsPerPageOptions=""
-          // options={{
-          //   paging: false,
-          // }}
+            // pageSize={10}
+            // rowsPerPageOptions=""
+            // options={{
+            //   paging: false,
+            // }}
           />
         </div>
       </div>

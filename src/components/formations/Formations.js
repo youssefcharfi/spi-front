@@ -108,7 +108,7 @@ function Formations() {
   ];
   if (loading) return <Loader />;
   return (
-    <div style={{ height: 400, width: "95%", margin: "50px" }}>
+    <div style={{ height: 319, width: "95%", margin: "50px" }}>
       <Grid container columns={20}>
         <Grid item xs={15}>
           <h4 className="h2">Formations</h4>

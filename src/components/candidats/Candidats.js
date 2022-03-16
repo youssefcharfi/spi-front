@@ -105,6 +105,7 @@ function Candidats({ promotion }) {
           pageSize={5}
           rowsPerPageOptions={[5]}
           getRowId={(row) => row.noCandidat}
+          style={{height: '370px'}}
           //   checkboxSelection
         />
       ) : (

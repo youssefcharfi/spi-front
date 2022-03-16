@@ -13,6 +13,8 @@ import {
   Checkbox,
   Modal
 } from "antd";
+import 'toastr/build/toastr.css';
+import toastr from "toastr";
 import axios from "axios";
 import get from "lodash/get";
 import moment from "moment";
@@ -22,14 +24,18 @@ const { Item } = Form;
 const { Option } = Select;
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
+const rules = [{ required: true, message: "champs obligatoire!" }];
+const rulesInteger = [{ required: true, message: "champs obligatoire!" },{
+  pattern: '^([-]?[1-9][0-9]*|0)$',
+  message: "Saisissez une valeur entier"
+}]
 
-const rules = [{ required: true, message: "champs obligatoire!!" }];
-
-function CreatePromoPopUp({codeFormation}) {
+function CreatePromoPopUp({codeFormation, ajoutPromo, formulaire,resetForm}) {
   const [form] = Form.useForm();
+  formulaire(form);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [processusStage, setProcessusStage] = useState(null);
-  const [enseignant, setEnseignant] = useState(0);
+  const [enseignant, setEnseignant] = useState(undefined);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -42,26 +48,32 @@ function CreatePromoPopUp({codeFormation}) {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
   const onFinish = (values) => {
+    console.log(values);
     values.processusStage = processusStage;
     values.noEnseignant = enseignant;
+    if(values.noEnseignant == null) {
+      toastr.error("Merci de choisir un enseignant !");
+    }else{
     values.codeFormation = codeFormation;
     values.dateReponseLalp = moment(values.dateReponseLalp).format("YYYY-MM-DD");
     values.dateReponseLp = moment(values.dateReponseLp).format("YYYY-MM-DD");
     values.dateRentree=  moment(values.dateRentree).format("YYYY-MM-DD");
     values.anneeUniversitaire= moment(values.anneeUniversitaire[0]).format("YYYY") +"-" +moment(values.anneeUniversitaire[1]).format("YYYY")
-    console.log("values :>> ", values);
 
     axios
       .post(`http://localhost:8034/promotions/`, values)
       .then((res) => {
+        ajoutPromo(res.data);
         console.log("res: ", res);
         console.log("data: ", res.data);
         console.log("error: ", res.error);
       })
       .catch((error) => {
-        console.log(error); //Logs a string: Error: Request failed with status code 404
+        toastr.error(error.response.data.errorMeassage,"Erreur d'ajout");
       });
+    }
   };
   const handleChangeProcessus = (e) => {
     if(e.target.checked)
@@ -69,6 +81,17 @@ function CreatePromoPopUp({codeFormation}) {
     else
       setProcessusStage(null);
   }
+  const handleReAdd = (values) =>{
+    form.validateFields()
+			.then((values) => {
+				onFinish(values);
+        resetForm();
+			})
+			.catch((errorInfo) => {});
+  }
+  
+
+
 const recupererEnseignant = (enseignant) => {
   setEnseignant(enseignant.noEnseignant);
   handleCancel();
@@ -76,7 +99,7 @@ const recupererEnseignant = (enseignant) => {
 };
   return (
     <div className="container__antd p-top-20">
-      <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Liste des enseignants" visible={isModalVisible} onCancel={handleCancel} footer={null}>
         <EnseignantList recupererEnseignant={recupererEnseignant}/>
       </Modal>
       <Row justify="center">
@@ -93,10 +116,9 @@ const recupererEnseignant = (enseignant) => {
                   <Item
                     label="Nombre max d'étudiant"
                     name="nbMaxEtudiant"
-                    rules={rules}
+                    rules={rulesInteger}
                   >
-                    <InputNumber
-                      type="number"
+                    <Input
                       size="large"
                       min={0}
                       style={{ width: "100%" }}
@@ -165,7 +187,7 @@ const recupererEnseignant = (enseignant) => {
                     label="Enseignant"
                     name="noEnseignant"
                   >
-                    <input onClick={showModal} id="enseignant" className="ant-input ant-input-lg" readOnly/>
+                    <input onClick={showModal} id="enseignant" className="ant-input ant-input-lg" readOnly="true" style={{cursor:"pointer"}}/>
                   </Item>
                 </Col>
               </Row>
@@ -176,17 +198,24 @@ const recupererEnseignant = (enseignant) => {
                 <TextArea rows={3} placeholder="commentaire..." />
               </Item>
 
-              <Row justify="end">
-                <Button htmlType="submit" size="large" type="primary">
+              <Row>
+                <button size="large" onClick={resetForm} className="btn btn-outline-secondary mx-2" style={{float: "left"}}>
+                  VIDER
+                </button>
+                <button  type="submit" size="large" className="btn btn-primary mx-2" style={{float: "right"}}>
                   AJOUTER
-                </Button>
+                </button>
+                <button size="large" onClick={handleReAdd} className="btn btn-primary mx-2" style={{float: "right"}}>
+                  RE-ADD
+                </button>
               </Row>
+              
             </Form>
           </Card>
         </Col>
       </Row>
     </div>
-  );
+  )
 }
 
 export default CreatePromoPopUp;

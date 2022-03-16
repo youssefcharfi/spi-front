@@ -18,7 +18,7 @@ import ListItemText from "@mui/material/ListItemText";
 import SchoolIcon from "@mui/icons-material/School";
 import BookIcon from "@mui/icons-material/Book";
 import HomeIcon from "@mui/icons-material/Home";
-import Home from "../Home";
+import Home from "../Home.jsx";
 import PageNotFound from "../PageNotFound";
 import ListPromotions from "../promotions/ListPromotions";
 import Formations from '../formations/Formations'

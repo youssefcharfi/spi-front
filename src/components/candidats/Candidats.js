@@ -1,23 +1,38 @@
-import React, { useState } from "react";
-//import axios from "axios";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 //import { useParams } from "react-router";
 import { DataGrid } from "@mui/x-data-grid";
 import { Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import IconButton from "@mui/material/IconButton";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 //import { useNavigate } from "react-router-dom";
 import { Modal } from "antd";
 import AddCandidat from "./AddCandidat";
-
-function Candidats({ promotion }) {
+import Tooltip from "@mui/material/Tooltip";
+function Candidats({ promotion, universite }) {
   console.log(promotion.candidats);
   //promotion.candidats = [];
+  // const [universite, setUniversite] = useState(new Map());
+  // useEffect(() => {
+  //   axios.get(`http://localhost:8034/domaine/universite`).then((res) => {
+  //     res.data.map((univ) =>
+  //       setUniversite(universite.set(univ.abreviation, univ.signification))
+  //     );
+  //     console.log("universite :>> ", res.data);
+  //     console.log("universite Keyed collections :>> ", universite);
+  //   });
+  // }, [universite]);
+
   const [candidats, setCandidats] = useState(promotion.candidats);
+
   const ajouterCandidat = (candidat) => {
     setCandidats([candidat, ...candidats]);
     handleCancel();
   };
+
   const columns = [
     { field: "prenom", headerName: "Prenom", width: 200 },
     { field: "nom", headerName: "Nom", width: 200 },
@@ -27,7 +42,26 @@ function Candidats({ promotion }) {
       headerName: "Universite d'origine",
       width: 200,
     },
-    { field: "listeSelection", headerName: "listeSelection", width: 200 },
+    {
+      headerName: "Universite d'origine",
+      field: "universiteOrigine",
+      width: 200,
+
+      renderCell: (params) => {
+        console.log("params:   ", universite.get(params.row.universiteOrigine));
+        return (
+          <Tooltip
+            title={universite.get(params.row.universiteOrigine)}
+            placement="bottom-start"
+            followCursor
+          >
+            <div>{params.row.universiteOrigine}</div>
+          </Tooltip>
+        );
+      },
+    },
+
+    { field: "listeSelection", headerName: "listeSelection", width: 150 },
     {
       field: "selectionNoOrdre",
       headerName: "selectionNoOrdre",
@@ -38,16 +72,16 @@ function Candidats({ promotion }) {
       headerName: "confirmationCandidat",
       field: "detail",
       width: 200,
-
+      align: "center",
       renderCell: (params) => {
         return params.row.confirmationCandidat == "O" ? (
           <CheckBoxIcon
-            style={{ justifyContent: "center" }}
+            style={{ alignItems: "center", justifyContent: "center" }}
             fontSize="large"
             color="success"
           />
         ) : (
-          <CheckBoxIcon fontSize="large" color="error" />
+          <CheckBoxOutlineBlankIcon fontSize="large" color="success" />
         );
       },
     },
@@ -66,17 +100,19 @@ function Candidats({ promotion }) {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <Grid container spacing={2} columns={20}>
-        <Grid item xs={17}></Grid>
-        <Grid item xs={3}>
-          <AddBoxIcon
-            fontSize="large"
-            color="primary"
-            onClick={showModal}
-            // onClick={() => navigate("/candidats/create")}
-          />
+    <div style={{ height: 429, width: "100%" }}>
+      <Grid container spacing={2} alignItems="right" justifyContent="right">
+        <Grid item>
+          <IconButton aria-label="add">
+            <AddBoxIcon
+              fontSize="large"
+              color="primary"
+              onClick={showModal}
+              // onClick={() => navigate("/candidats/create")}
+            />
+          </IconButton>
         </Grid>
       </Grid>
       <Modal
@@ -106,7 +142,7 @@ function Candidats({ promotion }) {
           pageSize={5}
           rowsPerPageOptions={[5]}
           getRowId={(row) => row.noCandidat}
-          style={{height: '370px'}}
+          style={{ height: "87%" }}
           //   checkboxSelection
         />
       ) : (

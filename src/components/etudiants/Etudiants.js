@@ -9,7 +9,7 @@ export default function Etudiants({ etudiants }) {
     { field: "noEtudiant", headerName: "Numero Etudiant", width: 130 },
     { field: "nom", headerName: "Nom", width: 130 },
     { field: "prenom", headerName: "Prenom", width: 130 },
-    { field: "telephone", headerName: "Telephone", width: 130 },
+    { field: "mobile", headerName: "mobile", width: 130 },
     { field: "email", headerName: "Email", minWidth: 300 },
     {
       field: "universiteOrigine",

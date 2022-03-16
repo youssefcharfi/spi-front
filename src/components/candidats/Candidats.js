@@ -12,31 +12,39 @@ import AddCandidat from "./AddCandidat";
 function Candidats({ promotion }) {
   console.log(promotion.candidats);
   //promotion.candidats = [];
-
+  const [candidats, setCandidats] = useState(promotion.candidats);
+  const ajouterCandidat = (candidat) => {
+    setCandidats([candidat, ...candidats]);
+    handleCancel();
+  };
   const columns = [
-    { field: "prenom", headerName: "Prenom", width: 130 },
-    { field: "nom", headerName: "Nom", width: 130 },
+    { field: "prenom", headerName: "Prenom", width: 200 },
+    { field: "nom", headerName: "Nom", width: 200 },
     { field: "email", headerName: "Email", minWidth: 250 },
     {
       field: "universiteOrigine",
       headerName: "Universite d'origine",
-      width: 145,
+      width: 200,
     },
-    { field: "listeSelection", headerName: "listeSelection", width: 105 },
+    { field: "listeSelection", headerName: "listeSelection", width: 200 },
     {
       field: "selectionNoOrdre",
       headerName: "selectionNoOrdre",
-      type: "number",
-      width: 150,
+      // type: "number",
+      width: 200,
     },
     {
       headerName: "confirmationCandidat",
       field: "detail",
       width: 200,
-      style: { JustifyContent: "center" },
+
       renderCell: (params) => {
         return params.row.confirmationCandidat == "O" ? (
-          <CheckBoxIcon fontSize="large" color="success" />
+          <CheckBoxIcon
+            style={{ justifyContent: "center" }}
+            fontSize="large"
+            color="success"
+          />
         ) : (
           <CheckBoxIcon fontSize="large" color="error" />
         );
@@ -58,7 +66,7 @@ function Candidats({ promotion }) {
     setIsModalVisible(false);
   };
   return (
-    <div style={{ height: 375, maxWidth: "75%" }}>
+    <div style={{ height: 400, width: "100%" }}>
       <Grid container spacing={2} columns={20}>
         <Grid item xs={17}></Grid>
         <Grid item xs={3}>
@@ -86,12 +94,13 @@ function Candidats({ promotion }) {
         <AddCandidat
           codeFormation={promotion.codeFormation}
           anneeUniversitaire={promotion.anneeUniversitaire}
+          ajouterCandidat={ajouterCandidat}
         />
       </Modal>
 
-      {promotion.candidats.length > 0 ? (
+      {candidats.length > 0 ? (
         <DataGrid
-          rows={promotion.candidats}
+          rows={candidats}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}

@@ -22,7 +22,7 @@ const { Option } = Select;
 
 //const rules = [{ required: true, message: "champs obligatoire!!" }];
 
-function AddCandidat({ codeFormation, anneeUniversitaire }) {
+function AddCandidat({ codeFormation, anneeUniversitaire, ajouterCandidat }) {
   const [form] = Form.useForm();
   const [messageErreur, setMessageErreur] = useState("");
   const rules = [{ required: true, message: "champs obligatoire!!" }];
@@ -86,6 +86,7 @@ function AddCandidat({ codeFormation, anneeUniversitaire }) {
         console.log("res: ", res);
         console.log("data: ", res.data);
         console.log("error: ", res.error);
+        ajouterCandidat(res.data);
       })
       .catch((error) => {
         setMessageErreur(error.response.data.errorMeassage);

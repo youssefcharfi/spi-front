@@ -157,7 +157,7 @@ const Promotion = () => {
           <h3 className="h1">Promotions {codeFormation}</h3>
         </Grid>
         <Grid item xs={3}>
-          <IconButton aria-label="add">
+          <IconButton aria-label="add" style={{float:"right"}}>
             <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
           </IconButton>
           {/* <AddBoxIcon fontSize="large" color="primary" onClick={showModal} style={{cursor:"pointer",float:"right"}}/> */}

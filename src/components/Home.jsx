@@ -12,7 +12,8 @@ class Home extends Component {
             enseignants: [],
             formations:  [],
             candidats: [],
-            promotions: []
+            promotions: [],
+            etudiants: []
     
         }
         
@@ -66,6 +67,11 @@ class Home extends Component {
           
           this.setState({ promotions: res.data})
         })
+
+        axios.get("http://localhost:8034/etudiants").then((res)=>{
+          
+          this.setState({ etudiants: res.data})
+        })
     
     }
     render() {
@@ -74,34 +80,43 @@ class Home extends Component {
         <br /><br />
         <h2 style={{textAlign:'center'}}>Tableau de bord</h2>
       <div className="featured">
-      <div className="featuredItem">
-      <FontAwesomeIcon icon={faUserTie} className="featuredIcon"/> <br />
-        <span className="featuredTitle" style={{marginLeft:'60px'}}>Nombre d'enseignants</span>
-        <div className="featuredLength">
-          {this.state.enseignants.length}
-        </div>
-      </div>
+      
       <div className="featuredItem">
       <FontAwesomeIcon icon={faBook} className="featuredIcon"/><br />
-        <span className="featuredTitle" style={{marginLeft:'60px'}}>Nombre de formations</span>
+        <span className="featuredTitle">Nombre de formations</span>
         <div className="featuredLength">
           {this.state.formations.length}
         </div>
       </div>
       <div className="featuredItem">
+      <FontAwesomeIcon icon={faGraduationCap} className="featuredIcon"/><br />
+        <span className="featuredTitle">Nombre de promotions</span>
+        <div className="featuredLength">
+          {this.state.promotions.length}
+        </div>
+      </div>
+      <div className="featuredItem">
+      <FontAwesomeIcon icon={faUserTie} className="featuredIcon"/> <br />
+        <span className="featuredTitle">Nombre d'enseignants</span>
+        <div className="featuredLength">
+          {this.state.enseignants.length}
+        </div>
+      </div>
+      <div className="featuredItem">
       <FontAwesomeIcon icon={faUserGroup} className="featuredIcon"/> <br />
-      <span className="featuredTitle" style={{marginLeft:'60px'}}>Nombre de candidats</span>
+      <span className="featuredTitle">Nombre de candidats</span>
         <div className="featuredLength">
           {this.state.candidats.length}
         </div>
       </div>
       <div className="featuredItem">
-      <FontAwesomeIcon icon={faGraduationCap} className="featuredIcon"/><br />
-        <span className="featuredTitle" style={{marginLeft:'60px'}}>Nombre de promotions</span>
+      <FontAwesomeIcon icon={faUserGroup} className="featuredIcon"/> <br />
+      <span className="featuredTitle">Nombre d'étudiants</span>
         <div className="featuredLength">
-          {this.state.promotions.length}
+          {this.state.etudiants.length}
         </div>
       </div>
+
     </div>
     </div>
         );

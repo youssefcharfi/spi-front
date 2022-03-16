@@ -38,7 +38,6 @@ function CreatePromoPopUp({codeFormation, ajoutPromo, formulaire,resetForm}) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [processusStage, setProcessusStage] = useState(null);
   const [enseignant, setEnseignant] = useState(undefined);
-
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -63,6 +62,7 @@ function CreatePromoPopUp({codeFormation, ajoutPromo, formulaire,resetForm}) {
     values.dateReponseLp = moment(values.dateReponseLp).format("YYYY-MM-DD");
     values.dateRentree=  moment(values.dateRentree).format("YYYY-MM-DD");
     values.anneeUniversitaire= moment(values.anneeUniversitaire[0]).format("YYYY") +"-" +moment(values.anneeUniversitaire[1]).format("YYYY")
+    values.siglePromotion = codeFormation + "-" +  values.anneeUniversitaire;
 
     axios
       .post(`http://localhost:8034/promotions/`, values)
@@ -75,16 +75,45 @@ function CreatePromoPopUp({codeFormation, ajoutPromo, formulaire,resetForm}) {
       });
     }
   };
+
+  const onFinishReAdd = (values) => {
+    console.log(values);
+    values.processusStage = processusStage;
+    values.noEnseignant = enseignant;
+    if(values.noEnseignant == null) {
+      toastr.error("Merci de choisir un enseignant !");
+    }else{
+    values.codeFormation = codeFormation;
+    values.dateReponseLalp = moment(values.dateReponseLalp).format("YYYY-MM-DD");
+    values.dateReponseLp = moment(values.dateReponseLp).format("YYYY-MM-DD");
+    values.dateRentree=  moment(values.dateRentree).format("YYYY-MM-DD");
+    values.anneeUniversitaire= moment(values.anneeUniversitaire[0]).format("YYYY") +"-" +moment(values.anneeUniversitaire[1]).format("YYYY")
+    values.siglePromotion = codeFormation + "-" +  values.anneeUniversitaire;
+
+    axios
+      .post(`http://localhost:8034/promotions/`, values)
+      .then((res) => {
+        //ajoutPromo(res.data);
+        //navigate(`/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`)
+      })
+      .catch((error) => {
+        toastr.error(error.response.data.errorMeassage,"Erreur d'ajout");
+      });
+    }
+  };
+
+
+
   const handleChangeProcessus = (e) => {
     if(e.target.checked)
       setProcessusStage("RECH");
     else
       setProcessusStage(null);
   }
-  const handleReAdd = (values) =>{
+  const handleReAdd = () =>{
     form.validateFields()
 			.then((values) => {
-				onFinish(values);
+				onFinishReAdd(values);
         resetForm();
 			})
 			.catch((errorInfo) => {});
@@ -199,13 +228,13 @@ const recupererEnseignant = (enseignant) => {
               </Item>
 
               <Row>
-                <button size="large" onClick={resetForm} className="btn btn-outline-secondary mx-2" style={{float: "left"}}>
+                <button type="button" size="large" onClick={resetForm} className="btn btn-outline-secondary mx-2" style={{float: "left"}}>
                   VIDER
                 </button>
                 <button  type="submit" size="large" className="btn btn-primary mx-2" style={{float: "right"}}>
                   AJOUTER
                 </button>
-                <button size="large" onClick={handleReAdd} className="btn btn-primary mx-2" style={{float: "right"}}>
+                <button type="button" size="large" onClick={handleReAdd} className="btn btn-primary mx-2" style={{float: "right"}}>
                   RE-ADD
                 </button>
               </Row>

@@ -1,11 +1,14 @@
 import { React, useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button, Grid } from "@mui/material";
+import { Button, Container, Grid } from "@mui/material";
 import axios from 'axios'
 import { useNavigate } from "react-router";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Loader from "../shared/Loader";
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import IconButton from '@mui/material/IconButton';
+import { Tooltip } from "antd";
 
 function Formations() {
 
@@ -51,13 +54,14 @@ function Formations() {
       field: "codeFormation",
       headerName: "Code",
       type: "string",
-      width: 100,
+      minWidth: 100,
+      align: 'left',
     },
     {
       field:"diplome",
-      headerName: "Diplome/noAnnée",
+      headerName: "Diplome",
       type: "string",
-      width: 150,
+      width: 100,
       valueGetter: (params) =>
         `${params.row.diplome || ""}` +
         `${params.row.n0Annee}`,
@@ -65,15 +69,16 @@ function Formations() {
 
     {
       field: "nomFormation",
-      headerName: "Nom",
+      headerName: "Nom formation",
       type: "string",
-      width: 450,
+      width: 430,
     },
     {
       field: "doubleDiplome",
       headerName: "Double diplome",
       type: "string",
-      width: 150,
+      width: 120,
+      align: 'center',
     },
     {
       field: "debutAccreditation",
@@ -88,33 +93,35 @@ function Formations() {
       width: 150,
     },
     {
-      headerName: "",
+      headerName: "Promotion",
       field: "jnjn",
-      width: 200,
+      width: 80,
       renderCell: (params) => {
         return (
-          <Button
-           onClick={() =>
-            navigate(
-              `/promotions/${params.row.codeFormation}`
-            )
-          }
-          >
-            Promotions
-          </Button>
+          <Tooltip title={params.row.codeFormation} placement="bottom">
+            <IconButton
+            onClick={() =>
+              navigate(
+                `/promotions/${params.row.codeFormation}`
+              )
+            }
+            >
+              <FormatListBulletedIcon fontSize="small"  color="primary"/> 
+            </IconButton>
+          </Tooltip>
         );
       },
     },
   ];
   if (loading) return <Loader />;
-  return (
-    <div style={{ height: 400, width: "95%", margin: "50px" }}>
-      <Grid container columns={20}>
-        <Grid item xs={15}>
+  return (  
+    <Container fixed style={{ height: 319}}>
+      <Grid container sx={{ display: 'flex', justifyContent: 'space-between'}}>
+      <Grid item>
           <h4 className="h2">Formations</h4>
         </Grid>
-        <Grid item xs={5}>
-          <Box
+        <Grid item>
+        <Box
             component="form"
             sx={{
               '& > :not(style)': { m: 1, width: '25ch' },
@@ -138,7 +145,7 @@ function Formations() {
           />
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 

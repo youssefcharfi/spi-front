@@ -15,6 +15,7 @@ import Etudiants from "../etudiants/Etudiants";
 
 function PromotionDetails() {
   const [promotion, setPromotion] = useState({});
+  const [universite, setUniversite] = useState(new Map());
   let navigate = useNavigate();
   useEffect(() => {
     axios
@@ -28,6 +29,15 @@ function PromotionDetails() {
         if (!err.response) navigate("/erreur.jsp");
         else if (err.response.status === 404) navigate("*", { replace: true });
       });
+    //////////////////////////////////
+    axios.get(`http://localhost:8034/domaine/universite`).then((res) => {
+      res.data.map((univ) =>
+        setUniversite(universite.set(univ.abreviation, univ.signification))
+      );
+      console.log("universite :>> ", res.data);
+      console.log("universite Keyed collections :>> ", universite);
+    });
+    ///////////////////////////////////////
   }, []);
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -95,7 +105,7 @@ function PromotionDetails() {
             ></Promotion>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <Candidats promotion={promotion} />
+            <Candidats promotion={promotion} universite={universite} />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
             <Etudiants etudiants={promotion.etudiants} />

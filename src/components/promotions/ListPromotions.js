@@ -13,6 +13,7 @@ import axios from "axios";
 import "toastr/build/toastr.css";
 import toastr from "toastr";
 import InfoIcon from '@mui/icons-material/Info';
+import ServerError from "../ServerError";
 
 const columns = ({ navigate }) => [
   {
@@ -36,7 +37,7 @@ const columns = ({ navigate }) => [
     field: "nbMaxEtudiant",
     headerName: "Max des étudiants",
     type: "string",
-    flex:0.3,
+    flex: 0.3,
   },
   {
     field: "dateReponseLp",
@@ -68,7 +69,7 @@ const columns = ({ navigate }) => [
     type: "string",
     flex: 0.3,
     valueGetter: (params) =>
-      params.row.processusStage != null ?  params.row.processusStage : "Pas de processus stage"
+      params.row.processusStage != null ? params.row.processusStage : "Pas de processus stage"
   },
 
   {
@@ -84,7 +85,7 @@ const columns = ({ navigate }) => [
             )
           }
         >
-          <InfoIcon fontSize="small"  color="primary"/> 
+          <InfoIcon fontSize="small" color="primary" />
         </IconButton>
       );
     },
@@ -94,6 +95,7 @@ const columns = ({ navigate }) => [
 const Promotion = () => {
   const [promo, setPromo] = useState([]);
   const [error, setError] = useState(false);
+  const [errorServer, setErrorServer] = useState(false)
   const [loading, setLoading] = useState(false);
   const { codeFormation } = useParams();
 
@@ -103,18 +105,13 @@ const Promotion = () => {
       .get(`http://localhost:8034/promotions/${codeFormation}`)
       .then((res) => {
         setLoading(false);
-        console.log("res :>> ", res);
-        if (res.data == undefined) {
-          navigate("*", { replace: true });
-        } else {
-          console.log(res.data);
-          setLoading(false);
-          setPromo(res.data);
-        }
-      }, [])
+        setErrorServer(false)
+        setError(false);
+        setPromo(res.data);
+      })
       .catch((err) => {
         setLoading(false);
-        if (!err.response) navigate("/erreur.jsp");
+        if (!err.response) setErrorServer(true);
         else if (err.response.status === 404) setError(true);
       });
   }, []);
@@ -144,35 +141,21 @@ const Promotion = () => {
   const handleReset = () => {
     form.resetFields();
   };
-  if (loading) return <Loader />;
-  if (error)
-    return (
-      <Error
-        message={
-          "Aucune promotion n'est disponible pour la formation " + codeFormation
-        }
-      />
-    );
+  if (loading) return <Loader />
+  if (error) return  <Error message={"Aucune promotion n'est disponible pour la formation " + codeFormation}/>
+  if(errorServer) return <ServerError/>
   return (
-    <Container style={{ height: 319}} maxWidth>
-      <Grid container sx={{ display: 'flex', justifyContent: 'space-between', mb: 4}}>
+    <Container style={{ height: 319 }} maxWidth>
+      <Grid container sx={{ display: 'flex', justifyContent: 'space-between', mb: 4 }}>
         <Grid item>
           <h4 className="h2">Promotion : {codeFormation}</h4>
         </Grid>
         <Grid item>
-        <Tooltip title="Ajouter" placement="bottom">
-          <IconButton aria-label="add">
-            <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
-          </IconButton>
-        </Tooltip>
-          {/* <AddBoxIcon fontSize="large" color="primary" onClick={showModal} style={{cursor:"pointer",float:"right"}}/> */}
-
-          {/* <Button
-            variant="contained"
-            onClick={() => navigate("/promotions/create")}
-          >
-            Ajouter Promotion
-          </Button> */}
+          <Tooltip title="Ajouter" placement="bottom">
+            <IconButton aria-label="add">
+              <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
+            </IconButton>
+          </Tooltip>
         </Grid>
       </Grid>
 
@@ -187,7 +170,6 @@ const Promotion = () => {
             visible={isModalVisible}
             cancelButtonProps={{ style: { display: "none" } }}
             okButtonProps={{ style: { display: "none" } }}
-            // onOk={handleOk}
             onCancel={handleCancel}
             width={1000}
           >
@@ -199,16 +181,10 @@ const Promotion = () => {
             />
           </Modal>
           <DataGrid
-            // getRowId={(id) => get(id, "codeFormation", cuid())}
             getRowId={(promo) => promo.anneeUniversitaire + promo.codeFormation}
             rows={promo}
             columns={columns({ navigate })}
             hideFooter="true"
-            // pageSize={10}
-            // rowsPerPageOptions=""
-            // options={{
-            //   paging: false,
-            // }}
           />
         </div>
       </div>

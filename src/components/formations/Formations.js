@@ -9,12 +9,15 @@ import Loader from "../shared/Loader";
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import IconButton from '@mui/material/IconButton';
 import { Tooltip } from "antd";
+import ServerError from '../ServerError'
 
 function Formations() {
 
   const [formations, setFormations] = useState([])
 
   const [formationsSearched, setFormationsSearched] = useState([])
+
+  const [errorServer, setErrorServer] = useState(false)
 
   const [loading, setLoading] = useState(false);
 
@@ -31,9 +34,13 @@ function Formations() {
         setFormations(res.data)
         setFormationsSearched(res.data)
         setLoading(false);
+        setErrorServer(false)
       })
       .catch((err) => {
-        if (!err.response) navigate("/erreur.jsp");
+        setLoading(false)
+        if (!err.response) {
+          setErrorServer(true)
+        }
         else if (err.response.status === 404) navigate("*", { replace: true });
 
       });
@@ -114,6 +121,7 @@ function Formations() {
     },
   ];
   if (loading) return <Loader />;
+  if(errorServer) return <ServerError/>;
   return (
     <Container style={{ height: 319 }} maxWidth>
       <Grid container sx={{ display: 'flex', justifyContent: 'space-between' }}>

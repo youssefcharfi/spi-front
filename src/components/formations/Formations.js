@@ -54,14 +54,14 @@ function Formations() {
       field: "codeFormation",
       headerName: "Code",
       type: "string",
-      minWidth: 100,
+      flex: 0.2,
       align: 'left',
     },
     {
       field:"diplome",
       headerName: "Diplome",
       type: "string",
-      width: 100,
+      flex: 0.2,
       valueGetter: (params) =>
         `${params.row.diplome || ""}` +
         `${params.row.n0Annee}`,
@@ -71,31 +71,31 @@ function Formations() {
       field: "nomFormation",
       headerName: "Nom formation",
       type: "string",
-      width: 430,
+      flex: 0.9,
     },
     {
       field: "doubleDiplome",
       headerName: "Double diplome",
       type: "string",
-      width: 120,
+      flex: 0.25,
       align: 'center',
     },
     {
       field: "debutAccreditation",
       headerName: "Début Accreditation",
       type: "string",
-      width: 150,
+      flex: 0.3,
     },
     {
       field: "finAccreditation",
       headerName: "Fin Accreditation",
       type: "string",
-      width: 150,
+      flex: 0.3,
     },
     {
       headerName: "Promotion",
       field: "jnjn",
-      width: 80,
+      flex: 0.2,
       renderCell: (params) => {
         return (
           <Tooltip title={params.row.codeFormation} placement="bottom">
@@ -114,8 +114,8 @@ function Formations() {
     },
   ];
   if (loading) return <Loader />;
-  return (  
-    <Container fixed style={{ height: 319}}>
+  return (
+    <Container style={{ height: 319}} maxWidth>
       <Grid container sx={{ display: 'flex', justifyContent: 'space-between'}}>
       <Grid item>
           <h4 className="h2">Formations</h4>

@@ -95,7 +95,7 @@ function PromotionDetails() {
             ></Promotion>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <Candidats candidats={promotion.candidats} />
+            <Candidats promotion={promotion} />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
             <Etudiants etudiants={promotion.etudiants} />

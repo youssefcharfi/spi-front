@@ -304,7 +304,7 @@ const Promotion = () => {
           <Modal
             title={
               <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-                Formulaire d'ajout étudiant
+                Formulaire d'ajout Promotion
               </h3>
             }
             visible={isModalVisible}
@@ -313,7 +313,7 @@ const Promotion = () => {
             // onOk={handleOk}
             onCancel={handleCancel}
           >
-            <CreatePromoPopUp />;
+            <CreatePromoPopUp codeFormation={codeFormation}/>;
           </Modal>
           <DataGrid
             // getRowId={(id) => get(id, "codeFormation", cuid())}

@@ -85,6 +85,7 @@ function AddCandidat({ codeFormation, anneeUniversitaire }) {
     axios
       .post(`http://localhost:8034/candidats`, candidat)
       .then((res) => {
+        toastr.info("Candidat : " + candidat.prenom + " " + candidat.nom+ " est ajouter avec succes", "Ajout Candidat")
         console.log("res: ", res);
         console.log("data: ", res.data);
         console.log("error: ", res.error);

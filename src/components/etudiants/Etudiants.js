@@ -33,6 +33,7 @@ export default function Etudiants({ etudiants }) {
           pageSize={5}
           getRowId={(row) => row.noEtudiant}
           rowsPerPageOptions={[5]}
+          style={{ height: "87%" }}
           //   checkboxSelection
         />
       ) : (
@@ -44,8 +45,8 @@ export default function Etudiants({ etudiants }) {
           justifyContent="center"
         >
           <Grid item xs={3}>
-            <Typography color="red" fontSize="30px">
-              il n y a pas d'étudiants' à afficher pour cette promotion
+            <Typography color="darkGray" fontSize="30px">
+            il n y a pas d'étudiants à afficher pour cette promotion
             </Typography>
           </Grid>
         </Grid>

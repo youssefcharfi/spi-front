@@ -31,19 +31,18 @@ function Promotion({ promotion }) {
         </div>
       </div>
       <hr />
-      {promotion.commentaire !== null ? (
-        <>
-          <div className="row">
-            <div className="col-sm-3">
-              <h6 className="mb-0">Commentaire</h6>
-            </div>
-            <div className="col-sm-9 text-secondary">
-              {promotion.commentaire}
-            </div>
+      <>
+        <div className="row">
+          <div className="col-sm-3">
+            <h6 className="mb-0">Commentaire</h6>
           </div>
-          <hr />
-        </>
-      ) : null}
+          <div className="col-sm-9 text-secondary">
+            {promotion.commentaire !== null ?
+              promotion.commentaire : "Pas de commentaire"}
+          </div>
+        </div>
+        <hr />
+      </>
       <div className="row">
         <div className="col-sm-3">
           <h6 className="mb-0">Date Rentrée</h6>
@@ -78,15 +77,17 @@ function Promotion({ promotion }) {
         <div className="col-sm-3">
           <h6 className="mb-0">Processus Stage</h6>
         </div>
-        <div className="col-sm-9 text-secondary">{promotion.git}</div>
+        <div className="col-sm-9 text-secondary">{promotion.processusStage !== null ?
+          promotion.processusStage : "Pas de processus de stage"}</div>
       </div>
       <hr />
       <div className="row">
         <div className="col-sm-3">
-          <h6 className="mb-0">Single Promotion</h6>
+          <h6 className="mb-0">Sigle Promotion</h6>
         </div>
         <div className="col-sm-9 text-secondary">
-          {promotion.siglePromotion}
+          {promotion.siglePromotion !== null ?
+            promotion.siglePromotion : "Pas de Sigle Promotion"}
         </div>
       </div>
     </div>

@@ -12,8 +12,10 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { Modal } from "antd";
 import AddCandidat from "./AddCandidat";
 import Tooltip from "@mui/material/Tooltip";
-function Candidats({ promotion, universite }) {
-  console.log(promotion.candidats);
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import toastr from "toastr";
+import { useConfirm } from "material-ui-confirm";
+function Candidats({ promotion, universite , setPromotion}) {
   //promotion.candidats = [];
   // const [universite, setUniversite] = useState(new Map());
   // useEffect(() => {
@@ -25,7 +27,7 @@ function Candidats({ promotion, universite }) {
   //     console.log("universite Keyed collections :>> ", universite);
   //   });
   // }, [universite]);
-
+  const confirm = useConfirm();
   const [candidats, setCandidats] = useState(promotion.candidats);
 
   const ajouterCandidat = (candidat) => {
@@ -101,6 +103,45 @@ function Candidats({ promotion, universite }) {
     setIsModalVisible(false);
   };
 
+
+  const enEtudiant = () => {
+    if(candidats.length > 0){
+      confirm({ cancellationText:"Non",confirmationText:"Oui",title:'Admision Candidats',description: `Est ce que vous voulez accepter les candidats de cette promotion ?` }).then(() =>{
+        axios
+        .post(`http://localhost:8034/promotions/${promotion.codeFormation}/${promotion.anneeUniversitaire}/accept`)
+        .then((res) => {
+          axios
+            .get(`http://localhost:8034/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`)
+            .then((res) => {
+              setPromotion(res.data);
+              setCandidats(res.data.candidats);
+            })
+            .catch((error) => {
+              toastr.error(error.response.data.errorMeassage, "Admission Candidats");
+            })
+          toastr.info("Vous avez bien acceptez les candidats de cette promotion","Admission Candidat")
+        })
+        .catch((error) => {
+          toastr.error(error.response.data.errorMeassage, "Admission Candidats");
+        });
+      }).catch(() => console.log("Deletion cancelled."));
+    }else{
+      toastr.info("Pas de candidats pour l'admission!","Admission Candidats")
+    }
+    
+
+    /*axios
+    .get(`http://localhost:8034/promotions/${promotion.codeFormation}/${promotion.anneeUniversitaire}`)
+    .then((res) => {
+      console.log("Candidat ");
+      console.log(res);
+      setCandidats(res.data.candidats);
+    })
+    .catch((error) => {
+      toastr.error(error.response.data.errorMeassage,"Erreur d'ajout");
+    });*/
+
+  }
   return (
     <div style={{ height: 429, width: "100%" }}>
       <Grid container spacing={2} alignItems="right" justifyContent="right">
@@ -110,7 +151,15 @@ function Candidats({ promotion, universite }) {
               fontSize="large"
               color="primary"
               onClick={showModal}
-              // onClick={() => navigate("/candidats/create")}
+            // onClick={() => navigate("/candidats/create")}
+            />
+          </IconButton>
+          <IconButton aria-label="add">
+            <ArrowCircleRightIcon
+              fontSize="large"
+              color="primary"
+              onClick={enEtudiant}
+            // onClick={() => navigate("/candidats/create")}
             />
           </IconButton>
         </Grid>
@@ -143,7 +192,7 @@ function Candidats({ promotion, universite }) {
           rowsPerPageOptions={[5]}
           getRowId={(row) => row.noCandidat}
           style={{ height: "87%" }}
-          //   checkboxSelection
+        //   checkboxSelection
         />
       ) : (
         <Grid

@@ -24,7 +24,6 @@ function PromotionDetails() {
       )
       .then((res) => {
         setPromotion(res.data);
-        console.log(res.data[0])
       })
       .catch((err) => {
         if (!err.response) navigate("/erreur.jsp");
@@ -106,7 +105,7 @@ function PromotionDetails() {
             ></Promotion>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <Candidats promotion={promotion} universite={universite} />
+            <Candidats promotion={promotion} universite={universite} setPromotion={setPromotion}/>
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
             <Etudiants etudiants={promotion.etudiants} />

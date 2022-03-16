@@ -13,6 +13,7 @@ import {
   Checkbox,
   Modal
 } from "antd";
+import InfoIcon from '@mui/icons-material/Info';
 import { useNavigate } from "react-router-dom";
 import 'toastr/build/toastr.css';
 import toastr from "toastr";
@@ -140,6 +141,12 @@ const recupererEnseignant = (enseignant) => {
               layout="vertical"
               initialValues={{ formation: "à recuperer" }}
             >
+              <Row>
+                <div className="alert alert-info">
+                <InfoIcon/>
+                  <span className="mx-2">la date de Rentree doit étre inferieure à la date de réponse de la liste principale inferieure à la date de réponse de la liste d'attente</span>
+                </div>
+              </Row>
               <Row justify="space-between">
                 <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                   <Item

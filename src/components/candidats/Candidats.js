@@ -146,22 +146,26 @@ function Candidats({ promotion, universite , setPromotion}) {
     <div style={{ height: 429, width: "100%" }}>
       <Grid container spacing={2} alignItems="right" justifyContent="right">
         <Grid item>
-          <IconButton aria-label="add">
-            <AddBoxIcon
-              fontSize="large"
-              color="primary"
-              onClick={showModal}
-            // onClick={() => navigate("/candidats/create")}
-            />
-          </IconButton>
-          <IconButton aria-label="add">
-            <ArrowCircleRightIcon
-              fontSize="large"
-              color="primary"
-              onClick={enEtudiant}
-            // onClick={() => navigate("/candidats/create")}
-            />
-          </IconButton>
+          <Tooltip title='Ajouter un candidat' placement="bottom">
+            <IconButton aria-label="add">
+              <AddBoxIcon
+                fontSize="large"
+                color="primary"
+                onClick={showModal}
+              // onClick={() => navigate("/candidats/create")}
+              />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Admission des candidats' placement="bottom">
+            <IconButton aria-label="add">
+              <ArrowCircleRightIcon
+                fontSize="large"
+                color="primary"
+                onClick={enEtudiant}
+              // onClick={() => navigate("/candidats/create")}
+              />
+            </IconButton>
+          </Tooltip>
         </Grid>
       </Grid>
       <Modal

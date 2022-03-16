@@ -103,9 +103,8 @@ function Candidats({ promotion, universite }) {
 
   return (
     <div style={{ height: 429, width: "100%" }}>
-      <Grid container spacing={2} columns={20}>
-        <Grid item xs={17}></Grid>
-        <Grid item xs={3}>
+      <Grid container spacing={2} alignItems="right" justifyContent="right">
+        <Grid item>
           <IconButton aria-label="add">
             <AddBoxIcon
               fontSize="large"

@@ -245,6 +245,7 @@ const Promotion = () => {
     axios
       .get(`http://localhost:8034/promotions/${codeFormation}`)
       .then((res) => {
+        setLoading(false)
         console.log("res :>> ", res);
         if (res.data == undefined) {
           navigate("*", { replace: true });
@@ -255,8 +256,9 @@ const Promotion = () => {
         }
       })
       .catch((err) => {
+        setLoading(false)
         if (!err.response) navigate("/erreur.jsp");
-        else if (err.response.status === 404) navigate("*", { replace: true });
+        else if (err.response.status === 404) setError(true);
 
       });
   }, []);
@@ -277,13 +279,13 @@ const Promotion = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  if (loading) return <Loader />;
-  if (error) return <Error />;
+  if (loading) return <Loader />
+  if (error) return <Error message={"Aucune promotion n'est disponible pour la formation "+codeFormation} />
   return (
     <div style={{ height: 400, width: "95%", margin: "50px" }}>
       <Grid container spacing={2} columns={20}>
         <Grid item xs={17}>
-          <h3 className="h1">Promotions DOSI</h3>
+          <h3 className="h1">Promotions {codeFormation}</h3>
         </Grid>
         <Grid item xs={3}>
           <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />

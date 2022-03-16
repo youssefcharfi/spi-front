@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useNavigate } from "react-router";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Loader from "../shared/Loader";
 
 function Formations() {
 
@@ -12,9 +13,11 @@ function Formations() {
 
   const [formationsSearched, setFormationsSearched] = useState([])
 
-  useEffect(()=>{
-    getFormations()
+  const [loading, setLoading] = useState(false);
 
+  useEffect(()=>{
+    setLoading(true);
+    getFormations()
   },[])
 
   let navigate = useNavigate()
@@ -24,8 +27,13 @@ function Formations() {
          .then(res => {
            setFormations(res.data)
            setFormationsSearched(res.data)
+           setLoading(false);
          })
-         .catch(err => console.log(err))
+         .catch((err) => {
+          if (!err.response) navigate("/erreur.jsp");
+          else if (err.response.status === 404) navigate("*", { replace: true });
+  
+        });
   } 
 
   const handleChange = (e) => {
@@ -52,14 +60,14 @@ function Formations() {
       width: 150,
       valueGetter: (params) =>
         `${params.row.diplome || ""}` +
-        `${params.row.noAnnee}`,
+        `${params.row.n0Annee}`,
     },
 
     {
       field: "nomFormation",
       headerName: "Nom",
       type: "string",
-      width: 200,
+      width: 450,
     },
     {
       field: "doubleDiplome",
@@ -80,7 +88,8 @@ function Formations() {
       width: 150,
     },
     {
-      field: "",
+      headerName: "",
+      field: "jnjn",
       width: 200,
       renderCell: (params) => {
         return (
@@ -97,7 +106,7 @@ function Formations() {
       },
     },
   ];
-
+  if (loading) return <Loader />;
   return (
     <div style={{ height: 400, width: "95%", margin: "50px" }}>
       <Grid container columns={20}>
@@ -113,7 +122,7 @@ function Formations() {
             noValidate
             autoComplete="off"
           >
-            <TextField id="outlined-basic" label="Chercher par code/libele" variant="outlined" onChange={(e)=>handleChange(e)}/>
+            <TextField id="outlined-basic" label="Chercher par Code/Nom" variant="outlined" onChange={(e)=>handleChange(e)}/>
           </Box>
         </Grid>
       </Grid>
@@ -123,10 +132,9 @@ function Formations() {
           <DataGrid
             rows={formations}
             columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
+            pageSize={formations.length}
+            rowsPerPageOptions={[formations.length]}
             getRowId={(row) => row.codeFormation}
-          //   checkboxSelection
           />
         </div>
       </div>

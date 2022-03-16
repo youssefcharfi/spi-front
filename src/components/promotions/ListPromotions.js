@@ -9,154 +9,9 @@ import Loader from "../shared/Loader";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { Modal } from "antd";
 import axios from "axios";
+import 'toastr/build/toastr.css';
+import toastr from "toastr";
 
-// const rows = [
-//   {
-//     id: {
-//       anneeUniversitaire: "2013-2014",
-//       codeFormation: "M2DOSI",
-//     },
-//     commentaire: null,
-//     dateRentree: "2013-09-07",
-//     dateReponseLalp: "1999-05-05",
-//     dateReponseLp: "2013-05-04",
-//     lieuRentree: "LC117B",
-//     nbMaxEtudiant: 25,
-//     processusStage: "EC",
-//     siglePromotion: "DOSI4",
-//     enseignant: {
-//       noEnseignant: 0,
-//       adresse: "Iure ut ut aliquam e",
-//       codePostal: "13",
-//       emailPerso: "ryvycyj@mailinator.com",
-//       emailUbo: "kykynu@mailinator.com",
-//       mobile: "+33615469821",
-//       nom: "Minus saepe perspici",
-//       pays: "Maroc",
-//       prenom: "Culpa soluta quas e",
-//       sexe: "H",
-//       telephone: "+33615469821",
-//       type: null,
-//       ville: "Fes",
-//     },
-//   },
-//   {
-//     id: {
-//       anneeUniversitaire: "2021-2024",
-//       codeFormation: "M2DOSI",
-//     },
-//     commentaire: null,
-//     dateRentree: "2013-09-07",
-//     dateReponseLalp: "1999-05-05",
-//     dateReponseLp: "2013-05-04",
-//     lieuRentree: "LC117B",
-//     nbMaxEtudiant: 25,
-//     processusStage: "EC",
-//     siglePromotion: "DOSI4",
-//     enseignant: {
-//       noEnseignant: 0,
-//       adresse: "Iure ut ut aliquam e",
-//       codePostal: "13",
-//       emailPerso: "ryvycyj@mailinator.com",
-//       emailUbo: "kykynu@mailinator.com",
-//       mobile: "+33615469821",
-//       nom: "Minus saepe perspici",
-//       pays: "Maroc",
-//       prenom: "Culpa soluta quas e",
-//       sexe: "H",
-//       telephone: "+33615469821",
-//       type: null,
-//       ville: "Fes",
-//     },
-//   },
-//   {
-//     id: {
-//       anneeUniversitaire: "2017-2018",
-//       codeFormation: "M2DOSI3",
-//     },
-//     commentaire: null,
-//     dateRentree: "2013-09-07",
-//     dateReponseLalp: "1999-05-05",
-//     dateReponseLp: "2013-05-04",
-//     lieuRentree: "LC117B",
-//     nbMaxEtudiant: 25,
-//     processusStage: "EC",
-//     siglePromotion: "DOSI4",
-//     enseignant: {
-//       noEnseignant: 0,
-//       adresse: "Iure ut ut aliquam e",
-//       codePostal: "13",
-//       emailPerso: "ryvycyj@mailinator.com",
-//       emailUbo: "kykynu@mailinator.com",
-//       mobile: "+33615469821",
-//       nom: "Minus saepe perspici",
-//       pays: "Maroc",
-//       prenom: "Culpa soluta quas e",
-//       sexe: "H",
-//       telephone: "+33615469821",
-//       type: null,
-//       ville: "Fes",
-//     },
-//   },
-//   {
-//     id: {
-//       anneeUniversitaire: "2019-2020",
-//       codeFormation: "M2DOSI6",
-//     },
-//     commentaire: null,
-//     dateRentree: "2013-09-07",
-//     dateReponseLalp: "1999-05-05",
-//     dateReponseLp: "2013-05-04",
-//     lieuRentree: "LC117B",
-//     nbMaxEtudiant: 25,
-//     processusStage: "EC",
-//     siglePromotion: "DOSI4",
-//     enseignant: {
-//       noEnseignant: 0,
-//       adresse: "Iure ut ut aliquam e",
-//       codePostal: "13",
-//       emailPerso: "ryvycyj@mailinator.com",
-//       emailUbo: "kykynu@mailinator.com",
-//       mobile: "+33615469821",
-//       nom: "Minus saepe perspici",
-//       pays: "Maroc",
-//       prenom: "Culpa soluta quas e",
-//       sexe: "H",
-//       telephone: "+33615469821",
-//       type: null,
-//       ville: "Fes",
-//     },
-//   },
-//   {
-//     id: {
-//       annee_Universitaire: "2021-2022",
-//       code_Formation: "M2DOSI7",
-//     },
-//     commentaire: null,
-//     date_Rentree: "2013-09-07",
-//     date_Reponse_Lalp: "1999-05-05",
-//     date_Reponse_Lp: "2013-05-04",
-//     lieu_Rentree: "LC117B",
-//     nb_Max_Etudiant: 25,
-//     processus_Stage: "EC",
-//     sigle_Promotion: "DOSI4",
-//     enseignant: {
-//       no_Enseignant: 0,
-//       adresse: "Iure ut ut aliquam e",
-//       code_Postal: "13",
-//       email_Perso: "ryvycyj@mailinator.com",
-//       email_Ubo: "kykynu@mailinator.com",
-//       mobile: "+33615469821",
-//       nom: "Minus saepe perspici",
-//       pays: "Maroc",
-//       prenom: "Culpa soluta quas e",
-//       sexe: "H",
-//       telephone: "+33615469821",
-//       type: null,
-//       ville: "Fes",
-//     },
-//   },
-// ];
 
 const columns = ({ navigate }) => [
   {
@@ -172,8 +27,8 @@ const columns = ({ navigate }) => [
     type: "string",
     width: 300,
     valueGetter: (params) =>
-      `${params.row.enseignantByNoEnseignant.nom || ""}` +
-      ` ${params.row.enseignantByNoEnseignant.prenom}`,
+      `${params.row?.enseignantByNoEnseignant.nom || ""}` +
+      ` ${params.row?.enseignantByNoEnseignant.prenom}`,
   },
 
   {
@@ -237,7 +92,6 @@ const Promotion = () => {
   const [promo, setPromo] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const { codeFormation } = useParams()
 
   useEffect(() => {
@@ -254,7 +108,7 @@ const Promotion = () => {
           setLoading(false);
           setPromo(res.data);
         }
-      })
+      },[])
       .catch((err) => {
         setLoading(false)
         if (!err.response) navigate("/erreur.jsp");
@@ -263,6 +117,10 @@ const Promotion = () => {
       });
   }, []);
 
+  const ajoutPromo = (promotion) => {
+    setPromo([promotion, ...promo]);
+    toastr.info("Promotion à été ajouter avec succeés");
+  }
 
   const navigate = useNavigate();
 
@@ -275,10 +133,15 @@ const Promotion = () => {
   // const handleOk = () => {
   //   setIsModalVisible(false);
   // };
-
+  const [form, setForm] = useState({});
+  
   const handleCancel = () => {
     setIsModalVisible(false);
+    form.resetFields();
   };
+  const handleReset = () => {
+    form.resetFields();
+  }
   if (loading) return <Loader />
   if (error) return <Error message={"Aucune promotion n'est disponible pour la formation "+codeFormation} />
   return (
@@ -288,7 +151,7 @@ const Promotion = () => {
           <h3 className="h1">Promotions {codeFormation}</h3>
         </Grid>
         <Grid item xs={3}>
-          <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
+          <AddBoxIcon fontSize="large" color="primary" onClick={showModal} style={{cursor:"pointer",float:"right"}}/>
 
           {/* <Button
             variant="contained"
@@ -312,8 +175,9 @@ const Promotion = () => {
             okButtonProps={{ style: { display: "none" } }}
             // onOk={handleOk}
             onCancel={handleCancel}
+            width={1000}
           >
-            <CreatePromoPopUp codeFormation={codeFormation}/>;
+            <CreatePromoPopUp codeFormation={codeFormation} ajoutPromo={ajoutPromo} formulaire={setForm} resetForm={handleReset}/>
           </Modal>
           <DataGrid
             // getRowId={(id) => get(id, "codeFormation", cuid())}

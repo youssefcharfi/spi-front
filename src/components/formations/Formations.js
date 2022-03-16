@@ -18,32 +18,32 @@ function Formations() {
 
   const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(true);
     getFormations()
-  },[])
+  }, [])
 
   let navigate = useNavigate()
 
   const getFormations = () => {
     axios.get("http://localhost:8034/formations")
-         .then(res => {
-           setFormations(res.data)
-           setFormationsSearched(res.data)
-           setLoading(false);
-         })
-         .catch((err) => {
-          if (!err.response) navigate("/erreur.jsp");
-          else if (err.response.status === 404) navigate("*", { replace: true });
-  
-        });
-  } 
+      .then(res => {
+        setFormations(res.data)
+        setFormationsSearched(res.data)
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (!err.response) navigate("/erreur.jsp");
+        else if (err.response.status === 404) navigate("*", { replace: true });
+
+      });
+  }
 
   const handleChange = (e) => {
 
     let search = e.target.value
-    if(search.split(' ').join('') !== ""){
-      setFormations(formationsSearched.filter(formation => formation.codeFormation.toLowerCase().includes(search.toLowerCase()) || formation.nomFormation.toLowerCase().includes(search.toLowerCase()) ))
+    if (search.split(' ').join('') !== "") {
+      setFormations(formationsSearched.filter(formation => formation.codeFormation.toLowerCase().includes(search.toLowerCase()) || formation.nomFormation.toLowerCase().includes(search.toLowerCase())))
     }
     else setFormations(formationsSearched)
   }
@@ -58,7 +58,7 @@ function Formations() {
       align: 'left',
     },
     {
-      field:"diplome",
+      field: "diplome",
       headerName: "Diplome",
       type: "string",
       flex: 0.2,
@@ -100,13 +100,13 @@ function Formations() {
         return (
           <Tooltip title={params.row.codeFormation} placement="bottom">
             <IconButton
-            onClick={() =>
-              navigate(
-                `/promotions/${params.row.codeFormation}`
-              )
-            }
+              onClick={() =>
+                navigate(
+                  `/promotions/${params.row.codeFormation}`
+                )
+              }
             >
-              <FormatListBulletedIcon fontSize="small"  color="primary"/> 
+              <FormatListBulletedIcon fontSize="small" color="primary" />
             </IconButton>
           </Tooltip>
         );
@@ -115,13 +115,13 @@ function Formations() {
   ];
   if (loading) return <Loader />;
   return (
-    <Container style={{ height: 319}} maxWidth>
-      <Grid container sx={{ display: 'flex', justifyContent: 'space-between'}}>
-      <Grid item>
+    <Container style={{ height: 319 }} maxWidth>
+      <Grid container sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Grid item>
           <h4 className="h2">Formations</h4>
         </Grid>
         <Grid item>
-        <Box
+          <Box
             component="form"
             sx={{
               '& > :not(style)': { m: 1, width: '25ch' },
@@ -129,7 +129,7 @@ function Formations() {
             noValidate
             autoComplete="off"
           >
-            <TextField id="outlined-basic" label="Chercher par Code/Nom" variant="outlined" onChange={(e)=>handleChange(e)}/>
+            <TextField id="outlined-basic" label="Chercher par Code/Nom" variant="outlined" onChange={(e) => handleChange(e)} />
           </Box>
         </Grid>
       </Grid>

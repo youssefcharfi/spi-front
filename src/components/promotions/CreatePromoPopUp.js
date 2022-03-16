@@ -13,6 +13,7 @@ import {
   Checkbox,
   Modal
 } from "antd";
+import { useNavigate } from "react-router-dom";
 import 'toastr/build/toastr.css';
 import toastr from "toastr";
 import axios from "axios";
@@ -31,6 +32,7 @@ const rulesInteger = [{ required: true, message: "champs obligatoire!" },{
 }]
 
 function CreatePromoPopUp({codeFormation, ajoutPromo, formulaire,resetForm}) {
+  let navigate = useNavigate();
   const [form] = Form.useForm();
   formulaire(form);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -65,10 +67,8 @@ function CreatePromoPopUp({codeFormation, ajoutPromo, formulaire,resetForm}) {
     axios
       .post(`http://localhost:8034/promotions/`, values)
       .then((res) => {
-        ajoutPromo(res.data);
-        console.log("res: ", res);
-        console.log("data: ", res.data);
-        console.log("error: ", res.error);
+        //ajoutPromo(res.data);
+        navigate(`/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`)
       })
       .catch((error) => {
         toastr.error(error.response.data.errorMeassage,"Erreur d'ajout");

@@ -23,6 +23,7 @@ function PromotionDetails() {
       )
       .then((res) => {
         setPromotion(res.data);
+        console.log(res.data[0])
       })
       .catch((err) => {
         if (!err.response) navigate("/erreur.jsp");

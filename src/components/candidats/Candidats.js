@@ -9,6 +9,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 //import { useNavigate } from "react-router-dom";
 import { Modal } from "antd";
 import AddCandidat from "./AddCandidat";
+
 function Candidats({ promotion }) {
   console.log(promotion.candidats);
   //promotion.candidats = [];

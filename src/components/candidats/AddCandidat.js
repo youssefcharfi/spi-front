@@ -14,6 +14,8 @@ import {
 // import get from "lodash/get";
 // import moment from "moment";
 import dateFormat from "dateformat";
+import "toastr/build/toastr.css"
+import toastr from "toastr";
 import axios from "axios";
 //import isEmail from "Validator/lib/isEmail";
 
@@ -22,7 +24,7 @@ const { Option } = Select;
 
 //const rules = [{ required: true, message: "champs obligatoire!!" }];
 
-function AddCandidat({ codeFormation, anneeUniversitaire, ajouterCandidat }) {
+function AddCandidat({ codeFormation, anneeUniversitaire }) {
   const [form] = Form.useForm();
   const [messageErreur, setMessageErreur] = useState("");
   const rules = [{ required: true, message: "champs obligatoire!!" }];
@@ -86,10 +88,10 @@ function AddCandidat({ codeFormation, anneeUniversitaire, ajouterCandidat }) {
         console.log("res: ", res);
         console.log("data: ", res.data);
         console.log("error: ", res.error);
-        ajouterCandidat(res.data);
       })
       .catch((error) => {
         setMessageErreur(error.response.data.errorMeassage);
+        toastr.error(error.response.data.errorMeassage,"Erreur d'Ajout")
         console.log(
           "error message errorMeassage ",
           error.response.data.errorMeassage

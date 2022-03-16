@@ -130,8 +130,8 @@ function SideBar() {
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
-          <img height="70px" width="90px" src="https://www.cmibrest.fr/sites/mobilite-brest.ueb.eu/files/styles/large/public/UBO.gif?itok=CHTFJbWk"/> <Typography style={{float:'left', fontSize:'22px'}}>SPI APP</Typography> 
+        <DrawerHeader style={{justifyContent:'center'}}>
+          <img height="90px" width="90px" src="https://www.cmibrest.fr/sites/mobilite-brest.ueb.eu/files/styles/large/public/UBO.gif?itok=CHTFJbWk"/>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />

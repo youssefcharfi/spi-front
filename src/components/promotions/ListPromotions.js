@@ -66,6 +66,8 @@ const columns = ({ navigate }) => [
     headerName: "Processus Stage",
     type: "string",
     width: 200,
+    valueGetter: (params) =>
+      params.row.processusStage != null ?  params.row.processusStage : "Pas de processus stage"
   },
 
   {

@@ -19,6 +19,9 @@ import toastr from "toastr";
 import axios from "axios";
 //import isEmail from "Validator/lib/isEmail";
 import ReplayIcon from "@mui/icons-material/Replay";
+/////////////////////////////////////::
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 const { Item } = Form;
 const { Option } = Select;
 
@@ -52,9 +55,8 @@ function AddCandidat({
     },
   };
   const rulesInteger = [
-    { required: true, message: "${label} est un champs obligatoire!" },
     {
-      pattern: "^[0-9]{9,9}$",
+      pattern: "^[+][0-9]{7,12}$",
       message: "${label} n'est pas valide!",
     },
   ];
@@ -108,8 +110,8 @@ function AddCandidat({
     const telephoneWithPrefix = values.prefix + values.telephone;
     const candidat = {
       ...values,
-      telephone: telephoneWithPrefix,
-      mobile: mobileWithPrefix,
+      //telephone: telephoneWithPrefix,
+      //mobile: mobileWithPrefix,
       codeFormation: codeFormation,
       anneeUniversitaire: anneeUniversitaire,
       dateNaissance: dateNaissanceFormatee,
@@ -220,13 +222,22 @@ function AddCandidat({
                   >
                     <Input size="large" />
                   </Item>
-                  <Form.Item label="Mobile" name="mobile" rules={rulesInteger}>
-                    <Input
+                  <Form.Item
+                    label="Mobile"
+                    name="mobile"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                      { rulesInteger },
+                    ]}
+                  >
+                    {/* <Input
                       addonBefore={prefixSelector}
                       style={{ width: "100%" }}
-                    />
+                    /> */}
+                    <PhoneInput placeholder="" />
                   </Form.Item>
-
                   <Item
                     label="Email"
                     name="email"
@@ -316,7 +327,7 @@ function AddCandidat({
                     </Select>
                   </Item>
 
-                  <Item
+                  {/* <Item
                     label="Telephone"
                     name="telephone"
                     rules={[
@@ -330,6 +341,13 @@ function AddCandidat({
                       addonBefore={prefixSelector}
                       style={{ width: "100%" }}
                     />
+                  </Item> */}
+                  <Item label="Telephone" name="telephone" rules={rulesInteger}>
+                    {/* <Input
+                      addonBefore={prefixSelector}
+                      style={{ width: "100%" }}
+                    /> */}
+                    <PhoneInput placeholder="" />
                   </Item>
 
                   <Item

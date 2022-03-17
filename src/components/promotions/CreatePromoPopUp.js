@@ -33,7 +33,7 @@ const rulesInteger = [
   { required: true, message: "champs obligatoire!" },
   {
     pattern: "^([1-9]|[1-9][0-9]|1[01][0-9]|12[0-7])$",
-    message: "Saisissez un entier entre 0 et 127",
+    message: "Saisissez un entier entre 1 et 127",
   }
 ];
 

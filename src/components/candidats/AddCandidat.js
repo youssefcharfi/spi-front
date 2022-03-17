@@ -62,8 +62,8 @@ function AddCandidat({
 
   const prefixSelector = (
     <Item name="prefix" noStyle>
-      <Select style={{ width: 80 }}>
-        <Option value="33" key="+33" selected="true">
+      <Select defaultValue="+33">
+        <Option value="+33" key="+33">
           +33
         </Option>
         <Option value="+212" key="212">

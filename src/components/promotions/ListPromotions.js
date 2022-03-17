@@ -165,7 +165,7 @@ const Promotion = () => {
           <Modal
             title={
               <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-                Formulaire d'ajout Promotion
+                Ajouter une Promotion
               </h3>
             }
             visible={isModalVisible}

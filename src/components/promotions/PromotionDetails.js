@@ -40,7 +40,7 @@ function PromotionDetails() {
       })
       .catch((err) => {
         setLoading(false)
-        if (!err.response) {
+        if (!err.response || err.response.status === 500) {
           setNotFound(false)
           setErrorServer(true)
         }

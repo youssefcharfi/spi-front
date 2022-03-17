@@ -38,7 +38,7 @@ function Formations() {
       })
       .catch((err) => {
         setLoading(false)
-        if (!err.response) {
+        if (!err.response || err.response.status === 500) {
           setErrorServer(true)
         }
         else if (err.response.status === 404) navigate("*", { replace: true });
@@ -131,7 +131,7 @@ function Formations() {
           <Box
             component="form"
             sx={{
-              '& > :not(style)': { m: 1, width: '26ch' },
+              '& > :not(style)': { m: 1, width: '25ch' },
             }}
             noValidate
             autoComplete="off"

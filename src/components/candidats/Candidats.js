@@ -195,7 +195,7 @@ function Candidats({ promotion, universite, setPromotion }) {
     <div style={{ height: 429, width: "100%" }}>
       <Grid container spacing={2} alignItems="right" justifyContent="right">
         <Grid item>
-            <TextField margin="" id="outlined-basic" label="Chercher par Nom/Prénom" variant="outlined" onChange={(e) => handleChange(e)} />
+            <TextField id="outlined-basic" label="Chercher par Nom/Prénom" variant="outlined" onChange={(e) => handleChange(e)} />
           <Tooltip title="Ajouter un candidat" placement="bottom">
             <IconButton aria-label="add">
               <AddBoxIcon

@@ -151,7 +151,7 @@ const Promotion = () => {
           <h4 className="h2">Promotion : {codeFormation}</h4>
         </Grid>
         <Grid item>
-          <Tooltip title="Ajouter une promotion" placement="bottom">
+          <Tooltip title="Ajouter" placement="bottom">
             <IconButton aria-label="add">
               <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
             </IconButton>

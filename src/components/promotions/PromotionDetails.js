@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
@@ -13,22 +13,38 @@ import Candidats from "../candidats/Candidats";
 import axios from "axios";
 import Etudiants from "../etudiants/Etudiants";
 import { Container } from "@mui/material";
+import Loader from "../shared/Loader";
+import ServerError from "../ServerError";
+import Error from "../shared/Error";
 
 function PromotionDetails() {
+
+
   const [promotion, setPromotion] = useState({});
   const [universite, setUniversite] = useState(new Map());
-  let navigate = useNavigate();
+  const [errorServer, setErrorServer] = useState(false)
+  const [notFound, setNotFound] = useState(false)
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     axios
       .get(
         `http://localhost:8034/promotions/${codeFormation}/${anneeUniversitaire}`
       )
       .then((res) => {
         setPromotion(res.data);
+        setLoading(false);
+        setErrorServer(false)
+        setNotFound(false)
       })
       .catch((err) => {
-        if (!err.response) navigate("/erreur.jsp");
-        else if (err.response.status === 404) navigate("*", { replace: true });
+        setLoading(false)
+        if (!err.response) {
+          setNotFound(false)
+          setErrorServer(true)
+        }
+        else if (err.response.status === 404) setNotFound(true);
       });
     //////////////////////////////////
     axios.get(`http://localhost:8034/domaine/universite`).then((res) => {
@@ -52,6 +68,11 @@ function PromotionDetails() {
   };
 
   const { codeFormation, anneeUniversitaire } = useParams();
+
+
+  if (loading) return <Loader />
+  if(errorServer) return <ServerError/>
+  if(notFound) return <Error message={`Promotion ${codeFormation} ${anneeUniversitaire} n'éxiste pas`}/>
 
   return (
     <>

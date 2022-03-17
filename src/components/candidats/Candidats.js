@@ -256,7 +256,7 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
       <Modal
         title={
           <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-            Formulaire d'ajout candidat
+            Ajouter un Candidat
           </h3>
         }
         visible={isModalVisible}

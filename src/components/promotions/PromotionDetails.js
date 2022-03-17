@@ -76,7 +76,7 @@ function PromotionDetails() {
 
   return (
     <>
-      <Container maxWidth style={{ height: 429}}>
+      <Container maxWidth style={{ height: 450}}>
         <div id="card2" className="p-1 mt-1 text-center mb-3 card">
           <div className="card-body">
             <h5

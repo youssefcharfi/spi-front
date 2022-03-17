@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 
 export default function Etudiants({ etudiants }) {
   const columns = [
-    { field: "noEtudiant", headerName: "Numero Etudiant", flex: 0.3 },
+    { field: "noEtudiant", headerName: "Numéro", flex: 0.3 },
     { field: "nom", headerName: "Nom", flex: 0.4},
     { field: "prenom", headerName: "Prenom", flex: 0.3 },
     { field: "mobile", headerName: "mobile", flex: 0.4 },
@@ -14,15 +14,15 @@ export default function Etudiants({ etudiants }) {
     {
       field: "universiteOrigine",
       headerName: "Universite d'origine",
-      flex: 0.35,
+      flex: 0.4,
       align: "center",
     },
-    { field: "groupeTp", headerName: "Groupe TP", type: Number, flex: 0.2, align: "center" },
+    { field: "groupeTp", headerName: "Groupe TP", type: Number, flex: 0.25, align: "center" },
     {
       field: "groupeAnglais",
       headerName: "Groupe Anglais",
       type: Number,
-      flex: 0.25,
+      flex: 0.3,
       align: "center"
     },
   ];

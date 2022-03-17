@@ -137,7 +137,7 @@ function Formations() {
             noValidate
             autoComplete="off"
           >
-            <TextField id="outlined-basic" label="Chercher par Code/Nom" variant="outlined" onChange={(e) => handleChange(e)} />
+            <TextField id="outlined-basic" size="small" label="Chercher par Code/Nom" variant="outlined" onChange={(e) => handleChange(e)} />
           </Box>
         </Grid>
       </Grid>

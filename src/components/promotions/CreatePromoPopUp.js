@@ -179,9 +179,11 @@ function CreatePromoPopUp({
                 <div className="alert alert-info">
                   <InfoIcon />
                   <span className="mx-2">
-                    la date de Rentree doit étre inferieure à la date de réponse
-                    de la liste principale inferieure à la date de réponse de la
-                    liste d'attente
+                    la date de Rentrée doit etre postérieure aux dates de reponse LALP et LP. 
+                  </span><br/>
+                  <InfoIcon />
+                  <span className="mx-2">
+                   la date de réponse LALP doit etre postérieure à la date de réponse LP.
                   </span>
                 </div>
               </Row>
@@ -238,7 +240,7 @@ function CreatePromoPopUp({
                   </Item>
 
                   <Item
-                    label="Date Reponse La lp"
+                    label="Date Reponse LALP"
                     name="dateReponseLalp"
                     rules={rules}
                   >

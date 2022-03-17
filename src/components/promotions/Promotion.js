@@ -37,8 +37,7 @@ function Promotion({ promotion }) {
             <h6 className="mb-0">Commentaire</h6>
           </div>
           <div className="col-sm-9 text-secondary">
-            {promotion.commentaire !== null ?
-              promotion.commentaire : "Pas de commentaire"}
+            {promotion.commentaire}
           </div>
         </div>
         <hr />
@@ -77,8 +76,7 @@ function Promotion({ promotion }) {
         <div className="col-sm-3">
           <h6 className="mb-0">Processus Stage</h6>
         </div>
-        <div className="col-sm-9 text-secondary">{promotion.processusStage !== null ?
-          promotion.processusStage : "Pas de processus de stage"}</div>
+        <div className="col-sm-9 text-secondary">{promotion.processusStage}</div>
       </div>
       <hr />
       <div className="row">
@@ -86,8 +84,7 @@ function Promotion({ promotion }) {
           <h6 className="mb-0">Sigle Promotion</h6>
         </div>
         <div className="col-sm-9 text-secondary">
-          {promotion.siglePromotion !== null ?
-            promotion.siglePromotion : "Pas de Sigle Promotion"}
+          {promotion.siglePromotion}
         </div>
       </div>
     </div>

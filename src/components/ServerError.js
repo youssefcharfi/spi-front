@@ -16,13 +16,13 @@ function ServerError() {
       </Grid>
       <Grid item >
         <Typography color="error" fontSize="40px" textAlign="center">
-          404 Page Introuvable
+        500 Erreur de serveur
         </Typography>
         <Typography color="#1d1d1d" fontSize="25px" textAlign="center" >
         Désolé, on est un peu perdu
         </Typography>
         <Typography color="#1d1d1d" fontSize="15px" textAlign="center" style={{opacity:0.7}}>
-        le serveur a rencontré une erreur temporaire et n'a pas pu terminer votre demande.
+        le serveur a rencontré une erreur temporaire et n'a pas pu traiter votre demande.
         <br></br>
         Veuillez réessayer plus tard.
         </Typography>

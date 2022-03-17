@@ -234,9 +234,12 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
                 margin=""
                 size="small"
                 id="outlined-basic"
-                label="Chercher par Nom/Prénom"
+                label="Chercher par Nom ou Prénom"
                 variant="outlined"
                 onChange={(e) => handleChange(e)}
+                sx={{
+                  '& > :not(style)': { width: '28ch' },
+                }}
               />
             </Grid>
             <Grid item>

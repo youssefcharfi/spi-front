@@ -132,12 +132,12 @@ function Formations() {
           <Box
             component="form"
             sx={{
-              '& > :not(style)': { m: 1, width: '25ch' },
+              '& > :not(style)': { m: 1, width: '27ch' },
             }}
             noValidate
             autoComplete="off"
           >
-            <TextField id="outlined-basic" size="small" label="Chercher par Code/Nom" variant="outlined" onChange={(e) => handleChange(e)} />
+            <TextField id="outlined-basic" size="small" label="Chercher par Code ou Nom" variant="outlined" onChange={(e) => handleChange(e)} />
           </Box>
         </Grid>
       </Grid>

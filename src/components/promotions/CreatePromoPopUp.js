@@ -265,7 +265,7 @@ function CreatePromoPopUp({
               </Row>
               <Item name="processusStage">
                 <Checkbox id="processusStage" onChange={handleChangeProcessus}>
-                  Avec ou Sans Stage
+                  Stage
                 </Checkbox>
               </Item>
               <Item label="Commentaire" name="commentaire">

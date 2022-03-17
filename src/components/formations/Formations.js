@@ -105,7 +105,7 @@ function Formations() {
       flex: 0.2,
       renderCell: (params) => {
         return (
-          <Tooltip title={params.row.codeFormation} placement="bottom">
+          <Tooltip title={params.row.codeFormation} placement="right">
             <IconButton
               onClick={() =>
                 navigate(

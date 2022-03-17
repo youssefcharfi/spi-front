@@ -112,7 +112,7 @@ const Promotion = () => {
       })
       .catch((err) => {
         setLoading(false);
-        if (!err.response) setErrorServer(true);
+        if (!err.response || err.response.status === 500) setErrorServer(true);
         else if (err.response.status === 404) setError(true);
       });
   }, []);

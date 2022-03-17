@@ -54,7 +54,7 @@ function AddCandidat({
     { required: true, message: "${label} est un champs obligatoire!" },
     {
       pattern: "^[0-9]{9,9}$",
-      message: "${label} n'est pas valid!",
+      message: "${label} n'est pas valide!",
     },
   ];
 
@@ -89,7 +89,7 @@ function AddCandidat({
       })
       .catch((errorInfo) => {});
   };
-  //var ajoutConfirma
+  var ajoutConfirmationError = false;
   const onFinishReAdd = (values) => {
     // const {
     //   // anneeUniversitaire,
@@ -141,12 +141,13 @@ function AddCandidat({
           "error message errorMeassage ",
           error.response.data.errorMeassage
         );
+        ajoutConfirmationError = true;
       });
   };
 
   const onFinish = (values) => {
     onFinishReAdd(values);
-    fermerPopUp();
+    if (!ajoutConfirmationError) fermerPopUp();
   };
   return (
     <div className="container__antd p-top-20">
@@ -308,7 +309,7 @@ function AddCandidat({
 
                       {
                         pattern: "^[a-zA-Z]{1,5}$",
-                        message: "${label} n'est pas valid!",
+                        message: "${label} n'est pas valide!",
                       },
                     ]}
                   >
@@ -321,7 +322,7 @@ function AddCandidat({
                     rules={[
                       {
                         pattern: "^[0-9]{9,9}$",
-                        message: "${label} n'est pas valid!",
+                        message: "${label} n'est pas valide!",
                       },
                     ]}
                   >
@@ -349,9 +350,8 @@ function AddCandidat({
                     name="codePostal"
                     rules={[
                       {
-                        required: true,
-                        pattern: "^[0-9a-zA-Z]{5,8}$",
-                        message: "${label} est non valid",
+                        pattern: "^[0-9a-zA-Z]{0,5}$",
+                        message: "${label} est non valide",
                       },
                     ]}
                   >
@@ -399,7 +399,7 @@ function AddCandidat({
                   className="btn btn-primary mx-2"
                   style={{ float: "right" }}
                 >
-                  AJOUTER
+                  Ajouter
                 </button>
                 <button
                   type="button"
@@ -408,7 +408,7 @@ function AddCandidat({
                   className="btn btn-primary mx-2"
                   style={{ float: "right" }}
                 >
-                  REAJOUTER
+                  Reajouter
                 </button>
               </Row>
             </Form>

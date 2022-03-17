@@ -13,7 +13,7 @@ function PageNotFound() {
     >
       <Grid item xs={3}>
         <Typography color="red" fontSize="30px">
-          404 Page Not Found
+          404 Page Introuvable
         </Typography>
       </Grid>
     </Grid>

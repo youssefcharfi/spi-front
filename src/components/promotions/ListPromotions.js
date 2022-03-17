@@ -77,6 +77,7 @@ const columns = ({ navigate }) => [
     headerName: "details",
     field: "detail",
     flex: 0.20,
+    align: "center",
     renderCell: (params) => {
       return (
         <IconButton

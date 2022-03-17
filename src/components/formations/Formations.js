@@ -102,6 +102,7 @@ function Formations() {
       headerName: "Promotion",
       field: "jnjn",
       flex: 0.2,
+      align: "center",
       renderCell: (params) => {
         return (
           <Tooltip title={params.row.codeFormation} placement="right">

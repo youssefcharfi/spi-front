@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import { Container, Grid } from "@mui/material";
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
@@ -15,12 +16,9 @@ import Tooltip from "@mui/material/Tooltip";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 function Candidats({ promotion, universite, setPromotion }) {
-
-
   console.log("universite  ", universite.values);
   let keys = Array.from(universite.keys());
   console.log("keys: ", keys);
@@ -32,13 +30,12 @@ function Candidats({ promotion, universite, setPromotion }) {
 
   const confirm = useConfirm();
   const [candidats, setCandidats] = useState(promotion.candidats);
-  const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats)
+  const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats);
 
   console.log(promotion.candidats);
 
   const ajouterCandidat = (candidat) => {
     setCandidats([candidat, ...candidats]);
-    handleCancel();
   };
 
   const columns = [
@@ -103,8 +100,14 @@ function Candidats({ promotion, universite, setPromotion }) {
             fontSize="large"
             color="success"
           />
+        ) : params.row.confirmationCandidat == "N" ? (
+          <IndeterminateCheckBoxIcon
+            style={{ alignItems: "center", justifyContent: "center" }}
+            fontSize="large"
+            color="error"
+          />
         ) : (
-          <CheckBoxOutlineBlankIcon fontSize="large" color="success" />
+          <CheckBoxOutlineBlankIcon fontSize="large" color="danger" />
         );
       },
     },
@@ -115,7 +118,7 @@ function Candidats({ promotion, universite, setPromotion }) {
   const showModal = () => {
     setIsModalVisible(true);
   };
-  
+
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -165,7 +168,7 @@ function Candidats({ promotion, universite, setPromotion }) {
     } else {
       toastr.info("Pas de candidats pour l'admission!", "Admission Candidats");
     }
-        /*axios
+    /*axios
     .get(`http://localhost:8034/promotions/${promotion.codeFormation}/${promotion.anneeUniversitaire}`)
     .then((res) => {
       console.log("Candidat ");
@@ -177,35 +180,53 @@ function Candidats({ promotion, universite, setPromotion }) {
     });*/
   };
 
-
   const handleChange = (e) => {
-    let search = e.target.value
-    if (search.split(' ').join('') !== "") {
-      setCandidats(candidatsSearch.filter(candidat => candidat.nom.toLowerCase().includes(search.toLowerCase()) || candidat.prenom.toLowerCase().includes(search.toLowerCase())))
-    }
-    else setCandidats(candidatsSearch)
-  }
-
+    let search = e.target.value;
+    if (search.split(" ").join("") !== "") {
+      setCandidats(
+        candidatsSearch.filter(
+          (candidat) =>
+            candidat.nom.toLowerCase().includes(search.toLowerCase()) ||
+            candidat.prenom.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    } else setCandidats(candidatsSearch);
+  };
 
   return (
     <Container style={{ height: 426.5 }} maxWidth>
-      <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'space-between'}}>
+      <Grid
+        container
+        spacing={2}
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
         <Grid item>
-            <Tooltip title="Admission des candidats" placement="bottom">
-              <IconButton aria-label="add">
-                <ArrowCircleRightIcon
-                  fontSize="large"
-                  color="primary"
-                  onClick={enEtudiant}
+          <Tooltip title="Admission des candidats" placement="bottom">
+            <IconButton aria-label="add">
+              <ArrowCircleRightIcon
+                fontSize="large"
+                color="primary"
+                onClick={enEtudiant}
                 // onClick={() => navigate("/candidats/create")}
-                />
-              </IconButton>         
-            </Tooltip>         
-          </Grid>
+              />
+            </IconButton>
+          </Tooltip>
+        </Grid>
         <Grid item>
-          <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'right' }}>
+          <Grid
+            container
+            spacing={2}
+            sx={{ display: "flex", justifyContent: "right" }}
+          >
             <Grid item>
-              <TextField margin="" size="small" id="outlined-basic" label="Chercher par Nom/Prénom" variant="outlined" onChange={(e) => handleChange(e)} />
+              <TextField
+                margin=""
+                size="small"
+                id="outlined-basic"
+                label="Chercher par Nom/Prénom"
+                variant="outlined"
+                onChange={(e) => handleChange(e)}
+              />
             </Grid>
             <Grid item>
               <Tooltip title="Ajouter un candidat" placement="bottom">
@@ -214,7 +235,6 @@ function Candidats({ promotion, universite, setPromotion }) {
                     fontSize="large"
                     color="primary"
                     onClick={showModal}
-                    
                   />
                 </IconButton>
               </Tooltip>
@@ -239,6 +259,7 @@ function Candidats({ promotion, universite, setPromotion }) {
           codeFormation={promotion.codeFormation}
           anneeUniversitaire={promotion.anneeUniversitaire}
           ajouterCandidat={ajouterCandidat}
+          fermerPopUp={handleCancel}
           universite={universite}
         />
       </Modal>
@@ -250,8 +271,8 @@ function Candidats({ promotion, universite, setPromotion }) {
           pageSize={5}
           rowsPerPageOptions={[5]}
           getRowId={(row) => row.noCandidat}
-          style={{ height: "87%", marginTop:"10px" }}
-        //   checkboxSelection
+          style={{ height: "87%", marginTop: "10px" }}
+          //   checkboxSelection
         />
       ) : (
         <Grid

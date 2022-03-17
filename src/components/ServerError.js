@@ -14,7 +14,7 @@ function ServerError() {
 
             <Grid item xs={3}>
                 <Typography color="red" fontSize="30px">
-                    Server did not respond, Please try again later
+                    Erreur du serveur, Veuillez réessayer plus tard
                 </Typography>
             </Grid>
 

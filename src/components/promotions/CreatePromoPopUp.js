@@ -22,6 +22,8 @@ import get from "lodash/get";
 import moment from "moment";
 import { Radio } from "antd";
 import EnseignantList from "../enseignant/EnseignantList";
+import ReplayIcon from "@mui/icons-material/Replay";
+
 const { Item } = Form;
 const { Option } = Select;
 const { TextArea } = Input;
@@ -82,7 +84,11 @@ function CreatePromoPopUp({
       axios
         .post(`http://localhost:8034/promotions/`, values)
         .then((res) => {
-          toastr.info("La promotion a été ajouter avec succée","Ajout Promotion")
+          toastr.info(
+            "La promotion a été ajouté avec succée",
+            "Ajout Promotion"
+          );
+
           navigate(
             `/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`
           );
@@ -117,7 +123,12 @@ function CreatePromoPopUp({
         .then((res) => {
           ajoutPromo(res.data);
           //navigate(`/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`)
-          toastr.info("La promotion a été ajouter avec succée","Ajout Promotion");
+
+          toastr.info(
+            "La promotion a été ajouté avec succée",
+            "Ajout Promotion"
+          );
+
           resetForm();
         })
         .catch((error) => {
@@ -156,7 +167,7 @@ function CreatePromoPopUp({
         <EnseignantList recupererEnseignant={recupererEnseignant} />
       </Modal>
       <Row justify="center">
-        <Col span={24}>
+        <Col>
           <Card className="card">
             <Form
               form={form}
@@ -277,7 +288,7 @@ function CreatePromoPopUp({
                   className="btn btn-outline-secondary mx-2"
                   style={{ float: "left" }}
                 >
-                  VIDER
+                  <ReplayIcon />
                 </button>
                 <button
                   type="submit"

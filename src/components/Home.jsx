@@ -75,51 +75,47 @@ class Home extends Component {
     
     }
     render() {
-        return (
-            <div>
-        <br /><br />
-        <h2 style={{textAlign:'center'}}>Tableau de bord</h2>
-      <div className="featured">
-      
-      <div className="featuredItem">
-      <FontAwesomeIcon icon={faBook} className="featuredIcon"/><br />
-        <span className="featuredTitle">Nombre de formations</span>
-        <div className="featuredLength">
-          {this.state.formations.length}
-        </div>
+      return (
+        <div> 
+        <div className="featured">
+          <div className="featuredItem">
+            <FontAwesomeIcon icon={faBook} className="featuredIcon" /><br />
+            <span className="featuredTitle">Nombre de formations</span>
+            <div className="featuredLength">
+              {this.state.formations.length}
+            </div>
+          </div>
+          <div className="featuredItem">
+            <FontAwesomeIcon icon={faGraduationCap} className="featuredIcon"/><br />
+            <span className="featuredTitle">Nombre de promotions</span>
+            <div className="featuredLength">
+              {this.state.promotions.length}
+            </div>
+          </div>
+          <div className="featuredItem">
+            <FontAwesomeIcon icon={faUserTie} className="featuredIcon"/> <br />
+            <span className="featuredTitle">Nombre d'enseignants</span>
+            <div className="featuredLength">
+              {this.state.enseignants.length}
+            </div>
+          </div>
+          <div className="featuredItem">
+            <FontAwesomeIcon icon={faUserGroup} className="featuredIcon"/> <br />
+            <span className="featuredTitle">Nombre de candidats</span>
+            <div className="featuredLength">
+              {this.state.candidats.length}
+            </div>
+          </div>
+          <div className="featuredItem">
+            <FontAwesomeIcon icon={faUserGroup} className="featuredIcon"/> <br />
+            <span className="featuredTitle">Nombre d'étudiants</span>
+              <div className="featuredLength">
+                {this.state.etudiants.length}
+              </div>
+          </div>
       </div>
-      <div className="featuredItem">
-      <FontAwesomeIcon icon={faGraduationCap} className="featuredIcon"/><br />
-        <span className="featuredTitle">Nombre de promotions</span>
-        <div className="featuredLength">
-          {this.state.promotions.length}
-        </div>
-      </div>
-      <div className="featuredItem">
-      <FontAwesomeIcon icon={faUserTie} className="featuredIcon"/> <br />
-        <span className="featuredTitle">Nombre d'enseignants</span>
-        <div className="featuredLength">
-          {this.state.enseignants.length}
-        </div>
-      </div>
-      <div className="featuredItem">
-      <FontAwesomeIcon icon={faUserGroup} className="featuredIcon"/> <br />
-      <span className="featuredTitle">Nombre de candidats</span>
-        <div className="featuredLength">
-          {this.state.candidats.length}
-        </div>
-      </div>
-      <div className="featuredItem">
-      <FontAwesomeIcon icon={faUserGroup} className="featuredIcon"/> <br />
-      <span className="featuredTitle">Nombre d'étudiants</span>
-        <div className="featuredLength">
-          {this.state.etudiants.length}
-        </div>
-      </div>
-
     </div>
-    </div>
-        );
+    );
     }
 }
 

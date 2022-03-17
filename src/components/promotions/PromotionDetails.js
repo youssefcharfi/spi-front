@@ -12,6 +12,7 @@ import Promotion from "./Promotion";
 import Candidats from "../candidats/Candidats";
 import axios from "axios";
 import Etudiants from "../etudiants/Etudiants";
+import { Container } from "@mui/material";
 
 function PromotionDetails() {
   const [promotion, setPromotion] = useState({});
@@ -24,7 +25,6 @@ function PromotionDetails() {
       )
       .then((res) => {
         setPromotion(res.data);
-        console.log(res.data[0])
       })
       .catch((err) => {
         if (!err.response) navigate("/erreur.jsp");
@@ -55,64 +55,64 @@ function PromotionDetails() {
 
   return (
     <>
-      <div id="card2" className="p-1 mt-1 text-center mb-3 card">
-        <div className="card-body">
-          <h5
-            className="card-title"
-            style={{ color: "black", textDecoration: "none" }}
-          >
-            {" "}
-            <i
-              style={{ color: "#0EA0E8" }}
-              className="fas fa-book-reader mx-1"
-            ></i>{" "}
-            Promotion : {codeFormation} {anneeUniversitaire}
-          </h5>
+      <Container maxWidth>
+        <div id="card2" className="p-1 mt-1 text-center mb-3 card">
+          <div className="card-body">
+            <h5
+              className="card-title"
+              style={{ color: "black", textDecoration: "none" }}
+            >
+              {" "}
+              <i
+                style={{ color: "#0EA0E8" }}
+                className="fas fa-book-reader mx-1"
+              ></i>{" "}
+              Promotion : {codeFormation} {anneeUniversitaire}
+            </h5>
+          </div>
         </div>
-      </div>
 
-      <Box
-        sx={{
-          bgcolor: "background.paper",
-          width: 1540,
-          position: "relative",
-          minHeight: 200,
-        }}
-      >
-        <AppBar position="static" color="default">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="fullWidth"
-            aria-label="action tabs example"
-          >
-            <Tab label="Details" {...a11yProps(0)} />
-            <Tab label="Candidats" {...a11yProps(1)} />
-            <Tab label="Etudiants" {...a11yProps(2)} />
-          </Tabs>
-        </AppBar>
-        <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={value}
-          onChangeIndex={handleChangeIndex}
+        <Box
+          sx={{
+            bgcolor: "background.paper"
+          }}
         >
-          <TabPanel value={value} index={0} dir={theme.direction}>
-            <Promotion
-              // codeFormation={codeFormation}
-              // anneeUniversitaire={anneeUniversitaire}
-              promotion={promotion}
-            ></Promotion>
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            <Candidats promotion={promotion} universite={universite} />
-          </TabPanel>
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            <Etudiants etudiants={promotion.etudiants} />
-          </TabPanel>
-        </SwipeableViews>
-      </Box>
+          <AppBar position="static" color="default">
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="fullWidth"
+              aria-label="action tabs example"
+            >
+              <Tab label="Details" {...a11yProps(0)} />
+              <Tab label="Candidats" {...a11yProps(1)} />
+              <Tab label="Etudiants" {...a11yProps(2)} />
+            </Tabs>
+          </AppBar>
+          <SwipeableViews
+            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+            index={value}
+            onChangeIndex={handleChangeIndex}
+          >
+            <TabPanel value={value} index={0} dir={theme.direction}>
+              <Promotion
+                promotion={promotion}
+              ></Promotion>
+            </TabPanel>
+            <TabPanel value={value} index={1} dir={theme.direction}>
+              <Candidats promotion={promotion} universite={universite} />
+            </TabPanel>
+            <TabPanel value={value} index={2} dir={theme.direction}>
+              <Etudiants etudiants={promotion.etudiants} />
+            </TabPanel>
+          </SwipeableViews>
+        </Box>
+
+      </Container>
+
+
     </>
   );
 }

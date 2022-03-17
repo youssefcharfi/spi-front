@@ -1,11 +1,15 @@
 import { React, useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button, Grid } from "@mui/material";
+import { Button, Container, Grid } from "@mui/material";
 import axios from 'axios'
 import { useNavigate } from "react-router";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Loader from "../shared/Loader";
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import IconButton from '@mui/material/IconButton';
+import { Tooltip } from "antd";
+import ServerError from '../ServerError'
 
 function Formations() {
 
@@ -13,34 +17,40 @@ function Formations() {
 
   const [formationsSearched, setFormationsSearched] = useState([])
 
+  const [errorServer, setErrorServer] = useState(false)
+
   const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(true);
     getFormations()
-  },[])
+  }, [])
 
   let navigate = useNavigate()
 
   const getFormations = () => {
     axios.get("http://localhost:8034/formations")
-         .then(res => {
-           setFormations(res.data)
-           setFormationsSearched(res.data)
-           setLoading(false);
-         })
-         .catch((err) => {
-          if (!err.response) navigate("/erreur.jsp");
-          else if (err.response.status === 404) navigate("*", { replace: true });
-  
-        });
-  } 
+      .then(res => {
+        setFormations(res.data)
+        setFormationsSearched(res.data)
+        setLoading(false);
+        setErrorServer(false)
+      })
+      .catch((err) => {
+        setLoading(false)
+        if (!err.response) {
+          setErrorServer(true)
+        }
+        else if (err.response.status === 404) navigate("*", { replace: true });
+
+      });
+  }
 
   const handleChange = (e) => {
 
     let search = e.target.value
-    if(search.split(' ').join('') !== ""){
-      setFormations(formationsSearched.filter(formation => formation.codeFormation.toLowerCase().includes(search.toLowerCase()) || formation.nomFormation.toLowerCase().includes(search.toLowerCase()) ))
+    if (search.split(' ').join('') !== "") {
+      setFormations(formationsSearched.filter(formation => formation.codeFormation.toLowerCase().includes(search.toLowerCase()) || formation.nomFormation.toLowerCase().includes(search.toLowerCase())))
     }
     else setFormations(formationsSearched)
   }
@@ -51,13 +61,14 @@ function Formations() {
       field: "codeFormation",
       headerName: "Code",
       type: "string",
-      width: 100,
+      flex: 0.2,
+      align: 'left',
     },
     {
-      field:"diplome",
-      headerName: "Diplome/noAnnée",
+      field: "diplome",
+      headerName: "Diplome",
       type: "string",
-      width: 150,
+      flex: 0.2,
       valueGetter: (params) =>
         `${params.row.diplome || ""}` +
         `${params.row.n0Annee}`,
@@ -65,55 +76,59 @@ function Formations() {
 
     {
       field: "nomFormation",
-      headerName: "Nom",
+      headerName: "Nom formation",
       type: "string",
-      width: 450,
+      flex: 0.9,
     },
     {
       field: "doubleDiplome",
       headerName: "Double diplome",
       type: "string",
-      width: 150,
+      flex: 0.25,
+      align: 'center',
     },
     {
       field: "debutAccreditation",
       headerName: "Début Accreditation",
       type: "string",
-      width: 150,
+      flex: 0.3,
     },
     {
       field: "finAccreditation",
       headerName: "Fin Accreditation",
       type: "string",
-      width: 150,
+      flex: 0.3,
     },
     {
-      headerName: "",
+      headerName: "Promotion",
       field: "jnjn",
-      width: 200,
+      flex: 0.2,
       renderCell: (params) => {
         return (
-          <Button
-           onClick={() =>
-            navigate(
-              `/promotions/${params.row.codeFormation}`
-            )
-          }
-          >
-            Promotions
-          </Button>
+          <Tooltip title={params.row.codeFormation} placement="bottom">
+            <IconButton
+              onClick={() =>
+                navigate(
+                  `/promotions/${params.row.codeFormation}`
+                )
+              }
+            >
+              <FormatListBulletedIcon fontSize="small" color="primary" />
+            </IconButton>
+          </Tooltip>
         );
       },
     },
   ];
   if (loading) return <Loader />;
+  if(errorServer) return <ServerError/>;
   return (
-    <div style={{ height: 319, width: "95%", margin: "50px" }}>
-      <Grid container columns={20}>
-        <Grid item xs={15}>
+    <Container style={{ height: 319 }} maxWidth>
+      <Grid container sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Grid item>
           <h4 className="h2">Formations</h4>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item>
           <Box
             component="form"
             sx={{
@@ -122,7 +137,7 @@ function Formations() {
             noValidate
             autoComplete="off"
           >
-            <TextField id="outlined-basic" label="Chercher par Code/Nom" variant="outlined" onChange={(e)=>handleChange(e)}/>
+            <TextField id="outlined-basic" label="Chercher par Code/Nom" variant="outlined" onChange={(e) => handleChange(e)} />
           </Box>
         </Grid>
       </Grid>
@@ -138,7 +153,7 @@ function Formations() {
           />
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 

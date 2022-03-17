@@ -12,25 +12,23 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { Modal } from "antd";
 import AddCandidat from "./AddCandidat";
 import Tooltip from "@mui/material/Tooltip";
-function Candidats({ promotion, universite }) {
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import toastr from "toastr";
+import { useConfirm } from "material-ui-confirm";
+function Candidats({ promotion, universite, setPromotion }) {
   console.log("universite  ", universite.values);
   let keys = Array.from(universite.keys());
   console.log("keys: ", keys);
+  var listeDeSelection = new Map();
+  listeDeSelection.set("LP", "Liste Principale");
+  listeDeSelection.set("LA", "Liste d'Attente");
+  listeDeSelection.set("NR", "Non Retenu");
+  //promotion.candidats = [];
+
+  const confirm = useConfirm();
+  const [candidats, setCandidats] = useState(promotion.candidats);
 
   console.log(promotion.candidats);
-  //promotion.candidats = [];
-  // const [universite, setUniversite] = useState(new Map());
-  // useEffect(() => {
-  //   axios.get(`http://localhost:8034/domaine/universite`).then((res) => {
-  //     res.data.map((univ) =>
-  //       setUniversite(universite.set(univ.abreviation, univ.signification))
-  //     );
-  //     console.log("universite :>> ", res.data);
-  //     console.log("universite Keyed collections :>> ", universite);
-  //   });
-  // }, [universite]);
-
-  const [candidats, setCandidats] = useState(promotion.candidats);
 
   const ajouterCandidat = (candidat) => {
     setCandidats([candidat, ...candidats]);
@@ -41,11 +39,7 @@ function Candidats({ promotion, universite }) {
     { field: "prenom", headerName: "Prenom", width: 200 },
     { field: "nom", headerName: "Nom", width: 200 },
     { field: "email", headerName: "Email", minWidth: 250 },
-    {
-      field: "universiteOrigine",
-      headerName: "Universite d'origine",
-      width: 200,
-    },
+
     {
       headerName: "Universite d'origine",
       field: "universiteOrigine",
@@ -65,13 +59,32 @@ function Candidats({ promotion, universite }) {
       },
     },
 
-    { field: "listeSelection", headerName: "listeSelection", width: 150 },
+    // { field: "listeSelection", headerName: "listeSelection", width: 150 },
+    {
+      headerName: "Liste de selection",
+      field: "listeSelection",
+      width: 200,
+
+      renderCell: (params) => {
+        console.log("params:   ", universite.get(params.row.listeSelection));
+        return (
+          <Tooltip
+            title={listeDeSelection.get(params.row.listeSelection)}
+            placement="bottom-start"
+            followCursor
+          >
+            <div>{params.row.listeSelection}</div>
+          </Tooltip>
+        );
+      },
+    },
     {
       field: "selectionNoOrdre",
-      headerName: "selectionNoOrdre",
+      headerName: "Ordre de selection",
       // type: "number",
       width: 200,
     },
+
     {
       headerName: "confirmationCandidat",
       field: "detail",
@@ -105,18 +118,86 @@ function Candidats({ promotion, universite }) {
     setIsModalVisible(false);
   };
 
+  const enEtudiant = () => {
+    if (candidats.length > 0) {
+      confirm({
+        cancellationText: "Non",
+        confirmationText: "Oui",
+        title: "Admision Candidats",
+        description: `Est ce que vous voulez accepter les candidats de cette promotion ?`,
+      })
+        .then(() => {
+          axios
+            .post(
+              `http://localhost:8034/promotions/${promotion.codeFormation}/${promotion.anneeUniversitaire}/accept`
+            )
+            .then((res) => {
+              axios
+                .get(
+                  `http://localhost:8034/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`
+                )
+                .then((res) => {
+                  setPromotion(res.data);
+                  setCandidats(res.data.candidats);
+                })
+                .catch((error) => {
+                  toastr.error(
+                    error.response.data.errorMeassage,
+                    "Admission Candidats"
+                  );
+                });
+              toastr.info(
+                "Vous avez bien acceptez les candidats de cette promotion",
+                "Admission Candidat"
+              );
+            })
+            .catch((error) => {
+              toastr.error(
+                error.response.data.errorMeassage,
+                "Admission Candidats"
+              );
+            });
+        })
+        .catch(() => console.log("Deletion cancelled."));
+    } else {
+      toastr.info("Pas de candidats pour l'admission!", "Admission Candidats");
+    }
+
+    /*axios
+    .get(`http://localhost:8034/promotions/${promotion.codeFormation}/${promotion.anneeUniversitaire}`)
+    .then((res) => {
+      console.log("Candidat ");
+      console.log(res);
+      setCandidats(res.data.candidats);
+    })
+    .catch((error) => {
+      toastr.error(error.response.data.errorMeassage,"Erreur d'ajout");
+    });*/
+  };
   return (
     <div style={{ height: 429, width: "100%" }}>
       <Grid container spacing={2} alignItems="right" justifyContent="right">
         <Grid item>
-          <IconButton aria-label="add">
-            <AddBoxIcon
-              fontSize="large"
-              color="primary"
-              onClick={showModal}
-              // onClick={() => navigate("/candidats/create")}
-            />
-          </IconButton>
+          <Tooltip title="Ajouter un candidat" placement="bottom">
+            <IconButton aria-label="add">
+              <AddBoxIcon
+                fontSize="large"
+                color="primary"
+                onClick={showModal}
+                // onClick={() => navigate("/candidats/create")}
+              />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Admission des candidats" placement="bottom">
+            <IconButton aria-label="add">
+              <ArrowCircleRightIcon
+                fontSize="large"
+                color="primary"
+                onClick={enEtudiant}
+                // onClick={() => navigate("/candidats/create")}
+              />
+            </IconButton>
+          </Tooltip>
         </Grid>
       </Grid>
       <Modal

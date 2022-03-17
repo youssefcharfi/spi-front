@@ -24,7 +24,12 @@ const { Option } = Select;
 
 //const rules = [{ required: true, message: "champs obligatoire!!" }];
 
-function AddCandidat({ codeFormation, anneeUniversitaire, universite }) {
+function AddCandidat({
+  codeFormation,
+  anneeUniversitaire,
+  universite,
+  ajouterCandidat,
+}) {
   const [form] = Form.useForm();
   const [messageErreur, setMessageErreur] = useState("");
   const rules = [{ required: true, message: "champs obligatoire!!" }];
@@ -34,7 +39,7 @@ function AddCandidat({ codeFormation, anneeUniversitaire, universite }) {
   //////////////////////////////////////////////
 
   const validateMessages = {
-    required: "${label} est requis!",
+    required: "${label} est un champs obligatoire!!",
     types: {
       email: "l' ${label} n'est pas valid!",
       integer: "${label} n'est pas valid!",
@@ -101,7 +106,8 @@ function AddCandidat({ codeFormation, anneeUniversitaire, universite }) {
     axios
       .post(`http://localhost:8034/candidats`, candidat)
       .then((res) => {
-        toastr.info(
+        ajouterCandidat(res.data);
+        toastr.success(
           "Candidat : " +
             candidat.prenom +
             " " +
@@ -299,7 +305,16 @@ function AddCandidat({ codeFormation, anneeUniversitaire, universite }) {
                     <Input size="large" />
                   </Item>
 
-                  <Item label="Telephone" name="telephone" rules={rulesInteger}>
+                  <Item
+                    label="Telephone"
+                    name="telephone"
+                    rules={[
+                      {
+                        pattern: "^[0-9]{9,9}$",
+                        message: "${label} n'est pas valid!",
+                      },
+                    ]}
+                  >
                     <Input
                       addonBefore={prefixSelector}
                       style={{ width: "100%" }}
@@ -338,12 +353,19 @@ function AddCandidat({ codeFormation, anneeUniversitaire, universite }) {
                     name="selectionNoOrdre"
                     rules={[
                       {
-                        type: "integer",
                         required: true,
+                        pattern: "^[0-9]{0,4}$",
+                        message: "${label} n'est pas valid!",
                       },
                     ]}
+                    // rules={[
+                    //   {
+                    //     type: "integer",
+                    //     required: true,
+                    //   },
+                    // ]}
                   >
-                    <InputNumber size="large" />
+                    <Input size="large" />
                   </Item>
                 </Col>
               </Row>

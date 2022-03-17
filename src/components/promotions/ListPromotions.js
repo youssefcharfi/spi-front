@@ -99,7 +99,7 @@ const Promotion = () => {
   const [errorServer, setErrorServer] = useState(false)
   const [loading, setLoading] = useState(false);
   const { codeFormation } = useParams();
-
+  const [salles , setSalles] = useState([]);
   useEffect(() => {
     setLoading(true);
     axios
@@ -115,6 +115,10 @@ const Promotion = () => {
         if (!err.response) setErrorServer(true);
         else if (err.response.status === 404) setError(true);
       });
+
+      axios.get(`http://localhost:8034/domaine/salle`).then((res) => {
+      setSalles(res.data)
+    });
   }, []);
 
   const ajoutPromo = (promotion) => {
@@ -179,6 +183,7 @@ const Promotion = () => {
               ajoutPromo={ajoutPromo}
               formulaire={setForm}
               resetForm={handleReset}
+              salles={salles}
             />
           </Modal>
           <DataGrid

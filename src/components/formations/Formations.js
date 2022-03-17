@@ -47,7 +47,6 @@ function Formations() {
   }
 
   const handleChange = (e) => {
-
     let search = e.target.value
     if (search.split(' ').join('') !== "") {
       setFormations(formationsSearched.filter(formation => formation.codeFormation.toLowerCase().includes(search.toLowerCase()) || formation.nomFormation.toLowerCase().includes(search.toLowerCase())))
@@ -132,7 +131,7 @@ function Formations() {
           <Box
             component="form"
             sx={{
-              '& > :not(style)': { m: 1, width: '25ch' },
+              '& > :not(style)': { m: 1, width: '26ch' },
             }}
             noValidate
             autoComplete="off"

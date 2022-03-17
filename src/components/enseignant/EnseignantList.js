@@ -26,13 +26,20 @@ export default function EnseignantList({recupererEnseignant}) {
   }, [])
 
   let listItem = (enseignant, index) => {
+    let avatar;
+    if(enseignant.sexe == "F"){
+      avatar = "https://randomuser.me/portraits/women/86.jpg"
+    }
+    else {
+      avatar = "https://randomuser.me/portraits/men/86.jpg"
+    }
     return (
       <div key={index}>
         <ListItem  alignItems="flex-start" style={{cursor:'pointer'}} className="my-3" onClick={() => {
           recupererEnseignant(enseignant);
         } }>
           <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Avatar alt="Remy Sharp" src={avatar} />
           </ListItemAvatar>
           <ListItemText
             primary= {enseignant.nom+' '+enseignant.prenom}

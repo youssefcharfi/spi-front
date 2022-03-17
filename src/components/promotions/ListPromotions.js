@@ -119,7 +119,6 @@ const Promotion = () => {
 
   const ajoutPromo = (promotion) => {
     setPromo([promotion, ...promo]);
-    toastr.info("Promotion à été ajouter avec succeés");
   };
 
   const navigate = useNavigate();

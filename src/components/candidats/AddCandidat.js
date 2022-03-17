@@ -232,21 +232,6 @@ function AddCandidat({
                   >
                     <Input size="large" />
                   </Item>
-                  <Item
-                    label="listeSelection"
-                    name="listeSelection"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Select size="large">
-                      <Option key={"LP"}>Liste Principale</Option>
-                      <Option key={"LA"}>Liste d'Attente</Option>
-                      <Option key={"NR"}>Non Retenu</Option>
-                    </Select>
-                  </Item>
                 </Col>
 
                 <Col xs={24} sm={24} md={11} lg={11} xl={11}>
@@ -347,29 +332,23 @@ function AddCandidat({
                   >
                     <Input size="large" />
                   </Item>
-
-                  <Item
-                    label="Numero d'ordre"
-                    name="selectionNoOrdre"
-                    rules={[
-                      {
-                        required: true,
-                        pattern: "^[0-9]{0,4}$",
-                        message: "${label} n'est pas valid!",
-                      },
-                    ]}
-                    // rules={[
-                    //   {
-                    //     type: "integer",
-                    //     required: true,
-                    //   },
-                    // ]}
-                  >
-                    <Input size="large" />
-                  </Item>
                 </Col>
               </Row>
-
+              <Item
+                label="listeSelection"
+                name="listeSelection"
+                // rules={[
+                //   {
+                //     required: true,
+                //   },
+                // ]}
+              >
+                <Select size="large">
+                  <Option key={"LP"}>Liste Principale</Option>
+                  <Option key={"LA"}>Liste d'Attente</Option>
+                  <Option key={"NR"}>Non Retenu</Option>
+                </Select>
+              </Item>
               <Row justify="end">
                 <Button htmlType="submit" size="large" type="primary">
                   AJOUTER

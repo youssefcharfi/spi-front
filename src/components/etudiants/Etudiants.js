@@ -1,31 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 // import axios from "axios";
-import { Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
 export default function Etudiants({ etudiants }) {
   const columns = [
-    { field: "noEtudiant", headerName: "Numero Etudiant", width: 130 },
-    { field: "nom", headerName: "Nom", width: 130 },
-    { field: "prenom", headerName: "Prenom", width: 130 },
-    { field: "mobile", headerName: "mobile", width: 130 },
-    { field: "email", headerName: "Email", minWidth: 300 },
+    { field: "noEtudiant", headerName: "Numero Etudiant", flex: 0.3 },
+    { field: "nom", headerName: "Nom", flex: 0.4},
+    { field: "prenom", headerName: "Prenom", flex: 0.3 },
+    { field: "mobile", headerName: "mobile", flex: 0.4 },
+    { field: "email", headerName: "Email", flex: 0.6 },
     {
       field: "universiteOrigine",
       headerName: "Universite d'origine",
-      width: 200,
+      flex: 0.35,
+      align: "center",
     },
-    { field: "groupeTp", headerName: "Groupe TP", type: Number, width: 130 },
+    { field: "groupeTp", headerName: "Groupe TP", type: Number, flex: 0.2, align: "center" },
     {
       field: "groupeAnglais",
-      headerName: "Groupe Angalis",
+      headerName: "Groupe Anglais",
       type: Number,
-      width: 130,
+      flex: 0.25,
+      align: "center"
     },
   ];
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <Container style={{ height: 426.5 }} maxWidth>
       {etudiants.length > 0 ? (
         <DataGrid
           rows={etudiants}
@@ -51,6 +53,6 @@ export default function Etudiants({ etudiants }) {
           </Grid>
         </Grid>
       )}
-    </div>
+    </Container>
   );
 }

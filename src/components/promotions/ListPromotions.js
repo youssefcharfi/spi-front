@@ -119,7 +119,6 @@ const Promotion = () => {
 
   const ajoutPromo = (promotion) => {
     setPromo([promotion, ...promo]);
-    toastr.info("Promotion à été ajouter avec succeés");
   };
 
   const navigate = useNavigate();
@@ -167,7 +166,7 @@ const Promotion = () => {
           <Modal
             title={
               <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-                Formulaire d'ajout Promotion
+                Ajouter une Promotion
               </h3>
             }
             visible={isModalVisible}

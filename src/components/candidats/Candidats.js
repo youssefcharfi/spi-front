@@ -13,6 +13,10 @@ import { Modal } from "antd";
 import AddCandidat from "./AddCandidat";
 import Tooltip from "@mui/material/Tooltip";
 function Candidats({ promotion, universite }) {
+  console.log("universite  ", universite.values);
+  let keys = Array.from(universite.keys());
+  console.log("keys: ", keys);
+
   console.log(promotion.candidats);
   //promotion.candidats = [];
   // const [universite, setUniversite] = useState(new Map());
@@ -132,6 +136,7 @@ function Candidats({ promotion, universite }) {
           codeFormation={promotion.codeFormation}
           anneeUniversitaire={promotion.anneeUniversitaire}
           ajouterCandidat={ajouterCandidat}
+          universite={universite}
         />
       </Modal>
 

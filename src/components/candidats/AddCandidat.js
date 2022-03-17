@@ -30,6 +30,7 @@ function AddCandidat({
   universite,
   ajouterCandidat,
   fermerPopUp,
+  pays,
 }) {
   const [form] = Form.useForm();
   const [messageErreur, setMessageErreur] = useState("");
@@ -42,9 +43,9 @@ function AddCandidat({
   const validateMessages = {
     required: "${label} est un champs obligatoire!!",
     types: {
-      email: "l' ${label} n'est pas valid!",
-      integer: "${label} n'est pas valid!",
-      string: "${label} n'est pas valid!",
+      email: "l'${label} n'est pas valide!",
+      integer: "${label} n'est pas valide!",
+      string: "${label} n'est pas valide!",
     },
     number: {
       range: "${label} doit être entre ${min} et ${max}",
@@ -147,7 +148,7 @@ function AddCandidat({
 
   const onFinish = (values) => {
     onFinishReAdd(values);
-    if (!ajoutConfirmationError) fermerPopUp();
+    if (ajoutConfirmationError) fermerPopUp();
   };
   return (
     <div className="container__antd p-top-20">
@@ -306,14 +307,13 @@ function AddCandidat({
                       {
                         required: true,
                       },
-
-                      {
-                        pattern: "^[a-zA-Z]{1,5}$",
-                        message: "${label} n'est pas valide!",
-                      },
                     ]}
                   >
-                    <Input size="large" />
+                    <Select size="large">
+                      {pays.map((p) => (
+                        <Option key={p.abreviation}>{p.signification}</Option>
+                      ))}
+                    </Select>
                   </Item>
 
                   <Item
@@ -350,7 +350,8 @@ function AddCandidat({
                     name="codePostal"
                     rules={[
                       {
-                        pattern: "^[0-9a-zA-Z]{0,5}$",
+                        required: true,
+                        pattern: "^[0-9a-zA-Z]{5,10}$",
                         message: "${label} est non valide",
                       },
                     ]}

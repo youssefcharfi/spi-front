@@ -18,7 +18,7 @@ import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
-function Candidats({ promotion, universite, setPromotion }) {
+function Candidats({ promotion, universite, setPromotion, pays }) {
   console.log("universite  ", universite.values);
   let keys = Array.from(universite.keys());
   console.log("keys: ", keys);
@@ -26,6 +26,7 @@ function Candidats({ promotion, universite, setPromotion }) {
   listeDeSelection.set("LP", "Liste Principale");
   listeDeSelection.set("LA", "Liste d'Attente");
   listeDeSelection.set("NR", "Non Retenu");
+
   //promotion.candidats = [];
 
   const confirm = useConfirm();
@@ -49,7 +50,7 @@ function Candidats({ promotion, universite, setPromotion }) {
       flex: 0.3,
       align: "center",
       renderCell: (params) => {
-        console.log("params:   ", universite.get(params.row.universiteOrigine));
+        //console.log("params:   ", universite.get(params.row.universiteOrigine));
         return (
           <Tooltip
             title={universite.get(params.row.universiteOrigine)}
@@ -69,7 +70,7 @@ function Candidats({ promotion, universite, setPromotion }) {
       flex: 0.3,
       align: "center",
       renderCell: (params) => {
-        console.log("params:   ", universite.get(params.row.listeSelection));
+        // console.log("params:   ",listeDeSelection.get(params.row.listeSelection));
         return (
           <Tooltip
             title={listeDeSelection.get(params.row.listeSelection)}
@@ -271,6 +272,7 @@ function Candidats({ promotion, universite, setPromotion }) {
           ajouterCandidat={ajouterCandidat}
           fermerPopUp={handleCancel}
           universite={universite}
+          pays={pays}
         />
       </Modal>
 

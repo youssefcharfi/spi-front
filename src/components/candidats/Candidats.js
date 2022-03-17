@@ -95,19 +95,29 @@ function Candidats({ promotion, universite, setPromotion }) {
       align: "center",
       renderCell: (params) => {
         return params.row.confirmationCandidat == "O" ? (
-          <CheckBoxIcon
-            style={{ alignItems: "center", justifyContent: "center" }}
-            fontSize="large"
-            color="success"
-          />
+          <Tooltip title={"confirmé"} placement="bottom-start" followCursor>
+            <CheckBoxIcon
+              style={{ alignItems: "center", justifyContent: "center" }}
+              fontSize="large"
+              color="success"
+            />
+          </Tooltip>
         ) : params.row.confirmationCandidat == "N" ? (
-          <IndeterminateCheckBoxIcon
-            style={{ alignItems: "center", justifyContent: "center" }}
-            fontSize="large"
-            color="error"
-          />
+          <Tooltip title={"non confirmé"} placement="bottom-start" followCursor>
+            <IndeterminateCheckBoxIcon
+              style={{ alignItems: "center", justifyContent: "center" }}
+              fontSize="large"
+              color="error"
+            />
+          </Tooltip>
         ) : (
-          <CheckBoxOutlineBlankIcon fontSize="large" color="danger" />
+          <Tooltip
+            title={"en attente de canfirmation"}
+            placement="bottom-start"
+            followCursor
+          >
+            <CheckBoxOutlineBlankIcon fontSize="large" color="danger" />
+          </Tooltip>
         );
       },
     },

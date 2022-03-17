@@ -137,6 +137,7 @@ function Candidats({ promotion, universite, setPromotion }) {
                   `http://localhost:8034/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`
                 )
                 .then((res) => {
+                  console.log(res);
                   setPromotion(res.data);
                   setCandidats(res.data.candidats);
                 })

@@ -3,6 +3,8 @@ import axios from "axios";
 //import { useParams } from "react-router";
 import { DataGrid } from "@mui/x-data-grid";
 import { Container, Grid } from "@mui/material";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import Typography from "@mui/material/Typography";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -15,7 +17,11 @@ import Tooltip from "@mui/material/Tooltip";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
+
+
 function Candidats({ promotion, universite, setPromotion }) {
+
+
   console.log("universite  ", universite.values);
   let keys = Array.from(universite.keys());
   console.log("keys: ", keys);
@@ -27,6 +33,7 @@ function Candidats({ promotion, universite, setPromotion }) {
 
   const confirm = useConfirm();
   const [candidats, setCandidats] = useState(promotion.candidats);
+  const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats)
 
   console.log(promotion.candidats);
 
@@ -137,6 +144,7 @@ function Candidats({ promotion, universite, setPromotion }) {
                   `http://localhost:8034/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`
                 )
                 .then((res) => {
+                  console.log(res);
                   setPromotion(res.data);
                   setCandidats(res.data.candidats);
                 })
@@ -162,8 +170,7 @@ function Candidats({ promotion, universite, setPromotion }) {
     } else {
       toastr.info("Pas de candidats pour l'admission!", "Admission Candidats");
     }
-
-    /*axios
+        /*axios
     .get(`http://localhost:8034/promotions/${promotion.codeFormation}/${promotion.anneeUniversitaire}`)
     .then((res) => {
       console.log("Candidat ");
@@ -174,17 +181,29 @@ function Candidats({ promotion, universite, setPromotion }) {
       toastr.error(error.response.data.errorMeassage,"Erreur d'ajout");
     });*/
   };
+
+
+  const handleChange = (e) => {
+    let search = e.target.value
+    if (search.split(' ').join('') !== "") {
+      setCandidats(candidatsSearch.filter(candidat => candidat.nom.toLowerCase().includes(search.toLowerCase()) || candidat.prenom.toLowerCase().includes(search.toLowerCase())))
+    }
+    else setCandidats(candidatsSearch)
+  }
+
+
   return (
     <Container style={{ height: 426.5 }} maxWidth>
       <Grid container spacing={2} alignItems="right" justifyContent="right">
         <Grid item>
+            <TextField margin="" id="outlined-basic" label="Chercher par Nom/Prénom" variant="outlined" onChange={(e) => handleChange(e)} />
           <Tooltip title="Ajouter un candidat" placement="bottom">
             <IconButton aria-label="add">
               <AddBoxIcon
                 fontSize="large"
                 color="primary"
                 onClick={showModal}
-                // onClick={() => navigate("/candidats/create")}
+              // onClick={() => navigate("/candidats/create")}
               />
             </IconButton>
           </Tooltip>
@@ -194,7 +213,7 @@ function Candidats({ promotion, universite, setPromotion }) {
                 fontSize="large"
                 color="primary"
                 onClick={enEtudiant}
-                // onClick={() => navigate("/candidats/create")}
+              // onClick={() => navigate("/candidats/create")}
               />
             </IconButton>
           </Tooltip>
@@ -228,8 +247,8 @@ function Candidats({ promotion, universite, setPromotion }) {
           pageSize={5}
           rowsPerPageOptions={[5]}
           getRowId={(row) => row.noCandidat}
-          style={{ height: "87%" }}
-          //   checkboxSelection
+          style={{ height: "87%", marginTop:"10px" }}
+        //   checkboxSelection
         />
       ) : (
         <Grid

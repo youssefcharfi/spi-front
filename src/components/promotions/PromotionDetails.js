@@ -18,14 +18,12 @@ import ServerError from "../ServerError";
 import Error from "../shared/Error";
 
 function PromotionDetails() {
-
-
   const [promotion, setPromotion] = useState({});
   const [universite, setUniversite] = useState(new Map());
-  const [errorServer, setErrorServer] = useState(false)
-  const [notFound, setNotFound] = useState(false)
+  const [errorServer, setErrorServer] = useState(false);
+  const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [pays, setPays] = useState([]);
   useEffect(() => {
     setLoading(true);
     axios
@@ -35,16 +33,15 @@ function PromotionDetails() {
       .then((res) => {
         setPromotion(res.data);
         setLoading(false);
-        setErrorServer(false)
-        setNotFound(false)
+        setErrorServer(false);
+        setNotFound(false);
       })
       .catch((err) => {
-        setLoading(false)
+        setLoading(false);
         if (!err.response || err.response.status === 500) {
-          setNotFound(false)
-          setErrorServer(true)
-        }
-        else if (err.response.status === 404) setNotFound(true);
+          setNotFound(false);
+          setErrorServer(true);
+        } else if (err.response.status === 404) setNotFound(true);
       });
     //////////////////////////////////
     axios.get(`http://localhost:8034/domaine/universite`).then((res) => {
@@ -53,7 +50,12 @@ function PromotionDetails() {
       );
     });
     ///////////////////////////////////////
+    axios.get(`http://localhost:8034/domaine/pays`).then((res) => {
+      console.log("pays::", res.data);
+      setPays(res.data);
+    });
   }, []);
+
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
@@ -67,14 +69,18 @@ function PromotionDetails() {
 
   const { codeFormation, anneeUniversitaire } = useParams();
 
-
-  if (loading) return <Loader />
-  if(errorServer) return <ServerError/>
-  if(notFound) return <Error message={`Promotion ${codeFormation} ${anneeUniversitaire} n'éxiste pas`}/>
+  if (loading) return <Loader />;
+  if (errorServer) return <ServerError />;
+  if (notFound)
+    return (
+      <Error
+        message={`Promotion ${codeFormation} ${anneeUniversitaire} n'éxiste pas`}
+      />
+    );
 
   return (
     <>
-      <Container maxWidth style={{ height: 450}}>
+      <Container maxWidth style={{ height: 450 }}>
         <div id="card2" className="p-1 mt-1 text-center mb-3 card">
           <div className="card-body">
             <h5
@@ -93,7 +99,7 @@ function PromotionDetails() {
 
         <Box
           sx={{
-            bgcolor: "background.paper"
+            bgcolor: "background.paper",
           }}
         >
           <AppBar position="static" color="default">
@@ -116,19 +122,21 @@ function PromotionDetails() {
             onChangeIndex={handleChangeIndex}
           >
             <TabPanel value={value} index={0} dir={theme.direction}>
-              <Promotion
-                promotion={promotion}
-              ></Promotion>
+              <Promotion promotion={promotion}></Promotion>
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-              <Candidats promotion={promotion} universite={universite} setPromotion={setPromotion}/>
+              <Candidats
+                promotion={promotion}
+                universite={universite}
+                setPromotion={setPromotion}
+                pays={pays}
+              />
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
               <Etudiants etudiants={promotion.etudiants} />
             </TabPanel>
           </SwipeableViews>
         </Box>
-
       </Container>
     </>
   );

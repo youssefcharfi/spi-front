@@ -131,7 +131,7 @@ function SideBar() {
         open={open}
       >
         <DrawerHeader style={{ justifyContent: 'center'}}>
-          <img height="70px" width="90px" src="https://www.cmibrest.fr/sites/mobilite-brest.ueb.eu/files/styles/large/public/UBO.gif?itok=CHTFJbWk"/>
+          <img height="58px" width="90px" src="https://www.cmibrest.fr/sites/mobilite-brest.ueb.eu/files/styles/large/public/UBO.gif?itok=CHTFJbWk"/>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />

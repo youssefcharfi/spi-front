@@ -30,8 +30,8 @@ const columns = ({ navigate }) => [
     type: "string",
     flex: 0.3,
     valueGetter: (params) =>
-      `${params.row?.enseignantByNoEnseignant.nom || ""}` +
-      ` ${params.row?.enseignantByNoEnseignant.prenom}`,
+        `${params.row?.enseignantByNoEnseignant?.nom || ""}` +
+        ` ${params.row?.enseignantByNoEnseignant?.prenom || ""}`
   },
 
   {

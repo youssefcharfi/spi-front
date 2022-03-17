@@ -63,7 +63,7 @@ function AddCandidat({
   const prefixSelector = (
     <Item name="prefix" noStyle>
       <Select style={{ width: 80 }}>
-        <Option value="33" key="+33">
+        <Option value="33" key="+33" selected="true">
           +33
         </Option>
         <Option value="+212" key="212">
@@ -304,6 +304,11 @@ function AddCandidat({
                     rules={[
                       {
                         required: true,
+                      },
+
+                      {
+                        pattern: "^[a-zA-Z]{1,5}$",
+                        message: "${label} n'est pas valid!",
                       },
                     ]}
                   >

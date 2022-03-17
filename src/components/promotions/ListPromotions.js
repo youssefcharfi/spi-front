@@ -152,7 +152,7 @@ const Promotion = () => {
           <h4 className="h2">Promotion : {codeFormation}</h4>
         </Grid>
         <Grid item>
-          <Tooltip title="Ajouter une promotion" placement="bottom">
+          <Tooltip title="Ajouter" placement="bottom">
             <IconButton aria-label="add">
               <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
             </IconButton>
@@ -162,6 +162,7 @@ const Promotion = () => {
 
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
+          
           <Modal
             title={
               <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
@@ -172,7 +173,7 @@ const Promotion = () => {
             cancelButtonProps={{ style: { display: "none" } }}
             okButtonProps={{ style: { display: "none" } }}
             onCancel={handleCancel}
-            width={1000}
+            width={800}
           >
             <CreatePromoPopUp
               codeFormation={codeFormation}

@@ -23,6 +23,7 @@ import moment from "moment";
 import { Radio } from "antd";
 import EnseignantList from "../enseignant/EnseignantList";
 import ReplayIcon from "@mui/icons-material/Replay";
+import HelpIcon from '@mui/icons-material/Help';
 
 const { Item } = Form;
 const { Option } = Select;
@@ -32,8 +33,8 @@ const rules = [{ required: true, message: "champs obligatoire!" }];
 const rulesInteger = [
   { required: true, message: "champs obligatoire!" },
   {
-    pattern: "^([1-9]|[1-9][0-9]|1[01][0-9]|12[0-7])$",
-    message: "Saisissez un entier entre 1 et 127",
+    pattern: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|1000)$",
+    message: "Saisissez un entier",
   }
 ];
 
@@ -66,9 +67,9 @@ function CreatePromoPopUp({
     console.log(values);
     values.processusStage = processusStage;
     values.noEnseignant = enseignant;
-    if (values.noEnseignant == null) {
+    /*if (values.noEnseignant == null) {
       toastr.error("Merci de choisir un enseignant !");
-    } else {
+    } else {*/
       values.codeFormation = codeFormation;
       values.dateReponseLalp = moment(values.dateReponseLalp).format(
         "YYYY-MM-DD"
@@ -96,15 +97,15 @@ function CreatePromoPopUp({
         .catch((error) => {
           toastr.error(error.response.data.errorMeassage, "Ajout Promotion");
         });
-    }
+    //}
   };
 
   const onFinishReAdd = (values) => {
     values.processusStage = processusStage;
     values.noEnseignant = enseignant;
-    if (values.noEnseignant == null) {
+    /*if (values.noEnseignant == null) {
       toastr.error("Merci de choisir un enseignant !");
-    } else {
+    } else {*/
       values.codeFormation = codeFormation;
       values.dateReponseLalp = moment(values.dateReponseLalp).format(
         "YYYY-MM-DD"
@@ -134,7 +135,7 @@ function CreatePromoPopUp({
         .catch((error) => {
           toastr.error(error.response.data.errorMeassage, "Erreur d'ajout");
         });
-    }
+    //}
   };
 
   const handleChangeProcessus = (e) => {
@@ -175,18 +176,6 @@ function CreatePromoPopUp({
               layout="vertical"
               initialValues={{ formation: "à recuperer" }}
             >
-              <Row>
-                <div className="alert alert-info">
-                  <InfoIcon />
-                  <span className="mx-2">
-                    la date de Rentrée doit etre postérieure aux dates de reponse LALP et LP. 
-                  </span><br/>
-                  <InfoIcon />
-                  <span className="mx-2">
-                   la date de réponse LALP doit etre postérieure à la date de réponse LP.
-                  </span>
-                </div>
-              </Row>
               <Row justify="space-between">
                 <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                   <Item
@@ -194,12 +183,11 @@ function CreatePromoPopUp({
                     name="nbMaxEtudiant"
                     rules={rulesInteger}
                   >
-                    <Input size="large" min={0} style={{ width: "100%" }} maxLength={3} max={127}/>
+                    <Input size="large" min={0} style={{ width: "100%" }} maxLength={4} max={127}/>
                   </Item>
                   <Item
                     label="Lieu de Rentrée"
                     name="lieuRentree"
-                    rules={rules}
                   >
                     <Select size="large">
                       {salles.map((salle,index) => (
@@ -226,23 +214,25 @@ function CreatePromoPopUp({
                       size="large"
                       picker="year"
                       style={{ width: "100%" }}
+                      placeholder={["Date Début","Date Fin"]}
                     />
                   </Item>
                 </Col>
 
                 <Col xs={24} sm={24} md={11} lg={11} xl={11}>
-                  <Item label="Date Rentree" name="dateRentree" rules={rules}>
+                  <Item label="Date Rentree" name="dateRentree" rules={rules} tooltip="date de Rentrée doit etre postérieure aux dates de reponse LALP et LP.">
                     <DatePicker
                       size="large"
                       style={{ width: "100%" }}
                       placeholder="Date de Rentree"
                     />
                   </Item>
-
+                  
                   <Item
                     label="Date Reponse LALP"
                     name="dateReponseLalp"
                     rules={rules}
+                    tooltip="la date de réponse LALP doit etre postérieure à la date de réponse LP."
                   >
                     <DatePicker
                       size="large"
@@ -298,7 +288,7 @@ function CreatePromoPopUp({
                   className="btn btn-primary mx-2"
                   style={{ float: "right" }}
                 >
-                  AJOUTER
+                  Ajouter
                 </button>
                 <button
                   type="button"
@@ -307,7 +297,7 @@ function CreatePromoPopUp({
                   className="btn btn-primary mx-2"
                   style={{ float: "right" }}
                 >
-                  REAJOUTER
+                  Réajouter
                 </button>
               </Row>
             </Form>

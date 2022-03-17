@@ -8,8 +8,9 @@ import Error from "../shared/Error";
 import Loader from "../shared/Loader";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
-import { Modal, Tooltip } from "antd";
+import { Modal } from "antd";
 import axios from "axios";
+import Tooltip from "@mui/material/Tooltip";
 import "toastr/build/toastr.css";
 import toastr from "toastr";
 import InfoIcon from '@mui/icons-material/Info';
@@ -151,7 +152,7 @@ const Promotion = () => {
           <h4 className="h2">Promotion : {codeFormation}</h4>
         </Grid>
         <Grid item>
-          <Tooltip title="Ajouter une promotion" placement="bottom">
+          <Tooltip title="Ajouter" placement="bottom">
             <IconButton aria-label="add">
               <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
             </IconButton>

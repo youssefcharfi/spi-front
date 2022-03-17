@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import Loader from "../shared/Loader";
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import IconButton from '@mui/material/IconButton';
-import { Tooltip } from "antd";
+import Tooltip from "@mui/material/Tooltip";
 import ServerError from '../ServerError'
 
 function Formations() {

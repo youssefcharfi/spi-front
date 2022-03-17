@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 //import { useParams } from "react-router";
 import { DataGrid } from "@mui/x-data-grid";
-import { Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from "@mui/material/Typography";
@@ -43,15 +43,15 @@ function Candidats({ promotion, universite, setPromotion }) {
   };
 
   const columns = [
-    { field: "prenom", headerName: "Prenom", width: 200 },
-    { field: "nom", headerName: "Nom", width: 200 },
-    { field: "email", headerName: "Email", minWidth: 250 },
+    { field: "prenom", headerName: "Prenom", flex: 0.3 },
+    { field: "nom", headerName: "Nom", flex: 0.3 },
+    { field: "email", headerName: "Email", flex: 0.5 },
 
     {
       headerName: "Universite d'origine",
       field: "universiteOrigine",
-      width: 200,
-
+      flex: 0.3,
+      align: "center",
       renderCell: (params) => {
         console.log("params:   ", universite.get(params.row.universiteOrigine));
         return (
@@ -70,8 +70,8 @@ function Candidats({ promotion, universite, setPromotion }) {
     {
       headerName: "Liste de selection",
       field: "listeSelection",
-      width: 200,
-
+      flex: 0.3,
+      align: "center",
       renderCell: (params) => {
         console.log("params:   ", universite.get(params.row.listeSelection));
         return (
@@ -88,14 +88,14 @@ function Candidats({ promotion, universite, setPromotion }) {
     {
       field: "selectionNoOrdre",
       headerName: "Ordre de selection",
-      // type: "number",
-      width: 200,
+      align: "center",
+      flex: 0.3,
     },
 
     {
-      headerName: "confirmationCandidat",
+      headerName: "confirmation",
       field: "detail",
-      width: 200,
+      flex: 0.2,
       align: "center",
       renderCell: (params) => {
         return params.row.confirmationCandidat == "O" ? (
@@ -193,10 +193,10 @@ function Candidats({ promotion, universite, setPromotion }) {
 
 
   return (
-    <div style={{ height: 429, width: "100%" }}>
+    <Container style={{ height: 426.5 }} maxWidth>
       <Grid container spacing={2} alignItems="right" justifyContent="right">
         <Grid item>
-            <TextField margin="" id="outlined-basic" label="Chercher par Nom/Prénom" variant="outlined" onChange={(e) => handleChange(e)} />
+            <TextField id="outlined-basic" label="Chercher par Nom/Prénom" variant="outlined" onChange={(e) => handleChange(e)} />
           <Tooltip title="Ajouter un candidat" placement="bottom">
             <IconButton aria-label="add">
               <AddBoxIcon
@@ -265,7 +265,7 @@ function Candidats({ promotion, universite, setPromotion }) {
           </Grid>
         </Grid>
       )}
-    </div>
+    </Container>
   );
 }
 

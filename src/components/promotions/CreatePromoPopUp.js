@@ -32,9 +32,9 @@ const rules = [{ required: true, message: "champs obligatoire!" }];
 const rulesInteger = [
   { required: true, message: "champs obligatoire!" },
   {
-    pattern: "^([-]?[1-9][0-9]*|0)$",
-    message: "Saisissez une valeur entier",
-  },
+    pattern: "^([1-9]|[1-9][0-9]|1[01][0-9]|12[0-7])$",
+    message: "Saisissez un entier entre 1 et 127",
+  }
 ];
 
 function CreatePromoPopUp({
@@ -42,6 +42,7 @@ function CreatePromoPopUp({
   ajoutPromo,
   formulaire,
   resetForm,
+  salles
 }) {
   let navigate = useNavigate();
   const [form] = Form.useForm();
@@ -99,7 +100,6 @@ function CreatePromoPopUp({
   };
 
   const onFinishReAdd = (values) => {
-    console.log(values);
     values.processusStage = processusStage;
     values.noEnseignant = enseignant;
     if (values.noEnseignant == null) {
@@ -116,7 +116,8 @@ function CreatePromoPopUp({
         "-" +
         moment(values.anneeUniversitaire[1]).format("YYYY");
       values.siglePromotion = codeFormation + "-" + values.anneeUniversitaire;
-
+      console.log("PRomotio");
+      console.log(values);
       axios
         .post(`http://localhost:8034/promotions/`, values)
         .then((res) => {
@@ -191,14 +192,20 @@ function CreatePromoPopUp({
                     name="nbMaxEtudiant"
                     rules={rulesInteger}
                   >
-                    <Input size="large" min={0} style={{ width: "100%" }} />
+                    <Input size="large" min={0} style={{ width: "100%" }} maxLength={3} max={127}/>
                   </Item>
                   <Item
                     label="Lieu de Rentrée"
                     name="lieuRentree"
                     rules={rules}
                   >
-                    <Input size="large" />
+                    <Select size="large">
+                      {salles.map((salle,index) => (
+                        <Option key={salle.index} value={salle.abreviation}>
+                          {salle.signification} {salle.abreviation}
+                        </Option>
+                      ))}
+                    </Select>
                   </Item>
                   <Item label="Formation" name="codeFormation">
                     <Input

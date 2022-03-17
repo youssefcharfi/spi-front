@@ -51,8 +51,6 @@ function PromotionDetails() {
       res.data.map((univ) =>
         setUniversite(universite.set(univ.abreviation, univ.signification))
       );
-      console.log("universite :>> ", res.data);
-      console.log("universite Keyed collections :>> ", universite);
     });
     ///////////////////////////////////////
   }, []);

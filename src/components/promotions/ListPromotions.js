@@ -161,6 +161,7 @@ const Promotion = () => {
 
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
+          
           <Modal
             title={
               <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
@@ -171,7 +172,7 @@ const Promotion = () => {
             cancelButtonProps={{ style: { display: "none" } }}
             okButtonProps={{ style: { display: "none" } }}
             onCancel={handleCancel}
-            width={1000}
+            width={800}
           >
             <CreatePromoPopUp
               codeFormation={codeFormation}

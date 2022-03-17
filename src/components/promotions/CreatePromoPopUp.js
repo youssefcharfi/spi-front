@@ -153,8 +153,8 @@ function CreatePromoPopUp({
       >
         <EnseignantList recupererEnseignant={recupererEnseignant} />
       </Modal>
-      <Row justify="center">
-        <Col span={24}>
+      <Row justify="center">     
+        <Col >
           <Card className="card">
             <Form
               form={form}

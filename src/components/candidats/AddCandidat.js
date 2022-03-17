@@ -18,7 +18,7 @@ import "toastr/build/toastr.css";
 import toastr from "toastr";
 import axios from "axios";
 //import isEmail from "Validator/lib/isEmail";
-
+import ReplayIcon from "@mui/icons-material/Replay";
 const { Item } = Form;
 const { Option } = Select;
 
@@ -29,6 +29,7 @@ function AddCandidat({
   anneeUniversitaire,
   universite,
   ajouterCandidat,
+  fermerPopUp,
 }) {
   const [form] = Form.useForm();
   const [messageErreur, setMessageErreur] = useState("");
@@ -77,7 +78,19 @@ function AddCandidat({
       </Select>
     </Item>
   );
-  const onFinish = (values) => {
+  const vider = (e) => {
+    form.resetFields();
+  };
+  const handleReAdd = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        onFinishReAdd(values);
+      })
+      .catch((errorInfo) => {});
+  };
+  //var ajoutConfirma
+  const onFinishReAdd = (values) => {
     // const {
     //   // anneeUniversitaire,
     //   // dateNaissance,
@@ -107,6 +120,7 @@ function AddCandidat({
       .post(`http://localhost:8034/candidats`, candidat)
       .then((res) => {
         ajouterCandidat(res.data);
+
         toastr.success(
           "Candidat : " +
             candidat.prenom +
@@ -118,6 +132,7 @@ function AddCandidat({
         console.log("res: ", res);
         console.log("data: ", res.data);
         console.log("error: ", res.error);
+        vider();
       })
       .catch((error) => {
         setMessageErreur(error.response.data.errorMeassage);
@@ -127,6 +142,11 @@ function AddCandidat({
           error.response.data.errorMeassage
         );
       });
+  };
+
+  const onFinish = (values) => {
+    onFinishReAdd(values);
+    fermerPopUp();
   };
   return (
     <div className="container__antd p-top-20">
@@ -349,14 +369,43 @@ function AddCandidat({
                   <Option key={"NR"}>Non Retenu</Option>
                 </Select>
               </Item>
-              <Row justify="end">
+              {/* <Row justify="end">
                 <Button htmlType="submit" size="large" type="primary">
                   AJOUTER
                 </Button>
-              </Row>
+              </Row> */}
               {/* <Row justify="center">
                 <p style={{ color: "red" }}>{messageErreur}</p>
               </Row> */}
+              <Row>
+                <button
+                  type="button"
+                  size="large"
+                  onClick={vider}
+                  className="btn btn-outline-secondary mx-2"
+                  style={{ float: "left" }}
+                >
+                  <ReplayIcon />
+                </button>
+
+                <button
+                  type="submit"
+                  size="large"
+                  className="btn btn-primary mx-2"
+                  style={{ float: "right" }}
+                >
+                  AJOUTER
+                </button>
+                <button
+                  type="button"
+                  size="large"
+                  onClick={handleReAdd}
+                  className="btn btn-primary mx-2"
+                  style={{ float: "right" }}
+                >
+                  REAJOUTER
+                </button>
+              </Row>
             </Form>
           </Card>
         </Col>

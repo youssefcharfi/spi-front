@@ -22,6 +22,8 @@ import get from "lodash/get";
 import moment from "moment";
 import { Radio } from "antd";
 import EnseignantList from "../enseignant/EnseignantList";
+import ReplayIcon from "@mui/icons-material/Replay";
+
 const { Item } = Form;
 const { Option } = Select;
 const { TextArea } = Input;
@@ -81,13 +83,16 @@ function CreatePromoPopUp({
       axios
         .post(`http://localhost:8034/promotions/`, values)
         .then((res) => {
-          //ajoutPromo(res.data);
+          toastr.info(
+            "La promotion a été ajouter avec succée",
+            "Ajout Promotion"
+          );
           navigate(
             `/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`
           );
         })
         .catch((error) => {
-          toastr.error(error.response.data.errorMeassage, "Erreur d'ajout");
+          toastr.error(error.response.data.errorMeassage, "Ajout Promotion");
         });
     }
   };
@@ -114,8 +119,13 @@ function CreatePromoPopUp({
       axios
         .post(`http://localhost:8034/promotions/`, values)
         .then((res) => {
-          //ajoutPromo(res.data);
+          ajoutPromo(res.data);
           //navigate(`/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`)
+          toastr.info(
+            "La promotion a été ajouter avec succée",
+            "Ajout Promotion"
+          );
+          resetForm();
         })
         .catch((error) => {
           toastr.error(error.response.data.errorMeassage, "Erreur d'ajout");
@@ -132,7 +142,6 @@ function CreatePromoPopUp({
       .validateFields()
       .then((values) => {
         onFinishReAdd(values);
-        resetForm();
       })
       .catch((errorInfo) => {});
   };
@@ -269,7 +278,7 @@ function CreatePromoPopUp({
                   className="btn btn-outline-secondary mx-2"
                   style={{ float: "left" }}
                 >
-                  VIDER
+                  <ReplayIcon />
                 </button>
                 <button
                   type="submit"

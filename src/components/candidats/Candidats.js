@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-//import { useParams } from "react-router";
 import { DataGrid } from "@mui/x-data-grid";
 import { Container, Grid } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -11,13 +10,13 @@ import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-//import { useNavigate } from "react-router-dom";
 import { Modal } from "antd";
 import AddCandidat from "./AddCandidat";
 import Tooltip from "@mui/material/Tooltip";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 function Candidats({ promotion, universite, setPromotion }) {
   console.log("universite  ", universite.values);
@@ -120,10 +119,6 @@ function Candidats({ promotion, universite, setPromotion }) {
     setIsModalVisible(true);
   };
 
-  // const handleOk = () => {
-  //   setIsModalVisible(false);
-  // };
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -200,25 +195,12 @@ function Candidats({ promotion, universite, setPromotion }) {
 
   return (
     <Container style={{ height: 426.5 }} maxWidth>
-      <Grid container spacing={2} alignItems="right" justifyContent="right">
+      <Grid
+        container
+        spacing={2}
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
         <Grid item>
-          <TextField
-            margin=""
-            id="outlined-basic"
-            label="Chercher par Nom/Prénom"
-            variant="outlined"
-            onChange={(e) => handleChange(e)}
-          />
-          <Tooltip title="Ajouter un candidat" placement="bottom">
-            <IconButton aria-label="add">
-              <AddBoxIcon
-                fontSize="large"
-                color="primary"
-                onClick={showModal}
-                // onClick={() => navigate("/candidats/create")}
-              />
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Admission des candidats" placement="bottom">
             <IconButton aria-label="add">
               <ArrowCircleRightIcon
@@ -229,6 +211,35 @@ function Candidats({ promotion, universite, setPromotion }) {
               />
             </IconButton>
           </Tooltip>
+        </Grid>
+        <Grid item>
+          <Grid
+            container
+            spacing={2}
+            sx={{ display: "flex", justifyContent: "right" }}
+          >
+            <Grid item>
+              <TextField
+                margin=""
+                size="small"
+                id="outlined-basic"
+                label="Chercher par Nom/Prénom"
+                variant="outlined"
+                onChange={(e) => handleChange(e)}
+              />
+            </Grid>
+            <Grid item>
+              <Tooltip title="Ajouter un candidat" placement="bottom">
+                <IconButton aria-label="add">
+                  <AddBoxIcon
+                    fontSize="large"
+                    color="primary"
+                    onClick={showModal}
+                  />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <Modal

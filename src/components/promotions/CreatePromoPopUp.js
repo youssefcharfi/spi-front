@@ -84,9 +84,10 @@ function CreatePromoPopUp({
         .post(`http://localhost:8034/promotions/`, values)
         .then((res) => {
           toastr.info(
-            "La promotion a été ajouter avec succée",
+            "La promotion a été ajouté avec succée",
             "Ajout Promotion"
           );
+
           navigate(
             `/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`
           );
@@ -121,10 +122,12 @@ function CreatePromoPopUp({
         .then((res) => {
           ajoutPromo(res.data);
           //navigate(`/promotions/${res.data.codeFormation}/${res.data.anneeUniversitaire}`)
+
           toastr.info(
-            "La promotion a été ajouter avec succée",
+            "La promotion a été ajouté avec succée",
             "Ajout Promotion"
           );
+
           resetForm();
         })
         .catch((error) => {
@@ -163,7 +166,7 @@ function CreatePromoPopUp({
         <EnseignantList recupererEnseignant={recupererEnseignant} />
       </Modal>
       <Row justify="center">
-        <Col span={24}>
+        <Col>
           <Card className="card">
             <Form
               form={form}

@@ -8,7 +8,7 @@ import Error from "../shared/Error";
 import Loader from "../shared/Loader";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
-import { Modal } from "antd";
+import { Modal, Row, Col,} from "antd";
 import axios from "axios";
 import Tooltip from "@mui/material/Tooltip";
 import "toastr/build/toastr.css";
@@ -119,7 +119,6 @@ const Promotion = () => {
 
   const ajoutPromo = (promotion) => {
     setPromo([promotion, ...promo]);
-    toastr.info("Promotion à été ajouter avec succeés");
   };
 
   const navigate = useNavigate();
@@ -152,7 +151,7 @@ const Promotion = () => {
           <h4 className="h2">Promotion : {codeFormation}</h4>
         </Grid>
         <Grid item>
-          <Tooltip title="Ajouter une promotion" placement="bottom">
+          <Tooltip title="Ajouter" placement="bottom">
             <IconButton aria-label="add">
               <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
             </IconButton>
@@ -161,18 +160,20 @@ const Promotion = () => {
       </Grid>
 
       <div style={{ display: "flex", height: "100%" }}>
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ flexGrow: 1 }} >
+        <Row>
+        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
           <Modal
             title={
               <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-                Formulaire d'ajout Promotion
+                Ajouter une Promotion
               </h3>
             }
             visible={isModalVisible}
             cancelButtonProps={{ style: { display: "none" } }}
             okButtonProps={{ style: { display: "none" } }}
             onCancel={handleCancel}
-            width={1000}
+            width={800}
           >
             <CreatePromoPopUp
               codeFormation={codeFormation}
@@ -181,6 +182,8 @@ const Promotion = () => {
               resetForm={handleReset}
             />
           </Modal>
+          </Col>
+          </Row>
           <DataGrid
             getRowId={(promo) => promo.anneeUniversitaire + promo.codeFormation}
             rows={promo}

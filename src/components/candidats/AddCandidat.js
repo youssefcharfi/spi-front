@@ -227,9 +227,10 @@ function AddCandidat({
                     name="mobile"
                     rules={[
                       {
+                        pattern: "^[+][0-9]{7,12}$",
+                        message: "${label} n'est pas valide!",
                         required: true,
                       },
-                      { rulesInteger },
                     ]}
                   >
                     {/* <Input

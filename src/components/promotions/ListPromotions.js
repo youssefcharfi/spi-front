@@ -8,12 +8,12 @@ import Error from "../shared/Error";
 import Loader from "../shared/Loader";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
-import { Modal, Row, Col,} from "antd";
+import { Modal, Row, Col } from "antd";
 import axios from "axios";
 import Tooltip from "@mui/material/Tooltip";
 import "toastr/build/toastr.css";
 import toastr from "toastr";
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from "@mui/icons-material/Info";
 import ServerError from "../ServerError";
 
 const columns = ({ navigate }) => [
@@ -30,8 +30,8 @@ const columns = ({ navigate }) => [
     type: "string",
     flex: 0.3,
     valueGetter: (params) =>
-        `${params.row?.enseignantByNoEnseignant?.nom || ""}` +
-        ` ${params.row?.enseignantByNoEnseignant?.prenom || ""}`
+      `${params.row?.enseignantByNoEnseignant?.nom || ""}` +
+      ` ${params.row?.enseignantByNoEnseignant?.prenom || ""}`,
   },
 
   {
@@ -70,13 +70,15 @@ const columns = ({ navigate }) => [
     type: "string",
     flex: 0.3,
     valueGetter: (params) =>
-      params.row.processusStage != null ? params.row.processusStage : "Pas de processus stage"
+      params.row.processusStage != null
+        ? params.row.processusStage
+        : "Pas de processus stage",
   },
 
   {
     headerName: "details",
     field: "detail",
-    flex: 0.20,
+    flex: 0.2,
     align: "center",
     renderCell: (params) => {
       return (
@@ -97,17 +99,17 @@ const columns = ({ navigate }) => [
 const Promotion = () => {
   const [promo, setPromo] = useState([]);
   const [error, setError] = useState(false);
-  const [errorServer, setErrorServer] = useState(false)
+  const [errorServer, setErrorServer] = useState(false);
   const [loading, setLoading] = useState(false);
   const { codeFormation } = useParams();
-  const [salles , setSalles] = useState([]);
+  const [salles, setSalles] = useState([]);
   useEffect(() => {
     setLoading(true);
     axios
       .get(`http://localhost:8034/promotions/${codeFormation}`)
       .then((res) => {
         setLoading(false);
-        setErrorServer(false)
+        setErrorServer(false);
         setError(false);
         setPromo(res.data);
       })
@@ -117,8 +119,8 @@ const Promotion = () => {
         else if (err.response.status === 404) setError(true);
       });
 
-      axios.get(`http://localhost:8034/domaine/salle`).then((res) => {
-      setSalles(res.data)
+    axios.get(`http://localhost:8034/domaine/salle`).then((res) => {
+      setSalles(res.data);
     });
   }, []);
 
@@ -146,56 +148,74 @@ const Promotion = () => {
   const handleReset = () => {
     form.resetFields();
   };
-  if (loading) return <Loader />
-  if (error) return  <Error message={"Aucune promotion n'est disponible pour la formation " + codeFormation}/>
-  if(errorServer) return <ServerError/>
+  if (loading) return <Loader />;
+  // if (error) return  <Error message={"Aucune promotion n'est disponible pour la formation " + codeFormation}/>
+  if (errorServer) return <ServerError />;
   return (
     <Container style={{ height: 319 }} maxWidth>
-      <Grid container sx={{ display: 'flex', justifyContent: 'space-between', mb: 4 }}>
+      <Grid
+        container
+        sx={{ display: "flex", justifyContent: "space-between", mb: 4 }}
+      >
         <Grid item>
           <h4 className="h2">Promotion : {codeFormation}</h4>
         </Grid>
         <Grid item>
           <Tooltip title="Ajouter" placement="bottom">
             <IconButton aria-label="add">
-              <AddBoxIcon fontSize="large" color="primary" onClick={showModal} />
+              <AddBoxIcon
+                fontSize="large"
+                color="primary"
+                onClick={showModal}
+              />
             </IconButton>
           </Tooltip>
         </Grid>
       </Grid>
 
       <div style={{ display: "flex", height: "100%" }}>
-        <div style={{ flexGrow: 1 }} >
-        <Row>
-        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
-          <Modal
-            title={
-              <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-                Ajouter une Promotion
-              </h3>
-            }
-            visible={isModalVisible}
-            cancelButtonProps={{ style: { display: "none" } }}
-            okButtonProps={{ style: { display: "none" } }}
-            onCancel={handleCancel}
-            width={800}
-          >
-            <CreatePromoPopUp
-              codeFormation={codeFormation}
-              ajoutPromo={ajoutPromo}
-              formulaire={setForm}
-              resetForm={handleReset}
-              salles={salles}
-            />
-          </Modal>
-          </Col>
+        <div style={{ flexGrow: 1 }}>
+          <Row>
+            <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+              <Modal
+                title={
+                  <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
+                    Ajouter une Promotion
+                  </h3>
+                }
+                visible={isModalVisible}
+                cancelButtonProps={{ style: { display: "none" } }}
+                okButtonProps={{ style: { display: "none" } }}
+                onCancel={handleCancel}
+                width={800}
+              >
+                <CreatePromoPopUp
+                  codeFormation={codeFormation}
+                  ajoutPromo={ajoutPromo}
+                  formulaire={setForm}
+                  resetForm={handleReset}
+                  salles={salles}
+                />
+              </Modal>
+            </Col>
           </Row>
-          <DataGrid
-            getRowId={(promo) => promo.anneeUniversitaire + promo.codeFormation}
-            rows={promo}
-            columns={columns({ navigate })}
-            hideFooter="true"
-          />
+          {error ? (
+            <Error
+              message={
+                "Aucune promotion n'est disponible pour la formation " +
+                codeFormation
+              }
+            />
+          ) : (
+            <DataGrid
+              getRowId={(promo) =>
+                promo.anneeUniversitaire + promo.codeFormation
+              }
+              rows={promo}
+              columns={columns({ navigate })}
+              hideFooter="true"
+            />
+          )}
         </div>
       </div>
     </Container>

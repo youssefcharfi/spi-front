@@ -36,7 +36,7 @@ function Promotion({ promotion }) {
           </div>
           {promotion.commentaire == null ?
           <div className="col-sm-10 text-secondary fst-italic">
-            commentaire non communiqué 
+            pas de commentaire
           </div> : <div className="col-sm-10 text-secondary">
             {promotion.commentaire}
           </div>
@@ -46,24 +46,24 @@ function Promotion({ promotion }) {
       </>
       <div className="row">
         <div className="col-sm-2">
-          <h6 className="mb-0">Lieu rentrée</h6>
+          <h6 className="mb-0">Lieu de rentrée</h6>
         </div>
         <div className="col-sm-4 text-secondary">{promotion.lieuRentree}</div>
         <div className="col-sm-2">
-          <h6 className="mb-0">Date rentrée</h6>
+          <h6 className="mb-0">Date de rentrée</h6>
         </div>
         <div className="col-sm-4 text-secondary">{promotion.dateRentree}</div>
       </div>
       <hr />
       <div className="row">
         <div className="col-sm-2">
-          <h6 className="mb-0">Date réponse lp</h6>
+          <h6 className="mb-0">Date de réponse LP</h6>
         </div>
         <div className="col-sm-4 text-secondary">
           {promotion.dateReponseLalp}
         </div>
         <div className="col-sm-2">
-          <h6 className="mb-0">Date réponse lalp</h6>
+          <h6 className="mb-0">Date de réponse LALP</h6>
         </div>
         <div className="col-sm-4 text-secondary">
           {promotion.dateReponseLalp}
@@ -72,20 +72,20 @@ function Promotion({ promotion }) {
       <hr />
       <div className="row">
         <div className="col-sm-2">
-          <h6 className="mb-0">Processus stage</h6>
+          <h6 className="mb-0">Processus de stage</h6>
         </div>
-        {promotion.processusStage == null ? (<div className="col-sm-10 text-secondary fst-italic">processus stage non communiqué</div>)
+        {promotion.processusStage == null ? (<div className="col-sm-10 text-secondary fst-italic">pas de processus de stage</div>)
           :
           (<div className="col-sm-10 text-secondary">{stage.get(promotion.processusStage)}</div>)}
       </div>
       <hr />
       <div className="row">
         <div className="col-sm-2">
-          <h6 className="mb-0">Sigle promotion</h6>
+          <h6 className="mb-0">Sigle de promotion</h6>
         </div>
         {promotion.siglePromotion == null ?
           <div className="col-sm-10 text-secondary fst-italic">
-            sigle promotion non communiqué 
+            pas de sigle de promotion 
           </div> : <div className="col-sm-10 text-secondary">
             {promotion.siglePromotion}
           </div>

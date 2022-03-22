@@ -1,59 +1,64 @@
 import { React, useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, frFR } from "@mui/x-data-grid";
 import { Button, Container, Grid } from "@mui/material";
-import axios from 'axios'
+import axios from "axios";
 import { useNavigate } from "react-router";
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import Loader from "../shared/Loader";
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import IconButton from '@mui/material/IconButton';
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import ServerError from '../ServerError'
+import ServerError from "../ServerError";
 
 function Formations() {
+  const [formations, setFormations] = useState([]);
 
-  const [formations, setFormations] = useState([])
+  const [formationsSearched, setFormationsSearched] = useState([]);
 
-  const [formationsSearched, setFormationsSearched] = useState([])
-
-  const [errorServer, setErrorServer] = useState(false)
+  const [errorServer, setErrorServer] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    getFormations()
-  }, [])
+    getFormations();
+  }, []);
 
-  let navigate = useNavigate()
+  let navigate = useNavigate();
 
   const getFormations = () => {
-    axios.get("http://localhost:8034/formations")
-      .then(res => {
-        setFormations(res.data)
-        setFormationsSearched(res.data)
+    axios
+      .get("http://localhost:8034/formations")
+      .then((res) => {
+        setFormations(res.data);
+        setFormationsSearched(res.data);
         setLoading(false);
-        setErrorServer(false)
+        setErrorServer(false);
       })
       .catch((err) => {
-        setLoading(false)
+        setLoading(false);
         if (!err.response || err.response.status === 500) {
-          setErrorServer(true)
-        }
-        else if (err.response.status === 404) navigate("*", { replace: true });
-
+          setErrorServer(true);
+        } else if (err.response.status === 404)
+          navigate("*", { replace: true });
       });
-  }
+  };
 
   const handleChange = (e) => {
-    let search = e.target.value
-    if (search.split(' ').join('') !== "") {
-      setFormations(formationsSearched.filter(formation => formation.codeFormation.toLowerCase().includes(search.toLowerCase()) || formation.nomFormation.toLowerCase().includes(search.toLowerCase())))
-    }
-    else setFormations(formationsSearched)
-  }
-
+    let search = e.target.value;
+    if (search.split(" ").join("") !== "") {
+      setFormations(
+        formationsSearched.filter(
+          (formation) =>
+            formation.codeFormation
+              .toLowerCase()
+              .includes(search.toLowerCase()) ||
+            formation.nomFormation.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    } else setFormations(formationsSearched);
+  };
 
   const columns = [
     {
@@ -61,7 +66,7 @@ function Formations() {
       headerName: "Code",
       type: "string",
       flex: 0.2,
-      align: 'left',
+      align: "left",
     },
     {
       field: "diplome",
@@ -69,8 +74,7 @@ function Formations() {
       type: "string",
       flex: 0.2,
       valueGetter: (params) =>
-        `${params.row.diplome || ""}` +
-        `${params.row.n0Annee}`,
+        `${params.row.diplome || ""}` + `${params.row.n0Annee}`,
     },
 
     {
@@ -84,7 +88,7 @@ function Formations() {
       headerName: "Double diplome",
       type: "string",
       flex: 0.25,
-      align: 'center',
+      align: "center",
     },
     {
       field: "debutAccreditation",
@@ -108,9 +112,7 @@ function Formations() {
           <Tooltip title={params.row.codeFormation} placement="right">
             <IconButton
               onClick={() =>
-                navigate(
-                  `/promotions/${params.row.codeFormation}`
-                )
+                navigate(`/promotions/${params.row.codeFormation}`)
               }
             >
               <FormatListBulletedIcon fontSize="small" color="primary" />
@@ -121,10 +123,10 @@ function Formations() {
     },
   ];
   if (loading) return <Loader />;
-  if(errorServer) return <ServerError/>;
+  if (errorServer) return <ServerError />;
   return (
     <Container style={{ height: 319 }} maxWidth>
-      <Grid container sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Grid container sx={{ display: "flex", justifyContent: "space-between" }}>
         <Grid item>
           <h4 className="h2">Formations</h4>
         </Grid>
@@ -132,12 +134,18 @@ function Formations() {
           <Box
             component="form"
             sx={{
-              '& > :not(style)': { m: 1, width: '27ch' },
+              "& > :not(style)": { m: 1, width: "27ch" },
             }}
             noValidate
             autoComplete="off"
           >
-            <TextField id="outlined-basic" size="small" label="Chercher par Code ou Nom" variant="outlined" onChange={(e) => handleChange(e)} />
+            <TextField
+              id="outlined-basic"
+              size="small"
+              label="Chercher par Code ou Nom"
+              variant="outlined"
+              onChange={(e) => handleChange(e)}
+            />
           </Box>
         </Grid>
       </Grid>
@@ -150,6 +158,17 @@ function Formations() {
             pageSize={formations.length}
             rowsPerPageOptions={[formations.length]}
             getRowId={(row) => row.codeFormation}
+            localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+            initialState={{
+              sorting: {
+                sortModel: [
+                  {
+                    field: "nomFormation",
+                    sort: "asc",
+                  },
+                ],
+              },
+            }}
           />
         </div>
       </div>
@@ -157,5 +176,4 @@ function Formations() {
   );
 }
 
-export default Formations
-
+export default Formations;

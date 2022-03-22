@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, frFR } from "@mui/x-data-grid";
 // import axios from "axios";
 import { Container, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -42,6 +42,17 @@ export default function Etudiants({ etudiants }) {
           getRowId={(row) => row.noEtudiant}
           rowsPerPageOptions={[5]}
           style={{ height: "87%" }}
+          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+          initialState={{
+            sorting: {
+              sortModel: [
+                {
+                  field: "nom",
+                  sort: "asc",
+                },
+              ],
+            },
+          }}
           //   checkboxSelection
         />
       ) : (

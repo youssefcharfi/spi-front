@@ -84,7 +84,11 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
       align: "center",
       renderCell: (params) => {
         return params.row.confirmationCandidat == "O" ? (
-          <Tooltip title={"confirmé"} placement="bottom-start" followCursor>
+          <Tooltip
+            title={"Candidature acceptée"}
+            placement="bottom-start"
+            followCursor
+          >
             <CheckBoxIcon
               style={{ alignItems: "center", justifyContent: "center" }}
               fontSize="large"
@@ -92,7 +96,11 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
             />
           </Tooltip>
         ) : params.row.confirmationCandidat == "N" ? (
-          <Tooltip title={"non confirmé"} placement="bottom-start" followCursor>
+          <Tooltip
+            title={"Candidature refusée"}
+            placement="bottom-start"
+            followCursor
+          >
             <IndeterminateCheckBoxIcon
               style={{ alignItems: "center", justifyContent: "center" }}
               fontSize="large"
@@ -101,7 +109,7 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
           </Tooltip>
         ) : (
           <Tooltip
-            title={"en attente de canfirmation"}
+            title={"En attente de confirmation"}
             placement="bottom-start"
             followCursor
           >

@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, frFR } from "@mui/x-data-grid";
 import { Button, Container, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
@@ -214,6 +214,17 @@ const Promotion = () => {
               rows={promo}
               columns={columns({ navigate })}
               hideFooter="true"
+              localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+              initialState={{
+                sorting: {
+                  sortModel: [
+                    {
+                      field: "dateRentree",
+                      sort: "asc",
+                    },
+                  ],
+                },
+              }}
             />
           )}
         </div>

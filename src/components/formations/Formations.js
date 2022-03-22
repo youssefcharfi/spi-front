@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { DataGrid, frFR } from "@mui/x-data-grid";
-import { Button, Container, Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
@@ -70,7 +70,7 @@ function Formations() {
     },
     {
       field: "diplome",
-      headerName: "Diplome",
+      headerName: "Diplôme",
       type: "string",
       flex: 0.2,
       valueGetter: (params) =>
@@ -85,7 +85,7 @@ function Formations() {
     },
     {
       field: "doubleDiplome",
-      headerName: "Double diplome",
+      headerName: "Double diplôme",
       type: "string",
       flex: 0.25,
       valueGetter: (params) =>{
@@ -105,7 +105,7 @@ function Formations() {
       flex: 0.3,
     },
     {
-      headerName: "Promotion",
+      headerName: "Promotions",
       field: "jnjn",
       flex: 0.2,
       align: "center",
@@ -157,7 +157,7 @@ function Formations() {
           <DataGrid
             rows={formations}
             columns={columns}
-            pageSize={formations.length}
+            pageSize={4}
             rowsPerPageOptions={[formations.length]}
             getRowId={(row) => row.codeFormation}
             localeText={frFR.components.MuiDataGrid.defaultProps.localeText}

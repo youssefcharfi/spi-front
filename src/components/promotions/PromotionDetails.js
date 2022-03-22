@@ -111,9 +111,9 @@ function PromotionDetails() {
               variant="fullWidth"
               aria-label="action tabs example"
             >
-              <Tab label="Details" {...a11yProps(0)} />
+              <Tab label="DÉtails" {...a11yProps(0)} />
               <Tab label="Candidats" {...a11yProps(1)} />
-              <Tab label="Etudiants" {...a11yProps(2)} />
+              <Tab label="Étudiants" {...a11yProps(2)} />
             </Tabs>
           </AppBar>
           <SwipeableViews

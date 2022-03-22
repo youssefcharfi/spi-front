@@ -88,7 +88,9 @@ function Formations() {
       headerName: "Double diplome",
       type: "string",
       flex: 0.25,
-      align: "center",
+      valueGetter: (params) =>{
+        return params.row.doubleDiplome === "O" ? "Oui" : "Non"
+      }
     },
     {
       field: "debutAccreditation",

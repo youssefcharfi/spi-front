@@ -156,7 +156,7 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
                 .catch((error) => {
                   toastr.error(
                     error.response.data.errorMeassage,
-                    "Admission Candidats"
+                    "Admission des candidats"
                   );
                 });
               toastr.info(
@@ -256,7 +256,7 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
       <Modal
         title={
           <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-            Ajouter un Candidat
+            Ajouter un candidat
           </h3>
         }
         visible={isModalVisible}
@@ -307,7 +307,7 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
         >
           <Grid item xs={3}>
             <Typography color="darkGray" fontSize="30px">
-              il n y a pas de candidat à afficher pour cette promotion
+            il n'y a pas de candidats à afficher pour cette promotion
             </Typography>
           </Grid>
         </Grid>

@@ -15,21 +15,18 @@ export default function Etudiants({ etudiants }) {
       field: "universiteOrigine",
       headerName: "Universite d'origine",
       flex: 0.4,
-      align: "center",
     },
     {
       field: "groupeTp",
       headerName: "Groupe TP",
       type: Number,
       flex: 0.25,
-      align: "center",
     },
     {
       field: "groupeAnglais",
-      headerName: "Groupe Anglais",
+      headerName: "Groupe anglais",
       type: Number,
       flex: 0.3,
-      align: "center",
     },
   ];
   return (
@@ -65,7 +62,7 @@ export default function Etudiants({ etudiants }) {
         >
           <Grid item xs={3}>
             <Typography color="darkGray" fontSize="30px">
-              il n y a pas d'étudiants à afficher pour cette promotion
+              il n'y a pas d'étudiants à afficher pour cette promotion
             </Typography>
           </Grid>
         </Grid>

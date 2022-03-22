@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, frFR } from "@mui/x-data-grid";
 import { Container, Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -9,7 +9,7 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import HelpCenterIcon from "@mui/icons-material/HelpCenter";
 import { Modal } from "antd";
 import AddCandidat from "./AddCandidat";
 import Tooltip from "@mui/material/Tooltip";
@@ -40,17 +40,16 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
   };
 
   const columns = [
-    { field: "prenom", headerName: "Prenom", flex: 0.3 },
+    { field: "prenom", headerName: "Prénom", flex: 0.3 },
     { field: "nom", headerName: "Nom", flex: 0.3 },
     { field: "email", headerName: "Email", flex: 0.5 },
 
     {
-      headerName: "Universite d'origine",
+      headerName: "Université d'origine",
       field: "universiteOrigine",
       flex: 0.3,
-      align: "center",
+      //align: "center",
       renderCell: (params) => {
-        //console.log("params:   ", universite.get(params.row.universiteOrigine));
         return (
           <Tooltip
             title={universite.get(params.row.universiteOrigine)}
@@ -62,35 +61,24 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
         );
       },
     },
-
-    // { field: "listeSelection", headerName: "listeSelection", width: 150 },
     {
-      headerName: "Liste de selection",
+      headerName: "Liste de sélection",
       field: "listeSelection",
       flex: 0.3,
-      align: "center",
+      //align: "center",
       renderCell: (params) => {
-        // console.log("params:   ",listeDeSelection.get(params.row.listeSelection));
-        return (
-          <Tooltip
-            title={listeDeSelection.get(params.row.listeSelection)}
-            placement="bottom-start"
-            followCursor
-          >
-            <div>{params.row.listeSelection}</div>
-          </Tooltip>
-        );
+        return <div>{listeDeSelection.get(params.row.listeSelection)}</div>;
       },
     },
     {
       field: "selectionNoOrdre",
-      headerName: "Ordre de selection",
+      headerName: "Ordre de sélection",
       align: "center",
       flex: 0.3,
     },
 
     {
-      headerName: "confirmation",
+      headerName: "Confirmation",
       field: "detail",
       flex: 0.2,
       align: "center",
@@ -117,7 +105,7 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
             placement="bottom-start"
             followCursor
           >
-            <CheckBoxOutlineBlankIcon fontSize="large" color="danger" />
+            <HelpCenterIcon fontSize="large" color="danger" />
           </Tooltip>
         );
       },
@@ -179,16 +167,6 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
     } else {
       toastr.info("Pas de candidats pour l'admission!", "Admission Candidats");
     }
-    /*axios
-    .get(`http://localhost:8034/promotions/${promotion.codeFormation}/${promotion.anneeUniversitaire}`)
-    .then((res) => {
-      console.log("Candidat ");
-      console.log(res);
-      setCandidats(res.data.candidats);
-    })
-    .catch((error) => {
-      toastr.error(error.response.data.errorMeassage,"Erreur d'ajout");
-    });*/
   };
 
   const handleChange = (e) => {
@@ -202,6 +180,17 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
         )
       );
     } else setCandidats(candidatsSearch);
+  };
+
+  const options = {
+    textLabels: {
+      pagination: {
+        next: "Suivant >",
+        previous: "< Precedent",
+        //rowsPerPage: "Total items Per Page",
+        displayRows: "/",
+      },
+    },
   };
 
   return (
@@ -238,7 +227,7 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
                 variant="outlined"
                 onChange={(e) => handleChange(e)}
                 sx={{
-                  '& > :not(style)': { width: '28ch' },
+                  "& > :not(style)": { width: "28ch" },
                 }}
               />
             </Grid>
@@ -287,7 +276,18 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
           rowsPerPageOptions={[5]}
           getRowId={(row) => row.noCandidat}
           style={{ height: "87%", marginTop: "10px" }}
-          //   checkboxSelection
+          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+          initialState={{
+            sorting: {
+              sortModel: [
+                {
+                  field: "nom",
+                  sort: "asc",
+                },
+              ],
+            },
+          }}
+          checkboxSelection
         />
       ) : (
         <Grid

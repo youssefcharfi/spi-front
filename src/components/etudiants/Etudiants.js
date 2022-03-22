@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 
 export default function Etudiants({ etudiants }) {
   const columns = [
-    { field: "noEtudiant", headerName: "Numéro", flex: 0.3 },
-    { field: "nom", headerName: "Nom", flex: 0.4},
+    // { field: "noEtudiant", headerName: "Numéro", flex: 0.3 },
+    { field: "nom", headerName: "Nom", flex: 0.4 },
     { field: "prenom", headerName: "Prenom", flex: 0.3 },
     { field: "mobile", headerName: "mobile", flex: 0.4 },
     { field: "email", headerName: "Email", flex: 0.6 },
@@ -17,13 +17,19 @@ export default function Etudiants({ etudiants }) {
       flex: 0.4,
       align: "center",
     },
-    { field: "groupeTp", headerName: "Groupe TP", type: Number, flex: 0.25, align: "center" },
+    {
+      field: "groupeTp",
+      headerName: "Groupe TP",
+      type: Number,
+      flex: 0.25,
+      align: "center",
+    },
     {
       field: "groupeAnglais",
       headerName: "Groupe Anglais",
       type: Number,
       flex: 0.3,
-      align: "center"
+      align: "center",
     },
   ];
   return (
@@ -48,7 +54,7 @@ export default function Etudiants({ etudiants }) {
         >
           <Grid item xs={3}>
             <Typography color="darkGray" fontSize="30px">
-            il n y a pas d'étudiants à afficher pour cette promotion
+              il n y a pas d'étudiants à afficher pour cette promotion
             </Typography>
           </Grid>
         </Grid>

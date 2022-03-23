@@ -18,7 +18,7 @@ import ServerError from "../ServerError";
 
 const columns = ({ navigate }) => [
   {
-    headerName: "Année Universitaire",
+    headerName: "Année universitaire",
     field: "anneeUniversitaire",
     type: "string",
     flex: 0.3,
@@ -36,9 +36,9 @@ const columns = ({ navigate }) => [
 
   {
     field: "nbMaxEtudiant",
-    headerName: "Max des étudiants",
+    headerName: "Nombre max des étudiants",
     type: "string",
-    flex: 0.3,
+    flex: 0.4,
   },
   {
     field: "dateReponseLp",
@@ -66,7 +66,7 @@ const columns = ({ navigate }) => [
   },
   {
     field: "processusStage",
-    headerName: "Processus Stage",
+    headerName: "Processus stage",
     type: "string",
     flex: 0.3,
     valueGetter: (params) =>
@@ -76,7 +76,7 @@ const columns = ({ navigate }) => [
   },
 
   {
-    headerName: "details",
+    headerName: "Détails",
     field: "detail",
     flex: 0.2,
     align: "center",
@@ -158,7 +158,7 @@ const Promotion = () => {
         sx={{ display: "flex", justifyContent: "space-between", mb: 4 }}
       >
         <Grid item>
-          <h4 className="h2">Promotion : {codeFormation}</h4>
+          <h4 className="h2">Promotions de la formation : {codeFormation}</h4>
         </Grid>
         <Grid item>
           <Tooltip title="Ajouter" placement="bottom">

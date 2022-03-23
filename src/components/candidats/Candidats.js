@@ -17,10 +17,8 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
 
-function Candidats({ promotion, universite, setPromotion, pays }) {
-  console.log("universite  ", universite.values);
+function Candidats({ promotion, universite, setPromotion, pays, setLp, setLa }) {
   let keys = Array.from(universite.keys());
-  console.log("keys: ", keys);
   var listeDeSelection = new Map();
   listeDeSelection.set("LP", "Liste Principale");
   listeDeSelection.set("LA", "Liste d'Attente");
@@ -29,13 +27,15 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
   //promotion.candidats = [];
 
   const confirm = useConfirm();
+
   const [candidats, setCandidats] = useState(promotion.candidats);
   const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats);
 
-  console.log(promotion.candidats);
-
   const ajouterCandidat = (candidat) => {
+    if(candidat.listeSelection === "LP") setLp(candidatsSearch?.filter(cand => cand.listeSelection === "LP").length + 1)
+    if(candidat.listeSelection === "LA") setLa(candidatsSearch?.filter(cand => cand.listeSelection === "LA").length + 1)
     setCandidats([candidat, ...candidats]);
+    setCandidatsSearch([candidat, ...candidatsSearch])
   };
 
   const columns = [
@@ -155,7 +155,7 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
                 .catch((error) => {
                   toastr.error(
                     error.response.data.errorMeassage,
-                    "Admission Candidats"
+                    "Admission des candidats"
                   );
                 });
               toastr.info(
@@ -306,7 +306,7 @@ function Candidats({ promotion, universite, setPromotion, pays }) {
         >
           <Grid item xs={3}>
             <Typography color="darkGray" fontSize="30px">
-              il n y a pas de candidat à afficher pour cette promotion
+            il n'y a pas de candidats à afficher pour cette promotion
             </Typography>
           </Grid>
         </Grid>

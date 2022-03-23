@@ -17,6 +17,16 @@ import InfoIcon from "@mui/icons-material/Info";
 import ServerError from "../ServerError";
 import Typography from "@mui/material/Typography";
 //import dateFormat from "dateformat";
+
+  
+let stage = new Map([
+  ['EC', 'Stage en cours'],
+  ['EVAL', 'Stage evalué'],
+  ['RECH', 'Recherche en cours'],
+  ['SOUT', 'Sessions de soutenance définies'],
+  ['TUT', 'Tuteurs attribués']
+])
+
 const columns = ({ navigate }) => [
   {
     headerName: "Année universitaire",
@@ -43,7 +53,7 @@ const columns = ({ navigate }) => [
   },
   {
     field: "dateReponseLp",
-    headerName: "Date réponse LP",
+    headerName: "Date de réponse LP",
     type: "string",
     flex: 0.3,
     // renderCell: (params) => {
@@ -52,7 +62,7 @@ const columns = ({ navigate }) => [
   },
   {
     field: "dateReponseLalp",
-    headerName: "Date réponse LalP",
+    headerName: "Date de réponse LalP",
     type: "string",
     flex: 0.3,
     // renderCell: (params) => {
@@ -76,13 +86,13 @@ const columns = ({ navigate }) => [
   },
   {
     field: "processusStage",
-    headerName: "Processus stage",
+    headerName: "Processus de stage",
     type: "string",
     flex: 0.3,
     valueGetter: (params) =>
       params.row.processusStage != null
-        ? params.row.processusStage
-        : "Pas de processus stage",
+        ? stage.get(params.row.processusStage) 
+        : "Pas de processus de stage",
   },
 
   {
@@ -107,6 +117,7 @@ const columns = ({ navigate }) => [
 ];
 
 const Promotion = () => {
+
   const [promo, setPromo] = useState([]);
   const [error, setError] = useState(false);
   const [errorServer, setErrorServer] = useState(false);

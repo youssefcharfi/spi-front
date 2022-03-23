@@ -10,13 +10,47 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
 import { Modal, Row, Col } from "antd";
 import axios from "axios";
+import { useConfirm } from "material-ui-confirm";
 import Tooltip from "@mui/material/Tooltip";
 import "toastr/build/toastr.css";
 import toastr from "toastr";
 import InfoIcon from "@mui/icons-material/Info";
+import DeleteIcon from '@mui/icons-material/DeleteForever';
 import ServerError from "../ServerError";
 import Typography from "@mui/material/Typography";
 //import dateFormat from "dateformat";
+
+
+const Promotion = () => {
+
+  const confirm = useConfirm();
+  const [promo, setPromo] = useState([]);
+  const [error, setError] = useState(false);
+  const [errorServer, setErrorServer] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { codeFormation } = useParams();
+  const [salles, setSalles] = useState([]);
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:8034/promotions/${codeFormation}`)
+      .then((res) => {
+        setLoading(false);
+        setErrorServer(false);
+        setError(false);
+        setPromo(res.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+        if (!err.response || err.response.status === 500) setErrorServer(true);
+        else if (err.response.status === 404) setError(true);
+      });
+
+    axios.get(`http://localhost:8034/domaine/salle`).then((res) => {
+      setSalles(res.data);
+    });
+  }, []);
+
 
   
 let stage = new Map([
@@ -91,14 +125,14 @@ const columns = ({ navigate }) => [
     flex: 0.3,
     valueGetter: (params) =>
       params.row.processusStage != null
-        ? stage.get(params.row.processusStage) 
+        ? stage.get(params.row.processusStage)
         : "Pas de processus de stage",
   },
 
   {
     headerName: "Détails",
     field: "detail",
-    flex: 0.2,
+    flex: 0.1,
     align: "center",
     renderCell: (params) => {
       return (
@@ -114,36 +148,46 @@ const columns = ({ navigate }) => [
       );
     },
   },
+  {
+    field: "supprimer",
+    headerName: "",
+    flex: 0.1,
+    renderCell: (params) => {
+      return (
+        <Tooltip title={"Supprimer la promotion " + params.row.codeFormation + " " + params.row.anneeUniversitaire} placement="bottom">
+          <IconButton
+            onClick={() => deletePromo(params.row)}
+          >
+            <DeleteIcon style={{ color: "red" }} />
+          </IconButton>
+        </Tooltip>
+
+      );
+    },
+  },
 ];
 
-const Promotion = () => {
+const deletePromo = (promoToDelete) => {
+  confirm({
+    cancellationText: "Non",
+    confirmationText: "Oui",
+    title: "Supprimer une promotion",
+    description: `Êtes vous sûrs de supprimer la promotion ${promoToDelete.codeFormation} ${promoToDelete.anneeUniversitaire} ?`,
+  })
+    .then(() => {
+      axios.delete(`http://localhost:8034/promotions/${promoToDelete.codeFormation}/${promoToDelete.anneeUniversitaire}`)
+        .then(() =>{
+          setPromo(promo.filter(p => p.codeFormation !== promoToDelete.codeFormation && p.anneeUniversitaire !== promoToDelete.anneeUniversitaire))
+           toastr.info("La promotion " + promoToDelete.codeFormation + " " + promoToDelete.anneeUniversitaire + " est supprimée avec succés", "Suppréssion d'une promotion")
+          })
+        .catch(err => {
+          if (err.response.status === 409) toastr.error(err.response.data.errorMeassage, "Suppréssion d'une promotion")
+        })
+    })
+    .catch(err => console.log(err))
 
-  const [promo, setPromo] = useState([]);
-  const [error, setError] = useState(false);
-  const [errorServer, setErrorServer] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { codeFormation } = useParams();
-  const [salles, setSalles] = useState([]);
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`http://localhost:8034/promotions/${codeFormation}`)
-      .then((res) => {
-        setLoading(false);
-        setErrorServer(false);
-        setError(false);
-        setPromo(res.data);
-      })
-      .catch((err) => {
-        setLoading(false);
-        if (!err.response || err.response.status === 500) setErrorServer(true);
-        else if (err.response.status === 404) setError(true);
-      });
+}
 
-    axios.get(`http://localhost:8034/domaine/salle`).then((res) => {
-      setSalles(res.data);
-    });
-  }, []);
 
   const ajoutPromo = (promotion) => {
     setPromo([promotion, ...promo]);

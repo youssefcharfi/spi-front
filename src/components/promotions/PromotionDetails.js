@@ -123,10 +123,10 @@ function PromotionDetails() {
               <Tab label="DÉTAILS" {...a11yProps(0)} />
               <Tab label={
                 <div className="row">
-                  <div className="col-md-5 my-auto">CANDIDATS</div>
-                  <div className="col-sm-7">
-                    <div style={{marginLeft:"60px"}}>LP: {lp}</div>
-                    <div style={{marginLeft:"60px"}}>LA: {la}</div>
+                  <div className="col-md-3 my-auto">CANDIDATS</div>
+                  <div className="col-sm-9">
+                    <div style={{marginLeft:"45px"}} className="text-lowercase fw-bold">liste principale: {lp}</div>
+                    <div style={{marginLeft:"45px"}} className="text-lowercase">liste d'attente: {la}</div>
                   </div>
                 </div>
               } {...a11yProps(1)} />
@@ -134,7 +134,8 @@ function PromotionDetails() {
                 <div className="row">
                   <div className="col-md-3 my-auto">ÉTUDIANTS</div>
                   <div className="col-sm-9">
-                    <div style={{marginLeft:"45px"}} className="text-lowercase">nb étudiants : {nbEtudiant}/{promotion.nbMaxEtudiant}</div> 
+                    <div style={{marginLeft:"45px"}} className="text-lowercase">nombre des étudiants : {nbEtudiant}/{promotion.nbMaxEtudiant}</div> 
+                    <div style={{marginLeft:"45px"}} className="text-lowercase">places réstantes : {promotion.nbMaxEtudiant - nbEtudiant}</div> 
                     </div>
                 </div>
               } {...a11yProps(2)} />
@@ -156,6 +157,7 @@ function PromotionDetails() {
                 pays={pays}
                 setLp={setLp}
                 setLa={setLa}
+                setNbEtudiant={setNbEtudiant}
               />
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>

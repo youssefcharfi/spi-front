@@ -18,7 +18,7 @@ import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
-function Candidats({ promotion, universite, setPromotion, pays, setLp, setLa }) {
+function Candidats({ promotion, universite, setPromotion, pays, setLp, setLa, setNbEtudiant }) {
   let keys = Array.from(universite.keys());
   var listeDeSelection = new Map();
   listeDeSelection.set("LP", "Liste Principale");
@@ -151,6 +151,9 @@ function Candidats({ promotion, universite, setPromotion, pays, setLp, setLa }) 
                 .then((res) => {
                   console.log(res);
                   setPromotion(res.data);
+                  setLp(res.data?.candidats?.filter(cand => cand.listeSelection === "LP").length)
+                  setLa(res.data?.candidats?.filter(cand => cand.listeSelection === "LA").length)
+                  setNbEtudiant(res.data?.etudiants.length)
                   setCandidats(res.data.candidats);
                 })
                 .catch((error) => {

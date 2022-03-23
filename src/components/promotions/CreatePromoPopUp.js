@@ -13,30 +13,31 @@ import {
   Checkbox,
   Modal,
 } from "antd";
-import InfoIcon from "@mui/icons-material/Info";
 import { useNavigate } from "react-router-dom";
 import "toastr/build/toastr.css";
 import toastr from "toastr";
 import axios from "axios";
-import get from "lodash/get";
 import moment from "moment";
-import { Radio } from "antd";
 import EnseignantList from "../enseignant/EnseignantList";
 import ReplayIcon from "@mui/icons-material/Replay";
-import HelpIcon from '@mui/icons-material/Help';
+import locale from 'antd/es/date-picker/locale/fr_FR';
+import 'moment/locale/fr';
+
 
 const { Item } = Form;
 const { Option } = Select;
 const { TextArea } = Input;
+const dateFormat = 'DD/MM/YYYY';
 const { RangePicker } = DatePicker;
 const rules = [{ required: true, message: "champs obligatoire!" }];
 const rulesInteger = [
   { required: true, message: "champs obligatoire!" },
   {
     pattern: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|1000)$",
-    message: "Saisissez un entier",
-  }
+    message: "Saisissez un entier entre 0 et 1000",
+  },
 ];
+
 
 function CreatePromoPopUp({
   codeFormation,
@@ -51,9 +52,65 @@ function CreatePromoPopUp({
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [processusStage, setProcessusStage] = useState(null);
   const [enseignant, setEnseignant] = useState(undefined);
+  const [dateLALP,setDateLALP] = useState(true);
+  const [dateRent,setDateRent] = useState(true);
+  const [dateLALPValue,setDateLALPValue] = useState(false);
+  const [dateRentValue,setDateRentValue] = useState(false);
+
+  // Rules pour la validation des dates
+
+  const rulesLALP= [
+    {
+      required: dateLALPValue, message: "champs obligatoire!"
+    },
+    ({ getFieldValue }) => ({
+      validator(_, value) {
+        if(value != undefined) {
+        if (moment(value).isAfter(moment(getFieldValue('dateReponseLp'),"DD/MM/YYYY"))) {
+          return Promise.resolve();
+        }
+        return Promise.reject(new Error('La date de reponse LALP doit ếtre postérieur à la date reponse LP'));
+        } else {
+          return Promise.resolve();
+        }
+      },
+    }),
+  ]
+  const rulesRent = [
+    {
+      required: dateRentValue, message: "champs obligatoire!"
+    },
+    ({ getFieldValue }) => ({
+      validator(_, value) {
+        if(value != undefined) {
+        if (moment(value).isAfter(moment(getFieldValue('dateReponseLalp'),"DD/MM/YYYY"))) {
+          return Promise.resolve();
+        }
+        return Promise.reject(new Error('La date de rentree doit ếtre postérieur à la date reponse LALP'));
+        } else {
+          return Promise.resolve();
+        }
+      },
+    }),
+  ]
+
+  // Fin de validation
+
+
   const showModal = () => {
     setIsModalVisible(true);
   };
+
+  const handleChangeDateLALP = async (e) => {
+    await form.validateFields(['dateRentree']);
+    setDateRentValue(true);
+    setDateRent(false);
+  }
+  const handleChangeDateLP = async (e) => {
+    await form.validateFields(['dateReponseLalp']);
+    setDateLALP(false);
+    setDateLALPValue(true);
+  }
 
   const handleOk = () => {
     setIsModalVisible(false);
@@ -72,16 +129,17 @@ function CreatePromoPopUp({
     } else {*/
       values.codeFormation = codeFormation;
       values.dateReponseLalp = moment(values.dateReponseLalp).format(
-        "YYYY-MM-DD"
+        "DD/MM/YYYY"
       );
-      values.dateReponseLp = moment(values.dateReponseLp).format("YYYY-MM-DD");
-      values.dateRentree = moment(values.dateRentree).format("YYYY-MM-DD");
+      values.dateReponseLp = moment(values.dateReponseLp).format("DD/MM/YYYY");
+      values.dateRentree = moment(values.dateRentree).format("DD/MM/YYYY");
       values.anneeUniversitaire =
         moment(values.anneeUniversitaire[0]).format("YYYY") +
         "-" +
         moment(values.anneeUniversitaire[1]).format("YYYY");
       values.siglePromotion = codeFormation + "-" + values.anneeUniversitaire;
-
+      
+      console.log(values);
       axios
         .post(`http://localhost:8034/promotions/`, values)
         .then((res) => {
@@ -108,10 +166,10 @@ function CreatePromoPopUp({
     } else {*/
       values.codeFormation = codeFormation;
       values.dateReponseLalp = moment(values.dateReponseLalp).format(
-        "YYYY-MM-DD"
+        "DD/MM/YYYY"
       );
-      values.dateReponseLp = moment(values.dateReponseLp).format("YYYY-MM-DD");
-      values.dateRentree = moment(values.dateRentree).format("YYYY-MM-DD");
+      values.dateReponseLp = moment(values.dateReponseLp).format("DD/MM/YYYY");
+      values.dateRentree = moment(values.dateRentree).format("DD/MM/YYYY");
       values.anneeUniversitaire =
         moment(values.anneeUniversitaire[0]).format("YYYY") +
         "-" +
@@ -220,35 +278,50 @@ function CreatePromoPopUp({
                 </Col>
 
                 <Col xs={24} sm={24} md={11} lg={11} xl={11}>
-                  <Item label="Date Rentree" name="dateRentree" rules={rules} tooltip="date de Rentrée doit etre postérieure aux dates de reponse LALP et LP.">
-                    <DatePicker
-                      size="large"
-                      style={{ width: "100%" }}
-                      placeholder="Date de Rentree"
-                    />
-                  </Item>
-                  
-                  <Item
-                    label="Date Reponse LALP"
-                    name="dateReponseLalp"
-                    rules={rules}
-                    tooltip="la date de réponse LALP doit etre postérieure à la date de réponse LP."
-                  >
-                    <DatePicker
-                      size="large"
-                      style={{ width: "100%" }}
-                      placeholder="Date Reponse La LP"
-                    />
-                  </Item>
-                  <Item
+                <Item
                     label="Date Reponse LP"
                     name="dateReponseLp"
                     rules={rules}
+                    tooltip="Date (au plus tard) à laquelle les candidats sur la
+                    liste principale doivent donner leur réponse"
                   >
                     <DatePicker
                       size="large"
                       style={{ width: "100%" }}
                       placeholder="Date Reponse LP"
+                      locale={locale}
+                      format={dateFormat}
+                      onChange={handleChangeDateLP}
+                      id="dateReponseLp"
+                    />
+                  </Item>
+                  <Item
+                    label="Date Reponse LALP"
+                    name="dateReponseLalp"
+                    rules={rulesLALP}
+                    tooltip="Date (au plus tard) à laquelle les candidats passés de la liste d'attente à la
+                    liste principale doivent donner leur réponse"
+                  >
+                    <DatePicker
+                      size="large"
+                      style={{ width: "100%" }}
+                      placeholder="Date Reponse La LP"
+                      locale={locale}
+                      format={dateFormat}
+                      onChange={handleChangeDateLALP}
+                      id="dateReponseLalp"
+                      disabled={dateLALP}
+                    />
+                  </Item>
+                  <Item label="Date Rentree" name="dateRentree" rules={rulesRent} 
+                  tooltip="Date à laquelle la rentrée est prévu">
+                    <DatePicker
+                      size="large"
+                      style={{ width: "100%" }}
+                      placeholder="Date de Rentree"
+                      locale={locale}
+                      format={dateFormat}
+                      disabled={dateRent}
                     />
                   </Item>
 

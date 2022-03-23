@@ -180,7 +180,7 @@ const Promotion = () => {
               <Modal
                 title={
                   <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-                    Ajouter une Promotion
+                    Ajouter une promotion
                   </h3>
                 }
                 visible={isModalVisible}

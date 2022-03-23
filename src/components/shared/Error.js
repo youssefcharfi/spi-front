@@ -11,7 +11,7 @@ export default ({ message }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "400px",
+        height: "350px",
       }}
     >
       <Box sx={{ minWidth: 300 }}>

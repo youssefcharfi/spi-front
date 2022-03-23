@@ -16,8 +16,15 @@ import Tooltip from "@mui/material/Tooltip";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
-
-function Candidats({ promotion, universite, setPromotion, pays, setLp, setLa }) {
+import Error from "../shared/Error";
+function Candidats({
+  promotion,
+  universite,
+  setPromotion,
+  pays,
+  setLp,
+  setLa,
+}) {
   let keys = Array.from(universite.keys());
   var listeDeSelection = new Map();
   listeDeSelection.set("LP", "Liste Principale");
@@ -32,10 +39,18 @@ function Candidats({ promotion, universite, setPromotion, pays, setLp, setLa }) 
   const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats);
 
   const ajouterCandidat = (candidat) => {
-    if(candidat.listeSelection === "LP") setLp(candidatsSearch?.filter(cand => cand.listeSelection === "LP").length + 1)
-    if(candidat.listeSelection === "LA") setLa(candidatsSearch?.filter(cand => cand.listeSelection === "LA").length + 1)
+    if (candidat.listeSelection === "LP")
+      setLp(
+        candidatsSearch?.filter((cand) => cand.listeSelection === "LP").length +
+          1
+      );
+    if (candidat.listeSelection === "LA")
+      setLa(
+        candidatsSearch?.filter((cand) => cand.listeSelection === "LA").length +
+          1
+      );
     setCandidats([candidat, ...candidats]);
-    setCandidatsSearch([candidat, ...candidatsSearch])
+    setCandidatsSearch([candidat, ...candidatsSearch]);
   };
 
   const columns = [
@@ -297,19 +312,9 @@ function Candidats({ promotion, universite, setPromotion, pays, setLp, setLa }) 
           checkboxSelection
         />
       ) : (
-        <Grid
-          container
-          spacing={0}
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Grid item xs={3}>
-            <Typography color="darkGray" fontSize="30px">
-            il n'y a pas de candidats à afficher pour cette promotion
-            </Typography>
-          </Grid>
-        </Grid>
+        <Error
+          message={"Aucun candidat n'est disponible pour cette promotion "}
+        />
       )}
     </Container>
   );

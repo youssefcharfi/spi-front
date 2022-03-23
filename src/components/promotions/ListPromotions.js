@@ -15,7 +15,8 @@ import "toastr/build/toastr.css";
 import toastr from "toastr";
 import InfoIcon from "@mui/icons-material/Info";
 import ServerError from "../ServerError";
-
+import Typography from "@mui/material/Typography";
+import dateFormat from "dateformat";
 const columns = ({ navigate }) => [
   {
     headerName: "Année universitaire",
@@ -30,8 +31,8 @@ const columns = ({ navigate }) => [
     type: "string",
     flex: 0.3,
     valueGetter: (params) =>
-      `${params.row?.enseignantByNoEnseignant?.nom || ""}` +
-      ` ${params.row?.enseignantByNoEnseignant?.prenom || ""}`,
+      `${params.row?.enseignantByNoEnseignant?.prenom || ""}` +
+      ` ${params.row?.enseignantByNoEnseignant?.nom || ""}`,
   },
 
   {
@@ -45,18 +46,27 @@ const columns = ({ navigate }) => [
     headerName: "Date réponse LP",
     type: "string",
     flex: 0.3,
+    renderCell: (params) => {
+      return dateFormat(params.row.dateReponseLp, "dd/mm/yyyy");
+    },
   },
   {
     field: "dateReponseLalp",
     headerName: "Date réponse LalP",
     type: "string",
     flex: 0.3,
+    renderCell: (params) => {
+      return dateFormat(params.row.dateReponseLalp, "dd/mm/yyyy");
+    },
   },
   {
     field: "dateRentree",
     headerName: "Date de rentrée",
     type: "string",
     flex: 0.3,
+    renderCell: (params) => {
+      return dateFormat(params.row.dateRentree, "dd/mm/yyyy");
+    },
   },
   {
     field: "lieuRentree",
@@ -206,7 +216,7 @@ const Promotion = () => {
                 codeFormation
               }
             />
-          ) : (
+          ) : promo.length > 0 ? (
             <DataGrid
               getRowId={(promo) =>
                 promo.anneeUniversitaire + promo.codeFormation
@@ -226,6 +236,20 @@ const Promotion = () => {
                 },
               }}
             />
+          ) : (
+            <Grid
+              container
+              spacing={0}
+              direction="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Grid item xs={3}>
+                <Typography color="darkGray" fontSize="30px">
+                  Il n'y a pas de promotion à afficher pour cette formation
+                </Typography>
+              </Grid>
+            </Grid>
           )}
         </div>
       </div>

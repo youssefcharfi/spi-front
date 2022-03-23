@@ -17,6 +17,7 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
 import Error from "../shared/Error";
+
 function Candidats({
   promotion,
   universite,
@@ -24,6 +25,7 @@ function Candidats({
   pays,
   setLp,
   setLa,
+  setNbEtudiant,
 }) {
   let keys = Array.from(universite.keys());
   var listeDeSelection = new Map();
@@ -165,6 +167,17 @@ function Candidats({
                 .then((res) => {
                   console.log(res);
                   setPromotion(res.data);
+                  setLp(
+                    res.data?.candidats?.filter(
+                      (cand) => cand.listeSelection === "LP"
+                    ).length
+                  );
+                  setLa(
+                    res.data?.candidats?.filter(
+                      (cand) => cand.listeSelection === "LA"
+                    ).length
+                  );
+                  setNbEtudiant(res.data?.etudiants.length);
                   setCandidats(res.data.candidats);
                 })
                 .catch((error) => {

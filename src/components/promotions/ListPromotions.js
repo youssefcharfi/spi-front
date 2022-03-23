@@ -16,7 +16,7 @@ import toastr from "toastr";
 import InfoIcon from "@mui/icons-material/Info";
 import ServerError from "../ServerError";
 import Typography from "@mui/material/Typography";
-import dateFormat from "dateformat";
+//import dateFormat from "dateformat";
 const columns = ({ navigate }) => [
   {
     headerName: "Année universitaire",
@@ -46,27 +46,27 @@ const columns = ({ navigate }) => [
     headerName: "Date réponse LP",
     type: "string",
     flex: 0.3,
-    renderCell: (params) => {
-      return dateFormat(params.row.dateReponseLp, "dd/mm/yyyy");
-    },
+    // renderCell: (params) => {
+    //   return dateFormat(params.row.dateReponseLp, "dd/mm/yyyy");
+    // },
   },
   {
     field: "dateReponseLalp",
     headerName: "Date réponse LalP",
     type: "string",
     flex: 0.3,
-    renderCell: (params) => {
-      return dateFormat(params.row.dateReponseLalp, "dd/mm/yyyy");
-    },
+    // renderCell: (params) => {
+    //   return dateFormat(params.row.dateReponseLalp, "dd/mm/yyyy");
+    // },
   },
   {
     field: "dateRentree",
     headerName: "Date de rentrée",
     type: "string",
     flex: 0.3,
-    renderCell: (params) => {
-      return dateFormat(params.row.dateRentree, "dd/mm/yyyy");
-    },
+    // renderCell: (params) => {
+    //   return dateFormat(params.row.dateRentree, "dd/mm/yyyy");
+    // },
   },
   {
     field: "lieuRentree",

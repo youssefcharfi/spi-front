@@ -12,7 +12,6 @@ import Tooltip from "@mui/material/Tooltip";
 import ServerError from "../ServerError";
 import Typography from "@mui/material/Typography";
 import Error from "../shared/Error";
-import dateFormat from "dateformat";
 
 function Formations() {
   const [formations, setFormations] = useState([]);
@@ -101,18 +100,12 @@ function Formations() {
       headerName: "Début d'accreditation",
       type: "date",
       flex: 0.3,
-      renderCell: (params) => {
-        return dateFormat(params.row.debutAccreditation, "dd/mm/yyyy");
-      },
     },
     {
       field: "finAccreditation",
       headerName: "Fin d'accreditation",
       type: "string",
       flex: 0.3,
-      renderCell: (params) => {
-        return dateFormat(params.row.finAccreditation, "dd/mm/yyyy");
-      },
     },
     {
       headerName: "Promotions",

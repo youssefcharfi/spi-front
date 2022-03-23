@@ -123,6 +123,9 @@ function Candidats({
               color="error"
             />
           </Tooltip>
+        ) : params.row.listeSelection == null ||
+          params.row.listeSelection == "NR" ? (
+          <p> </p>
         ) : (
           <Tooltip
             title={"En attente de confirmation"}

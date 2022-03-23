@@ -21,7 +21,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import Home from "../Home.jsx";
 import PageNotFound from "../PageNotFound";
 import ListPromotions from "../promotions/ListPromotions";
-import Formations from '../formations/Formations'
+import Formations from "../formations/Formations";
 import PromotionDetails from "../promotions/PromotionDetails";
 import CreatePromotion from "../promotions/CreatePromotion";
 import { Link, Route, Routes } from "react-router-dom";
@@ -75,7 +75,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 const menuItems = [
   {
-    text: "Home",
+    text: "Accueil",
     icon: HomeIcon,
     link: "/",
   },
@@ -83,7 +83,7 @@ const menuItems = [
     text: "Formations",
     icon: BookIcon,
     link: "/formations",
-  }
+  },
 ];
 
 function SideBar() {
@@ -130,8 +130,12 @@ function SideBar() {
         anchor="left"
         open={open}
       >
-        <DrawerHeader style={{ justifyContent: 'center'}}>
-          <img height="58px" width="90px" src="https://www.cmibrest.fr/sites/mobilite-brest.ueb.eu/files/styles/large/public/UBO.gif?itok=CHTFJbWk"/>
+        <DrawerHeader style={{ justifyContent: "center" }}>
+          <img
+            height="58px"
+            width="90px"
+            src="https://www.cmibrest.fr/sites/mobilite-brest.ueb.eu/files/styles/large/public/UBO.gif?itok=CHTFJbWk"
+          />
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -165,7 +169,11 @@ function SideBar() {
           <Route exact path="/erreur.jsp" element={<ServerError />} />
           <Route exact path="/" element={<Home />} />
 
-          <Route exact path="/promotions/:codeFormation" element={<ListPromotions />} />
+          <Route
+            exact
+            path="/promotions/:codeFormation"
+            element={<ListPromotions />}
+          />
           <Route
             exact
             path="/promotions/create"
@@ -176,11 +184,7 @@ function SideBar() {
             path="/promotions/:codeFormation/:anneeUniversitaire"
             element={<PromotionDetails />}
           />
-          <Route
-            exact
-            path="/formations"
-            element={<Formations />}
-          />
+          <Route exact path="/formations" element={<Formations />} />
         </Routes>
       </Main>
     </Box>

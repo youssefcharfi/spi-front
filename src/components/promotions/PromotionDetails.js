@@ -20,6 +20,7 @@ import Error from "../shared/Error";
 function PromotionDetails() {
   const [promotion, setPromotion] = useState({});
   const [universite, setUniversite] = useState(new Map());
+
   const [errorServer, setErrorServer] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,11 +53,13 @@ function PromotionDetails() {
         } else if (err.response.status === 404) setNotFound(true);
       }, []);
     //////////////////////////////////
+
     axios.get(`http://localhost:8034/domaine/universite`).then((res) => {
       res.data.map((univ) =>
         setUniversite(universite.set(univ.abreviation, univ.signification))
       );
     });
+
     ///////////////////////////////////////
     axios.get(`http://localhost:8034/domaine/pays`).then((res) => {
       //console.log("pays::", res.data);

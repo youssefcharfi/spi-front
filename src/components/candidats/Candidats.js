@@ -16,7 +16,6 @@ import Tooltip from "@mui/material/Tooltip";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 function Candidats({ promotion, universite, setPromotion, pays, setLp, setLa, setNbEtudiant }) {
   let keys = Array.from(universite.keys());

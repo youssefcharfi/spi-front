@@ -20,10 +20,16 @@ import Error from "../shared/Error";
 function PromotionDetails() {
   const [promotion, setPromotion] = useState({});
   const [universite, setUniversite] = useState(new Map());
+
   const [errorServer, setErrorServer] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [lp, setLp] = useState(0)
+  const [la, setLa] = useState(0)
+  const [nbEtudiant, setNbEtudiant] = useState(0)
   const [pays, setPays] = useState([]);
+
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -31,6 +37,9 @@ function PromotionDetails() {
         `http://localhost:8034/promotions/${codeFormation}/${anneeUniversitaire}`
       )
       .then((res) => {
+        setLp(res.data?.candidats?.filter(cand => cand.listeSelection === "LP").length)
+        setLa(res.data?.candidats?.filter(cand => cand.listeSelection === "LA").length)
+        setNbEtudiant(res.data?.etudiants.length)
         setPromotion(res.data);
         setLoading(false);
         setErrorServer(false);
@@ -42,19 +51,22 @@ function PromotionDetails() {
           setNotFound(false);
           setErrorServer(true);
         } else if (err.response.status === 404) setNotFound(true);
-      });
+      }, []);
     //////////////////////////////////
+
     axios.get(`http://localhost:8034/domaine/universite`).then((res) => {
       res.data.map((univ) =>
         setUniversite(universite.set(univ.abreviation, univ.signification))
       );
     });
+
     ///////////////////////////////////////
     axios.get(`http://localhost:8034/domaine/pays`).then((res) => {
-      console.log("pays::", res.data);
+      //console.log("pays::", res.data);
       setPays(res.data);
     });
   }, []);
+
 
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -111,9 +123,25 @@ function PromotionDetails() {
               variant="fullWidth"
               aria-label="action tabs example"
             >
-              <Tab label="Details" {...a11yProps(0)} />
-              <Tab label="Candidats" {...a11yProps(1)} />
-              <Tab label="Etudiants" {...a11yProps(2)} />
+              <Tab label="DÉTAILS" {...a11yProps(0)} />
+              <Tab label={
+                <div className="row">
+                  <div className="col-md-3 my-auto">CANDIDATS</div>
+                  <div className="col-sm-9">
+                    <div style={{marginLeft:"60px"}} className="text-lowercase fw-bold">liste principale: {lp}</div>
+                    <div style={{marginLeft:"45px"}} className="text-lowercase">liste d'attente: {la}</div>
+                  </div>
+                </div>
+              } {...a11yProps(1)} />
+              <Tab label={
+                <div className="row">
+                  <div className="col-md-3 my-auto">ÉTUDIANTS</div>
+                  <div className="col-sm-9">
+                    <div style={{marginLeft:"90px"}} className="text-lowercase">nombre des étudiants : {nbEtudiant}/{promotion.nbMaxEtudiant}</div> 
+                    <div style={{marginLeft:"45px"}} className="text-lowercase">places réstantes : {promotion.nbMaxEtudiant - nbEtudiant}</div> 
+                    </div>
+                </div>
+              } {...a11yProps(2)} />
             </Tabs>
           </AppBar>
           <SwipeableViews
@@ -130,6 +158,9 @@ function PromotionDetails() {
                 universite={universite}
                 setPromotion={setPromotion}
                 pays={pays}
+                setLp={setLp}
+                setLa={setLa}
+                setNbEtudiant={setNbEtudiant}
               />
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>

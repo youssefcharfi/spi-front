@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { DataGrid, frFR } from "@mui/x-data-grid";
-import { Button, Container, Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
@@ -10,6 +10,8 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import ServerError from "../ServerError";
+import Typography from "@mui/material/Typography";
+import Error from "../shared/Error";
 
 function Formations() {
   const [formations, setFormations] = useState([]);
@@ -70,7 +72,7 @@ function Formations() {
     },
     {
       field: "diplome",
-      headerName: "Diplome",
+      headerName: "Diplôme",
       type: "string",
       flex: 0.2,
       valueGetter: (params) =>
@@ -79,33 +81,34 @@ function Formations() {
 
     {
       field: "nomFormation",
-      headerName: "Nom formation",
+      headerName: "Nom de la formation",
       type: "string",
       flex: 0.9,
     },
     {
       field: "doubleDiplome",
-      headerName: "Double diplome",
+      headerName: "Double diplôme",
       type: "string",
       flex: 0.25,
-      valueGetter: (params) =>{
-        return params.row.doubleDiplome === "O" ? "Oui" : "Non"
-      }
+      valueGetter: (params) => {
+        return params.row.doubleDiplome === "O" ? "Oui" : "Non";
+      },
     },
+
     {
       field: "debutAccreditation",
-      headerName: "Début Accreditation",
-      type: "string",
+      headerName: "Début d'accreditation",
+      type: "date",
       flex: 0.3,
     },
     {
       field: "finAccreditation",
-      headerName: "Fin Accreditation",
+      headerName: "Fin d'accreditation",
       type: "string",
       flex: 0.3,
     },
     {
-      headerName: "Promotion",
+      headerName: "Promotions",
       field: "jnjn",
       flex: 0.2,
       align: "center",
@@ -126,6 +129,7 @@ function Formations() {
   ];
   if (loading) return <Loader />;
   if (errorServer) return <ServerError />;
+
   return (
     <Container style={{ height: 319 }} maxWidth>
       <Grid container sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -154,24 +158,28 @@ function Formations() {
 
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
-          <DataGrid
-            rows={formations}
-            columns={columns}
-            pageSize={formations.length}
-            rowsPerPageOptions={[formations.length]}
-            getRowId={(row) => row.codeFormation}
-            localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
-            initialState={{
-              sorting: {
-                sortModel: [
-                  {
-                    field: "nomFormation",
-                    sort: "asc",
-                  },
-                ],
-              },
-            }}
-          />
+          {formations.length > 0 ? (
+            <DataGrid
+              rows={formations}
+              columns={columns}
+              pageSize={4}
+              rowsPerPageOptions={[formations.length]}
+              getRowId={(row) => row.codeFormation}
+              localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+              initialState={{
+                sorting: {
+                  sortModel: [
+                    {
+                      field: "nomFormation",
+                      sort: "asc",
+                    },
+                  ],
+                },
+              }}
+            />
+          ) : (
+            <Error message={"Il n'y a aucune formation à afficher!"} />
+          )}
         </div>
       </div>
     </Container>

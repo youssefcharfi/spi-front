@@ -1,94 +1,116 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import React from "react";
 
-// function Promotion({ codeFormation, anneeUniversitaire }) {
 function Promotion({ promotion }) {
-  // const [promotion, setPromotion] = useState({})
 
-  // let navigate = useNavigate();
+    let stage = new Map([
+        ['EC', 'Stage en cours'],
+        ['EVAL', 'Stage evalué'],
+        ['RECH', 'Recherche en cours'],
+        ['SOUT', 'Sessions de soutenance définies'],
+        ['TUT', 'Tuteurs attribués']
+    ])
 
-  // useEffect(() => {
-  //     axios.get(`http://localhost:8034/promotion/${codeFormation}/${anneeUniversitaire}`)
-  //         .then(res => {
-  //             setPromotion(res.data)
-  //         })
-  //         .catch(err => {
-  //             if(!err.response) navigate("/erreur.jsp")
-  //             else if(err.response.status === 404) navigate("*", { replace: true })
-  //         })
-  // }, [])
-
-  return (
-    <div className="card-body">
-      <div className="row">
-        <div className="col-sm-3">
-          <h6 className="mb-0">Enseignant</h6>
-        </div>
-        <div className="col-sm-9 text-secondary">
-          {promotion.enseignantByNoEnseignant?.prenom}{" "}
-          {promotion.enseignantByNoEnseignant?.nom}
-        </div>
-      </div>
-      <hr />
-      <>
-        <div className="row">
-          <div className="col-sm-3">
-            <h6 className="mb-0">Commentaire</h6>
-          </div>
-          <div className="col-sm-9 text-secondary">
-            {promotion.commentaire}
-          </div>
-        </div>
-        <hr />
-      </>
-      <div className="row">
-        <div className="col-sm-3">
-          <h6 className="mb-0">Date Rentrée</h6>
-        </div>
-        <div className="col-sm-9 text-secondary">{promotion.dateRentree}</div>
-      </div>
-      <hr />
-      <div className="row">
-        <div className="col-sm-3">
-          <h6 className="mb-0">Date Reponse Lalp</h6>
-        </div>
-        <div className="col-sm-9 text-secondary">
-          {promotion.dateReponseLalp}
-        </div>
-      </div>
-      <hr />
-      <div className="row">
-        <div className="col-sm-3">
-          <h6 className="mb-0">Lieu Rentrée</h6>
-        </div>
-        <div className="col-sm-9 text-secondary">{promotion.lieuRentree}</div>
-      </div>
-      <hr />
-      <div className="row">
-        <div className="col-sm-3">
-          <h6 className="mb-0">Nbr Max Etudiant</h6>
-        </div>
-        <div className="col-sm-9 text-secondary">{promotion.nbMaxEtudiant}</div>
-      </div>
-      <hr />
-      <div className="row">
-        <div className="col-sm-3">
-          <h6 className="mb-0">Processus Stage</h6>
-        </div>
-        <div className="col-sm-9 text-secondary">{promotion.processusStage}</div>
-      </div>
-      <hr />
-      <div className="row">
-        <div className="col-sm-3">
-          <h6 className="mb-0">Sigle Promotion</h6>
-        </div>
-        <div className="col-sm-9 text-secondary">
-          {promotion.siglePromotion}
-        </div>
-      </div>
-    </div>
-  );
+    return (
+        <>
+            <div className="card">
+                <div className="card-body">
+                    <div className="row my-4">
+                        <div className="col-sm-2">
+                            <h6 className="mb-0 fw-bold">Nombre max des étudiants :</h6>
+                        </div>
+                        <div className="col-sm-10 text-secondary fw-bold">{promotion.nbMaxEtudiant}</div>
+                    </div>
+                    <div className="row my-4">
+                        <div className="col-sm-2">
+                            <h6 className="mb-0">Enseignant :</h6>
+                        </div>
+                        <div className="col-sm-10 text-secondary">
+                            {promotion.enseignantByNoEnseignant?.prenom}{" "}
+                            {promotion.enseignantByNoEnseignant?.nom}
+                        </div>
+                    </div>
+                    <div className="row my-4">
+                        <div className="col-sm-2">
+                            <h6 className="mb-0">Lieu de rentrée :</h6>
+                        </div>
+                        <div className="col-sm-2 text-secondary">{promotion.lieuRentree}</div>
+                        <div className="col-sm-2">
+                            <h6 className="mb-0">Date de rentrée :</h6>
+                        </div>
+                        <div className="col-sm-6 text-secondary">{promotion.dateRentree}</div>
+                    </div>
+                    <div className="row my-4">
+                        <div className="col-sm-2">
+                            <h6 className="mb-0">Date de réponse LP :</h6>
+                        </div>
+                        <div className="col-sm-2 text-secondary">
+                            {promotion.dateReponseLalp}
+                        </div>
+                        <div className="col-sm-2">
+                            <h6 className="mb-0">Date de réponse LALP :</h6>
+                        </div>
+                        <div className="col-sm-6 text-secondary">
+                            {promotion.dateReponseLalp}
+                        </div>
+                    </div>
+                    <div className="row my-4">
+                        <div className="col-sm-2">
+                            <h6 className="mb-0">Processus de stage :</h6>
+                        </div>
+                        {promotion.processusStage == null ? (<div className="col-sm-10 text-secondary fst-italic">pas de processus de stage</div>)
+                            :
+                            (<div className="col-sm-10 text-secondary">{stage.get(promotion.processusStage)}</div>)}
+                    </div>
+                    <div className="row my-4">
+                        <div className="col-sm-2">
+                            <h6 className="mb-0">Sigle de promotion :</h6>
+                        </div>
+                        {promotion.siglePromotion == null ?
+                            <div className="col-sm-10 text-secondary fst-italic">
+                                pas de sigle de promotion
+                            </div> : <div className="col-sm-10 text-secondary">
+                                {promotion.siglePromotion}
+                            </div>
+                        }
+                    </div>
+                    <>
+                        <div className="row my-4">
+                            <div className="col-sm-2">
+                                <h6 className="mb-0">Commentaire :</h6>
+                            </div>
+                            {promotion.commentaire == null ?
+                                <div className="col-sm-10 text-secondary fst-italic">
+                                    pas de commentaire
+                                </div> : <div className="col-sm-10 text-secondary">
+                                    {promotion.commentaire}
+                                </div>
+                            }
+                        </div>
+                    </>
+                </div>
+            </div>
+            <div className="card mt-3">
+                <div className="card-body">
+                    <div className="row my-2">
+                        <div className="col-md-3">
+                            <h6>Nombre d'heures des CM :   {promotion.nombreHeureCM} h</h6>
+                        </div>
+                        <div className="col-md-3">
+                            <h6>Nombre d'heures des TP :   {promotion.nombreHeureTP} h</h6>
+                        </div>
+                    </div>
+                    <div className="row my-2">
+                        <div className="col-md-3">
+                            <h6>Nombre d'heures des TD :   {promotion.nombreHeureTD} h</h6>
+                        </div>
+                        <div className="col-md-3">
+                            <h6>Nombre d'heures des ETD :   {Number.parseFloat(promotion.nombreHeureETD).toFixed(2)} h</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
 }
 
 export default Promotion;

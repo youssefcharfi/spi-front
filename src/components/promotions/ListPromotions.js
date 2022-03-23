@@ -15,10 +15,21 @@ import "toastr/build/toastr.css";
 import toastr from "toastr";
 import InfoIcon from "@mui/icons-material/Info";
 import ServerError from "../ServerError";
+import Typography from "@mui/material/Typography";
+//import dateFormat from "dateformat";
+
+  
+let stage = new Map([
+  ['EC', 'Stage en cours'],
+  ['EVAL', 'Stage evalué'],
+  ['RECH', 'Recherche en cours'],
+  ['SOUT', 'Sessions de soutenance définies'],
+  ['TUT', 'Tuteurs attribués']
+])
 
 const columns = ({ navigate }) => [
   {
-    headerName: "Année Universitaire",
+    headerName: "Année universitaire",
     field: "anneeUniversitaire",
     type: "string",
     flex: 0.3,
@@ -30,33 +41,42 @@ const columns = ({ navigate }) => [
     type: "string",
     flex: 0.3,
     valueGetter: (params) =>
-      `${params.row?.enseignantByNoEnseignant?.nom || ""}` +
-      ` ${params.row?.enseignantByNoEnseignant?.prenom || ""}`,
+      `${params.row?.enseignantByNoEnseignant?.prenom || ""}` +
+      ` ${params.row?.enseignantByNoEnseignant?.nom || ""}`,
   },
 
   {
     field: "nbMaxEtudiant",
-    headerName: "Max des étudiants",
+    headerName: "Nombre max des étudiants",
     type: "string",
-    flex: 0.3,
+    flex: 0.4,
   },
   {
     field: "dateReponseLp",
-    headerName: "Date réponse LP",
+    headerName: "Date de réponse LP",
     type: "string",
     flex: 0.3,
+    // renderCell: (params) => {
+    //   return dateFormat(params.row.dateReponseLp, "dd/mm/yyyy");
+    // },
   },
   {
     field: "dateReponseLalp",
-    headerName: "Date réponse LalP",
+    headerName: "Date de réponse LalP",
     type: "string",
     flex: 0.3,
+    // renderCell: (params) => {
+    //   return dateFormat(params.row.dateReponseLalp, "dd/mm/yyyy");
+    // },
   },
   {
     field: "dateRentree",
     headerName: "Date de rentrée",
     type: "string",
     flex: 0.3,
+    // renderCell: (params) => {
+    //   return dateFormat(params.row.dateRentree, "dd/mm/yyyy");
+    // },
   },
   {
     field: "lieuRentree",
@@ -66,17 +86,17 @@ const columns = ({ navigate }) => [
   },
   {
     field: "processusStage",
-    headerName: "Processus Stage",
+    headerName: "Processus de stage",
     type: "string",
     flex: 0.3,
     valueGetter: (params) =>
       params.row.processusStage != null
-        ? params.row.processusStage
-        : "Pas de processus stage",
+        ? stage.get(params.row.processusStage) 
+        : "Pas de processus de stage",
   },
 
   {
-    headerName: "details",
+    headerName: "Détails",
     field: "detail",
     flex: 0.2,
     align: "center",
@@ -97,6 +117,7 @@ const columns = ({ navigate }) => [
 ];
 
 const Promotion = () => {
+
   const [promo, setPromo] = useState([]);
   const [error, setError] = useState(false);
   const [errorServer, setErrorServer] = useState(false);
@@ -158,7 +179,7 @@ const Promotion = () => {
         sx={{ display: "flex", justifyContent: "space-between", mb: 4 }}
       >
         <Grid item>
-          <h4 className="h2">Promotion : {codeFormation}</h4>
+          <h4 className="h2">Promotions de la formation : {codeFormation}</h4>
         </Grid>
         <Grid item>
           <Tooltip title="Ajouter" placement="bottom">
@@ -206,7 +227,7 @@ const Promotion = () => {
                 codeFormation
               }
             />
-          ) : (
+          ) : promo.length > 0 ? (
             <DataGrid
               getRowId={(promo) =>
                 promo.anneeUniversitaire + promo.codeFormation
@@ -226,6 +247,20 @@ const Promotion = () => {
                 },
               }}
             />
+          ) : (
+            <Grid
+              container
+              spacing={0}
+              direction="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Grid item xs={3}>
+                <Typography color="darkGray" fontSize="30px">
+                  Il n'y a pas de promotion à afficher pour cette formation
+                </Typography>
+              </Grid>
+            </Grid>
           )}
         </div>
       </div>

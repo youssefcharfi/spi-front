@@ -271,9 +271,6 @@ function Candidats({
               />
             </Grid>
             <Grid item>
-              <p>{selection.length}</p>
-            </Grid>
-            <Grid item>
               <Tooltip title="Ajouter un candidat" placement="bottom">
                 <IconButton aria-label="add">
                   <AddBoxIcon

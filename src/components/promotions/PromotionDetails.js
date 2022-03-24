@@ -137,8 +137,8 @@ function PromotionDetails() {
                 <div className="row">
                   <div className="col-md-3 my-auto">ÉTUDIANTS</div>
                   <div className="col-sm-9">
-                    <div style={{marginLeft:"90px"}} className="text-lowercase">nombre des étudiants : {nbEtudiant}/{promotion.nbMaxEtudiant}</div> 
-                    <div style={{marginLeft:"45px"}} className="text-lowercase">places réstantes : {promotion.nbMaxEtudiant - nbEtudiant}</div> 
+                    <div style={{marginLeft:"90px"}} className="text-lowercase  fw-bold">nombre des étudiants : {nbEtudiant}/{promotion.nbMaxEtudiant}</div> 
+                    <div style={{marginLeft:"35px"}} className="text-lowercase">places réstantes : {promotion.nbMaxEtudiant - nbEtudiant}</div> 
                     </div>
                 </div>
               } {...a11yProps(2)} />

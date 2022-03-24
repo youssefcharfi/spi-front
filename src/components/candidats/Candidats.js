@@ -18,6 +18,13 @@ import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
 import Error from "../shared/Error";
 
+toastr.options = {
+  "closeButton": true,
+  "positionClass": "toast-top-center",
+  "timeOut": 0,
+  "extendedTimeOut": 0
+};
+
 function Candidats({
   promotion,
   universite,

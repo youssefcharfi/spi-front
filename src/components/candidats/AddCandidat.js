@@ -33,6 +33,13 @@ const { Option } = Select;
 
 //const rules = [{ required: true, message: "champs obligatoire!!" }];
 
+toastr.options = {
+  "closeButton": true,
+  "positionClass": "toast-top-center",
+  "timeOut": 0,
+  "extendedTimeOut": 0
+};
+
 function AddCandidat({
   codeFormation,
   anneeUniversitaire,

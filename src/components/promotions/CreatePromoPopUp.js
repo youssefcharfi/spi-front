@@ -23,6 +23,12 @@ import ReplayIcon from "@mui/icons-material/Replay";
 import locale from 'antd/es/date-picker/locale/fr_FR';
 import 'moment/locale/fr';
 
+toastr.options = {
+  "closeButton": true,
+  "positionClass": "toast-top-center",
+  "timeOut": 0,
+  "extendedTimeOut": 0
+};
 
 const { Item } = Form;
 const { Option } = Select;

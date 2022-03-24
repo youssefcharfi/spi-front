@@ -41,6 +41,8 @@ function AddCandidat({
   fermerPopUp,
   pays,
 }) {
+  console.log("codeformation:", codeFormation);
+  console.log("annnee universitaire:", anneeUniversitaire);
   const [form] = Form.useForm();
   const [messageErreur, setMessageErreur] = useState("");
   const rules = [{ required: true, message: "champs obligatoire!!" }];
@@ -109,8 +111,9 @@ function AddCandidat({
     // } = values;
     const dateNaissanceFormatee = dateFormat(
       values.dateNaissance,
-      "yyyy-mm-dd"
+      "dd/mm/yyyy"
     );
+
     const mobileWithPrefix = values.prefix + values.mobile;
     if (values.telephone == undefined) {
       values.telephone = "";

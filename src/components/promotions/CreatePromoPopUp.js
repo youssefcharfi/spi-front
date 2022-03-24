@@ -237,14 +237,14 @@ function CreatePromoPopUp({
               <Row justify="space-between">
                 <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                   <Item
-                    label="Nombre max d'étudiant"
+                    label="Nombre max des étudiants"
                     name="nbMaxEtudiant"
                     rules={rulesInteger}
                   >
                     <Input size="large" min={0} style={{ width: "100%" }} maxLength={4} max={127}/>
                   </Item>
                   <Item
-                    label="Lieu de Rentrée"
+                    label="Lieu de rentrée"
                     name="lieuRentree"
                   >
                     <Select size="large">
@@ -264,7 +264,7 @@ function CreatePromoPopUp({
                   </Item>
 
                   <Item
-                    label="Année Universitaire"
+                    label="Année universitaire"
                     name="anneeUniversitaire"
                     rules={rules}
                   >
@@ -279,7 +279,7 @@ function CreatePromoPopUp({
 
                 <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                 <Item
-                    label="Date Reponse LP"
+                    label="Date de réponse LP"
                     name="dateReponseLp"
                     rules={rules}
                     tooltip="Date (au plus tard) à laquelle les candidats sur la
@@ -296,7 +296,7 @@ function CreatePromoPopUp({
                     />
                   </Item>
                   <Item
-                    label="Date Reponse LALP"
+                    label="Date de réponse LALP"
                     name="dateReponseLalp"
                     rules={rulesLALP}
                     tooltip="Date (au plus tard) à laquelle les candidats passés de la liste d'attente à la
@@ -313,7 +313,7 @@ function CreatePromoPopUp({
                       disabled={dateLALP}
                     />
                   </Item>
-                  <Item label="Date Rentree" name="dateRentree" rules={rulesRent} 
+                  <Item label="Date de rentrée" name="dateRentree" rules={rulesRent} 
                   tooltip="Date à laquelle la rentrée est prévu">
                     <DatePicker
                       size="large"
@@ -353,16 +353,8 @@ function CreatePromoPopUp({
                   className="btn btn-outline-secondary mx-2"
                   style={{ float: "left" }}
                 >
-                  <ReplayIcon />
-                </button>
-                <button
-                  type="submit"
-                  size="large"
-                  className="btn btn-primary mx-2"
-                  style={{ float: "right" }}
-                >
-                  Ajouter
-                </button>
+                  Vider
+                </button>            
                 <button
                   type="button"
                   size="large"
@@ -370,7 +362,15 @@ function CreatePromoPopUp({
                   className="btn btn-primary mx-2"
                   style={{ float: "right" }}
                 >
-                  Réajouter
+                  Ajouter
+                </button>
+                <button
+                  type="submit"
+                  size="large"
+                  className="btn btn-primary mx-2"
+                  style={{ float: "right" }}
+                >
+                  Ajouter et fermer
                 </button>
               </Row>
             </Form>

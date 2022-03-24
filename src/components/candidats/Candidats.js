@@ -17,6 +17,7 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
 import Error from "../shared/Error";
+import DndTable from "./DndTable";
 
 function Candidats({
   promotion,
@@ -39,7 +40,7 @@ function Candidats({
 
   const [candidats, setCandidats] = useState(promotion.candidats);
   const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats);
-
+  const [selectedCandidats, setSelectedCandidats] = React.useState([]);
   const ajouterCandidat = (candidat) => {
     if (candidat.listeSelection === "LP")
       setLp(
@@ -141,6 +142,8 @@ function Candidats({
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const [isModalListPrincipale, setIsModalListPrincipale] = useState(false);
+
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -148,6 +151,17 @@ function Candidats({
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  const showModalListPrincipale = () => {
+    console.log(selectedCandidats);
+    setIsModalListPrincipale(true);
+  };
+
+  const handleCancelListPrincipale = () => {
+    setIsModalListPrincipale(false);
+  };
+
+
+
 
   const enEtudiant = () => {
     if (candidats.length > 0) {
@@ -230,8 +244,6 @@ function Candidats({
       },
     },
   };
-  const [selectionModel, setSelectionModel] = React.useState([]);
-
   return (
     <Container style={{ height: 426.5 }} maxWidth>
       <Grid
@@ -284,6 +296,17 @@ function Candidats({
                 </IconButton>
               </Tooltip>
             </Grid>
+            <Grid item>
+              <Tooltip title="En liste Principale" placement="bottom">
+                <IconButton aria-label="add">
+                  <AddBoxIcon
+                    fontSize="large"
+                    color="primary"
+                    onClick={showModalListPrincipale}
+                  />
+                </IconButton>
+              </Tooltip>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -310,6 +333,25 @@ function Candidats({
         />
       </Modal>
 
+      <Modal
+        title={
+          <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
+            Admission d'un candidats
+          </h3>
+        }
+        visible={isModalListPrincipale}
+        cancelButtonProps={{ style: { display: "none" } }}
+        okButtonProps={{ style: { display: "none" } }}
+        // onOk={handleOk}
+        onCancel={handleCancelListPrincipale}
+        width={1000}
+      >
+        <DndTable promotion={promotion}/>
+      </Modal>
+
+
+
+
       {candidats.length > 0 ? (
         <DataGrid
           rows={candidats}
@@ -333,9 +375,9 @@ function Candidats({
           onSelectionModelChange={(ids) => {
             const selectedIDs = new Set(ids);
             const selectedRowData = candidats.filter((row) =>
-              selectedIDs.has(row.id.toString())
-            );
-            console.log(selectedRowData);
+              selectedIDs.has(row.noCandidat.toString())
+            )
+            setSelectedCandidats(selectedRowData);
           }}
         />
       ) : (

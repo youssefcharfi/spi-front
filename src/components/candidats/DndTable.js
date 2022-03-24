@@ -40,9 +40,10 @@ export default class DndTable extends Component {
     }
 
     componentDidMount(){
+        console.log(this.props.promotion);
         axios
       .get(
-        `http://localhost:8034/promotions/M2DOSI/2013-2014`
+        `http://localhost:8034/promotions/${this.props.promotion.codeFormation}/${this.props.promotion.anneeUniversitaire}`
       )
       .then((res) => {
         console.log(res.data?.candidats?.filter(cand => cand.listeSelection === "LP"));

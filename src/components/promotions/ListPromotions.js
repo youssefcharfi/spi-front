@@ -55,18 +55,12 @@ const columns = ({ navigate }) => [
     headerName: "Date réponse LalP",
     type: "string",
     flex: 0.3,
-    // renderCell: (params) => {
-    //   return dateFormat(params.row.dateReponseLalp, "dd/mm/yyyy");
-    // },
   },
   {
     field: "dateRentree",
     headerName: "Date de rentrée",
     type: "string",
     flex: 0.3,
-    // renderCell: (params) => {
-    //   return dateFormat(params.row.dateRentree, "dd/mm/yyyy");
-    // },
   },
   {
     field: "lieuRentree",

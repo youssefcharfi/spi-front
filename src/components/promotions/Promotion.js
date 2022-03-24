@@ -91,20 +91,25 @@ function Promotion({ promotion }) {
             </div>
             <div className="card mt-3">
                 <div className="card-body">
-                    <div className="row my-2">
+                <div className="row my-2">
                         <div className="col-md-3">
-                            <h6>Nombre d'heures des CM :   {promotion.nombreHeureCM} h</h6>
-                        </div>
-                        <div className="col-md-3">
-                            <h6>Nombre d'heures des TP :   {promotion.nombreHeureTP} h</h6>
+                            <h6 className="fw-bold">Nombre d'heures des :</h6>
                         </div>
                     </div>
                     <div className="row my-2">
                         <div className="col-md-3">
-                            <h6>Nombre d'heures des TD :   {promotion.nombreHeureTD} h</h6>
+                            <h6>Cours magistral (CM) :   {promotion.nombreHeureCM} h</h6>
                         </div>
                         <div className="col-md-3">
-                            <h6>Nombre d'heures des ETD :   {Number.parseFloat(promotion.nombreHeureETD).toFixed(2)} h</h6>
+                            <h6>Travaux pratiques (TP) :   {promotion.nombreHeureTP} h</h6>
+                        </div>
+                    </div>
+                    <div className="row my-2">
+                        <div className="col-md-3">
+                            <h6>Travaux dirigés (TD) :   {promotion.nombreHeureTD} h</h6>
+                        </div>
+                        <div className="col-md-3">
+                            <h6>Equivalent travaux dirigés (ETD) :   {Number.parseFloat(promotion.nombreHeureETD).toFixed(2)} h</h6>
                         </div>
                     </div>
                 </div>

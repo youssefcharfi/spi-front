@@ -49,6 +49,7 @@ function Candidats({
   const [candidatsLP, setCandidatsLP] = useState(
     candidats?.filter((cand) => cand.listeSelection === "LP")
   );
+  const [candidatsLpUpdated,setCandidatsLpUpdated]=useState([...candidatsLP]);
   const [candidatsLA, setCandidatsLA] = useState(promotion.candidatsLA);
 
   const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats);
@@ -165,11 +166,7 @@ function Candidats({
     setIsModalVisible(false);
   };
   const showModalListPrincipale = () => {
-    //if
-    console.log("lp 1 ", candidatsLP);
-    setCandidatsLP([...candidatsLP, ...selectedCandidats]);
-    console.log("seleted candidat", selectedCandidats);
-    console.log("lp  ", candidatsLP);
+    console.log(candidatsLP);
     setIsModalListPrincipale(true);
   };
 
@@ -358,7 +355,7 @@ function Candidats({
         onCancel={handleCancelListPrincipale}
         width={1000}
       >
-        <DndTable promotion={promotion} />
+        <DndTable promotion={promotion} candidats={candidatsLpUpdated}/>
       </Modal>
 
       {candidats.length > 0 ? (
@@ -386,7 +383,9 @@ function Candidats({
             const selectedRowData = candidats.filter((row) =>
               selectedIDs.has(row.noCandidat.toString())
             );
+            console.log(candidatsLP);
             setSelectedCandidats(selectedRowData);
+            setCandidatsLpUpdated([...candidatsLP,...selectedRowData])
           }}
         />
       ) : (

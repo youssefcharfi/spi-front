@@ -40,20 +40,19 @@ export default class DndTable extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props.promotion);
-        axios
-      .get(
-        `http://localhost:8034/promotions/${this.props.promotion.codeFormation}/${this.props.promotion.anneeUniversitaire}`
-      )
-      .then((res) => {
-        console.log(res.data?.candidats?.filter(cand => cand.listeSelection === "LP"));
         this.setState((state) => {
-            return {items : res.data?.candidats?.filter(cand => cand.listeSelection === "LP")}
+            return {items : this.props.candidats}
         })
-      })
-      .catch((err) => {
-      }, []);
     }
+
+    componentDidUpdate(prevProps){
+        if(JSON.stringify(prevProps.candidats) != JSON.stringify(this.props.candidats)){
+            this.setState((state) => {
+                return {items : this.props.candidats}
+            })
+        }
+    }
+
 
     onDragEnd(result) {
         // dropped outside the list

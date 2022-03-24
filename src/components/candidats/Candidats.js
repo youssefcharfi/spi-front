@@ -20,10 +20,10 @@ import Error from "../shared/Error";
 import DndTable from "./DndTable";
 
 toastr.options = {
-  "closeButton": true,
-  "positionClass": "toast-top-center",
-  "timeOut": 0,
-  "extendedTimeOut": 0
+  closeButton: true,
+  positionClass: "toast-top-center",
+  timeOut: 0,
+  extendedTimeOut: 0,
 };
 
 function Candidats({
@@ -42,12 +42,18 @@ function Candidats({
   listeDeSelection.set("NR", "Non Retenu");
 
   //promotion.candidats = [];
-  const [selection, setSelection] = React.useState([]);
+
   const confirm = useConfirm();
 
   const [candidats, setCandidats] = useState(promotion.candidats);
+  const [candidatsLP, setCandidatsLP] = useState(
+    candidats?.filter((cand) => cand.listeSelection === "LP")
+  );
+  const [candidatsLA, setCandidatsLA] = useState(promotion.candidatsLA);
+
   const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats);
   const [selectedCandidats, setSelectedCandidats] = React.useState([]);
+
   const ajouterCandidat = (candidat) => {
     if (candidat.listeSelection === "LP")
       setLp(
@@ -159,16 +165,17 @@ function Candidats({
     setIsModalVisible(false);
   };
   const showModalListPrincipale = () => {
-    console.log(selectedCandidats);
+    //if
+    console.log("lp 1 ", candidatsLP);
+    setCandidatsLP([...candidatsLP, ...selectedCandidats]);
+    console.log("seleted candidat", selectedCandidats);
+    console.log("lp  ", candidatsLP);
     setIsModalListPrincipale(true);
   };
 
   const handleCancelListPrincipale = () => {
     setIsModalListPrincipale(false);
   };
-
-
-
 
   const enEtudiant = () => {
     if (candidats.length > 0) {
@@ -289,9 +296,7 @@ function Candidats({
                 }}
               />
             </Grid>
-            <Grid item>
-              <p>{selection.length}</p>
-            </Grid>
+
             <Grid item>
               <Tooltip title="Ajouter un candidat" placement="bottom">
                 <IconButton aria-label="add">
@@ -353,11 +358,8 @@ function Candidats({
         onCancel={handleCancelListPrincipale}
         width={1000}
       >
-        <DndTable promotion={promotion}/>
+        <DndTable promotion={promotion} />
       </Modal>
-
-
-
 
       {candidats.length > 0 ? (
         <DataGrid
@@ -383,7 +385,7 @@ function Candidats({
             const selectedIDs = new Set(ids);
             const selectedRowData = candidats.filter((row) =>
               selectedIDs.has(row.noCandidat.toString())
-            )
+            );
             setSelectedCandidats(selectedRowData);
           }}
         />

@@ -33,6 +33,13 @@ const { Option } = Select;
 
 //const rules = [{ required: true, message: "champs obligatoire!!" }];
 
+toastr.options = {
+  "closeButton": true,
+  "positionClass": "toast-top-center",
+  "timeOut": 0,
+  "extendedTimeOut": 0
+};
+
 function AddCandidat({
   codeFormation,
   anneeUniversitaire,
@@ -428,17 +435,8 @@ function AddCandidat({
                     className="btn btn-outline-secondary mx-2"
                     style={{ float: "left" }}
                   >
-                    <ReplayIcon />
-                  </button>
-
-                  <button
-                    type="submit"
-                    size="large"
-                    className="btn btn-primary mx-2"
-                    style={{ float: "right" }}
-                  >
-                    Ajouter
-                  </button>
+                    Vider
+                  </button>               
                   <button
                     type="button"
                     size="large"
@@ -446,7 +444,15 @@ function AddCandidat({
                     className="btn btn-primary mx-2"
                     style={{ float: "right" }}
                   >
-                    Reajouter
+                    Ajouter
+                  </button>
+                  <button
+                    type="submit"
+                    size="large"
+                    className="btn btn-primary mx-2"
+                    style={{ float: "right" }}
+                  >
+                    Ajouter et fermer
                   </button>
                 </Row>
               </Form>

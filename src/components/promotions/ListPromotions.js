@@ -20,6 +20,12 @@ import ServerError from "../ServerError";
 import Typography from "@mui/material/Typography";
 //import dateFormat from "dateformat";
 
+toastr.options = {
+  "closeButton": true,
+  "positionClass": "toast-top-center",
+  "timeOut": 0,
+  "extendedTimeOut": 0
+};
 
 const Promotion = () => {
 

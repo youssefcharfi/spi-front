@@ -34,7 +34,7 @@ function Candidats({
   listeDeSelection.set("NR", "Non Retenu");
 
   //promotion.candidats = [];
-
+  const [selection, setSelection] = React.useState([]);
   const confirm = useConfirm();
 
   const [candidats, setCandidats] = useState(promotion.candidats);
@@ -230,6 +230,7 @@ function Candidats({
       },
     },
   };
+  const [selectionModel, setSelectionModel] = React.useState([]);
 
   return (
     <Container style={{ height: 426.5 }} maxWidth>
@@ -268,6 +269,9 @@ function Candidats({
                   "& > :not(style)": { width: "28ch" },
                 }}
               />
+            </Grid>
+            <Grid item>
+              <p>{selection.length}</p>
             </Grid>
             <Grid item>
               <Tooltip title="Ajouter un candidat" placement="bottom">
@@ -326,6 +330,13 @@ function Candidats({
             },
           }}
           checkboxSelection
+          onSelectionModelChange={(ids) => {
+            const selectedIDs = new Set(ids);
+            const selectedRowData = candidats.filter((row) =>
+              selectedIDs.has(row.id.toString())
+            );
+            console.log(selectedRowData);
+          }}
         />
       ) : (
         <Error

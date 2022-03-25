@@ -24,11 +24,10 @@ function PromotionDetails() {
   const [errorServer, setErrorServer] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [lp, setLp] = useState(0)
-  const [la, setLa] = useState(0)
-  const [nbEtudiant, setNbEtudiant] = useState(0)
+  const [lp, setLp] = useState(0);
+  const [la, setLa] = useState(0);
+  const [nbEtudiant, setNbEtudiant] = useState(0);
   const [pays, setPays] = useState([]);
-
 
   useEffect(() => {
     setLoading(true);
@@ -37,9 +36,15 @@ function PromotionDetails() {
         `http://localhost:8034/promotions/${codeFormation}/${anneeUniversitaire}`
       )
       .then((res) => {
-        setLp(res.data?.candidats?.filter(cand => cand.listeSelection === "LP").length)
-        setLa(res.data?.candidats?.filter(cand => cand.listeSelection === "LA").length)
-        setNbEtudiant(res.data?.etudiants.length)
+        setLp(
+          res.data?.candidats?.filter((cand) => cand.listeSelection === "LP")
+            .length
+        );
+        setLa(
+          res.data?.candidats?.filter((cand) => cand.listeSelection === "LA")
+            .length
+        );
+        setNbEtudiant(res.data?.etudiants.length);
         setPromotion(res.data);
         setLoading(false);
         setErrorServer(false);
@@ -66,7 +71,6 @@ function PromotionDetails() {
       setPays(res.data);
     });
   }, []);
-
 
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -124,24 +128,52 @@ function PromotionDetails() {
               aria-label="action tabs example"
             >
               <Tab label="DÉTAILS" {...a11yProps(0)} />
-              <Tab label={
-                <div className="row">
-                  <div className="col-md-3 my-auto">CANDIDATS</div>
-                  <div className="col-sm-9">
-                    <div style={{marginLeft:"60px"}} className="text-lowercase fw-bold">liste principale: {lp}</div>
-                    <div style={{marginLeft:"45px"}} className="text-lowercase">liste d'attente: {la}</div>
-                  </div>
-                </div>
-              } {...a11yProps(1)} />
-              <Tab label={
-                <div className="row">
-                  <div className="col-md-3 my-auto">ÉTUDIANTS</div>
-                  <div className="col-sm-9">
-                    <div style={{marginLeft:"90px"}} className="text-lowercase">nombre des étudiants : {nbEtudiant}/{promotion.nbMaxEtudiant}</div> 
-                    <div style={{marginLeft:"45px"}} className="text-lowercase">places réstantes : {promotion.nbMaxEtudiant - nbEtudiant}</div> 
+              <Tab
+                label={
+                  <div className="row">
+                    <div className="col-md-3 my-auto">CANDIDATS</div>
+                    <div className="col-sm-9">
+                      <div
+                        style={{ marginLeft: "60px" }}
+                        className="text-lowercase fw-bold"
+                      >
+                        liste principale: {lp}
+                      </div>
+                      <div
+                        style={{ marginLeft: "45px" }}
+                        className="text-lowercase"
+                      >
+                        liste d'attente: {la}
+                      </div>
                     </div>
-                </div>
-              } {...a11yProps(2)} />
+                  </div>
+                }
+                {...a11yProps(1)}
+              />
+              <Tab
+                label={
+                  <div className="row">
+                    <div className="col-md-3 my-auto">ÉTUDIANTS</div>
+                    <div className="col-sm-9">
+                      <div
+                        style={{ marginLeft: "90px" }}
+                        className="text-lowercase"
+                      >
+                        nombre des étudiants : {nbEtudiant}/
+                        {promotion.nbMaxEtudiant}
+                      </div>
+                      <div
+                        style={{ marginLeft: "45px" }}
+                        className="text-lowercase"
+                      >
+                        places réstantes :{" "}
+                        {promotion.nbMaxEtudiant - nbEtudiant}
+                      </div>
+                    </div>
+                  </div>
+                }
+                {...a11yProps(2)}
+              />
             </Tabs>
           </AppBar>
           <SwipeableViews

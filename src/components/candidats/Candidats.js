@@ -9,6 +9,7 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import HelpCenterIcon from "@mui/icons-material/HelpCenter";
 import { Modal } from "antd";
 import AddCandidat from "./AddCandidat";
@@ -33,13 +34,14 @@ function Candidats({
   pays,
   setLp,
   setLa,
+
   setNbEtudiant,
 }) {
   let keys = Array.from(universite.keys());
   var listeDeSelection = new Map();
-  listeDeSelection.set("LP", "Liste Principale");
-  listeDeSelection.set("LA", "Liste d'Attente");
-  listeDeSelection.set("NR", "Non Retenu");
+  listeDeSelection.set("LP", "Liste principale");
+  listeDeSelection.set("LA", "Liste d'attente");
+  listeDeSelection.set("NR", "Non retenu");
 
   //promotion.candidats = [];
 
@@ -49,11 +51,13 @@ function Candidats({
   const [candidatsLP, setCandidatsLP] = useState(
     candidats?.filter((cand) => cand.listeSelection === "LP")
   );
-  const [candidatsLpUpdated,setCandidatsLpUpdated]=useState([...candidatsLP]);
+  const [candidatsLpUpdated, setCandidatsLpUpdated] = useState([
+    ...candidatsLP,
+  ]);
   const [candidatsLA, setCandidatsLA] = useState(promotion.candidatsLA);
 
   const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats);
-  const [selectedCandidats, setSelectedCandidats] = React.useState([]);
+  const [selectedCandidats, setSelectedCandidats] = useState([]);
 
   const ajouterCandidat = (candidat) => {
     if (candidat.listeSelection === "LP")
@@ -165,9 +169,46 @@ function Candidats({
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  const showModalListPrincipale = () => {
+
+  var selectedNull = false;
+  const verifierListeSelection = (liste) => {
+    liste.map((l) => {
+      if (l.listeSelection != null) {
+        toastr.error(
+          "Merci de ne sélectionner que les candidats qui ne sont pas encore attribués à une liste."
+        );
+        selectedNull = true;
+      }
+    });
+  };
+
+  const showModalListPrincipale = async () => {
+    var NbrMaxLPReached = false;
     console.log(candidatsLP);
-    setIsModalListPrincipale(true);
+    console.log("selected", selectedCandidats);
+    verifierListeSelection(selectedCandidats);
+
+    console.log("nbr LP : ", candidatsLP.length);
+    console.log("nbr promotion.nbMaxEtudiant : ", promotion.nbMaxEtudiant);
+    console.log(
+      "nbr promotion.etudiants.length : ",
+      promotion.etudiants.length
+    );
+    console.log(
+      "nbr candidat restant:  ",
+      promotion.nbMaxEtudiant - promotion.etudiants.length - candidatsLP.length
+    );
+
+    if (
+      selectedCandidats.length >
+      promotion.nbMaxEtudiant - promotion.etudiants.length - candidatsLP.length
+    ) {
+      toastr.error(
+        "Il n'y a pas assez de place dans la liste principale pour les candidats sélectionés. "
+      );
+      NbrMaxLPReached = true;
+    }
+    if (!selectedNull && !NbrMaxLPReached) setIsModalListPrincipale(true);
   };
 
   const handleCancelListPrincipale = () => {
@@ -179,7 +220,7 @@ function Candidats({
       confirm({
         cancellationText: "Non",
         confirmationText: "Oui",
-        title: "Admision Candidats",
+        title: "Admission Candidats",
         description: `Est ce que vous voulez accepter les candidats de cette promotion ?`,
       })
         .then(() => {
@@ -263,16 +304,63 @@ function Candidats({
         sx={{ display: "flex", justifyContent: "space-between" }}
       >
         <Grid item>
-          <Tooltip title="Admission des candidats" placement="bottom">
-            <IconButton aria-label="add">
-              <ArrowCircleRightIcon
-                fontSize="large"
-                color="primary"
-                onClick={enEtudiant}
-                // onClick={() => navigate("/candidats/create")}
-              />
-            </IconButton>
-          </Tooltip>
+          <Grid
+            container
+            spacing={2}
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Grid item>
+              <Tooltip title="Admission des candidats" placement="bottom">
+                <IconButton aria-label="add">
+                  <ArrowCircleRightIcon
+                    fontSize="large"
+                    color="primary"
+                    onClick={enEtudiant}
+                    // onClick={() => navigate("/candidats/create")}
+                  />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="outlined"
+                onClick={showModalListPrincipale}
+                style={{
+                  color: "green",
+                  borderColor: "Gray",
+                  textTransform: "none",
+                }}
+              >
+                Ajouter à la liste principale
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="outlined"
+                //onClick={showModalListPrincipale}
+                style={{
+                  color: "blue",
+                  borderColor: "Gray",
+                  textTransform: "none",
+                }}
+              >
+                Ajouter à la liste d'attente
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="outlined"
+                //onClick={showModalListPrincipale}
+                style={{
+                  color: "red",
+                  borderColor: "Gray",
+                  textTransform: "none",
+                }}
+              >
+                Refuser
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item>
           <Grid
@@ -288,9 +376,9 @@ function Candidats({
                 label="Chercher par Nom ou Prénom"
                 variant="outlined"
                 onChange={(e) => handleChange(e)}
-                sx={{
-                  "& > :not(style)": { width: "28ch" },
-                }}
+                // sx={{
+                //   "& > :not(style)": { width: "28ch" },
+                // }}
               />
             </Grid>
 
@@ -301,17 +389,6 @@ function Candidats({
                     fontSize="large"
                     color="primary"
                     onClick={showModal}
-                  />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-            <Grid item>
-              <Tooltip title="En liste Principale" placement="bottom">
-                <IconButton aria-label="add">
-                  <AddBoxIcon
-                    fontSize="large"
-                    color="primary"
-                    onClick={showModalListPrincipale}
                   />
                 </IconButton>
               </Tooltip>
@@ -355,7 +432,7 @@ function Candidats({
         onCancel={handleCancelListPrincipale}
         width={1000}
       >
-        <DndTable promotion={promotion} candidats={candidatsLpUpdated}/>
+        <DndTable promotion={promotion} candidats={candidatsLpUpdated} />
       </Modal>
 
       {candidats.length > 0 ? (
@@ -383,9 +460,9 @@ function Candidats({
             const selectedRowData = candidats.filter((row) =>
               selectedIDs.has(row.noCandidat.toString())
             );
-            console.log(candidatsLP);
+            //console.log(candidatsLP);
             setSelectedCandidats(selectedRowData);
-            setCandidatsLpUpdated([...candidatsLP,...selectedRowData])
+            setCandidatsLpUpdated([...candidatsLP, ...selectedRowData]);
           }}
         />
       ) : (

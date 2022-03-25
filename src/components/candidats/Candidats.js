@@ -183,22 +183,11 @@ function Candidats({
     });
   };
 
-  const showModalListPrincipale = async () => {
+  const showModalListPrincipale = () => {
     var NbrMaxLPReached = false;
     console.log(candidatsLP);
     console.log("selected", selectedCandidats);
     verifierListeSelection(selectedCandidats);
-
-    console.log("nbr LP : ", candidatsLP.length);
-    console.log("nbr promotion.nbMaxEtudiant : ", promotion.nbMaxEtudiant);
-    console.log(
-      "nbr promotion.etudiants.length : ",
-      promotion.etudiants.length
-    );
-    console.log(
-      "nbr candidat restant:  ",
-      promotion.nbMaxEtudiant - promotion.etudiants.length - candidatsLP.length
-    );
 
     if (
       selectedCandidats.length >
@@ -210,6 +199,14 @@ function Candidats({
       NbrMaxLPReached = true;
     }
     if (!selectedNull && !NbrMaxLPReached) setIsModalListPrincipale(true);
+  };
+  ///////
+  const showModalListAttente = () => {
+    console.log("selected", selectedCandidats);
+    verifierListeSelection(selectedCandidats);
+
+    if (!selectedNull) setIsModalListPrincipale(true);
+    //A changer
   };
 
   const handleCancelListPrincipale = () => {

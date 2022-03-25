@@ -52,13 +52,14 @@ function Candidats({
   const [candidatsLP, setCandidatsLP] = useState(
     candidats?.filter((cand) => cand.listeSelection === "LP")
   );
-  const [candidatsLA, setCandidatsLA] = useState(candidats?.filter((cand) => cand.listeSelection === "LA"))
+  const [candidatsLA, setCandidatsLA] = useState(
+    candidats?.filter((cand) => cand.listeSelection === "LA")
+  );
   const [candidatsLpUpdated, setCandidatsLpUpdated] = useState([
     ...candidatsLP,
   ]);
-  const [candidatsLpUpdatedListeAttente, setCandidatsLpUpdatedListeAttente] = useState([
-    ...candidatsLA,
-  ]);
+  const [candidatsLpUpdatedListeAttente, setCandidatsLpUpdatedListeAttente] =
+    useState([...candidatsLA]);
 
   const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats);
   const [selectedCandidats, setSelectedCandidats] = useState([]);
@@ -218,11 +219,8 @@ function Candidats({
   };
   ///////
   const showModalListAttente = () => {
-    console.log("selected", selectedCandidats);
     verifierListeSelection(selectedCandidats);
-
     if (!selectedNull) setIsModalListAttente(true);
-    //A changer
   };
 
   const handleCancelListPrincipale = () => {
@@ -458,11 +456,11 @@ function Candidats({
           listeSelection="LP"
         />
       </Modal>
-      
+
       <Modal
         title={
           <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-            Admission d'un candidats en liste d'attente
+            Admission d'un candidat à la liste d'attente
           </h3>
         }
         visible={isModalListAttente}
@@ -507,7 +505,10 @@ function Candidats({
             );
             setSelectedCandidats(selectedRowData);
             setCandidatsLpUpdated([...candidatsLP, ...selectedRowData]);
-            setCandidatsLpUpdatedListeAttente([...candidatsLA, ...selectedRowData]);
+            setCandidatsLpUpdatedListeAttente([
+              ...candidatsLA,
+              ...selectedRowData,
+            ]);
           }}
         />
       ) : (

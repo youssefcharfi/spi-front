@@ -98,7 +98,7 @@ function Promotion({ promotion }) {
                     </div>
                     <div className="row my-2">
                         <div className="col-md-3">
-                            <h6>Cours magistral (CM) :   {promotion.nombreHeureCM} h</h6>
+                            <h6>Cours magistraux (CM) :   {promotion.nombreHeureCM} h</h6>
                         </div>
                         <div className="col-md-3">
                             <h6>Travaux pratiques (TP) :   {promotion.nombreHeureTP} h</h6>

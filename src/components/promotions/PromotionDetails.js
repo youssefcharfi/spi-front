@@ -28,7 +28,7 @@ function PromotionDetails() {
   const [la, setLa] = useState(0)
   const [nbEtudiant, setNbEtudiant] = useState(0)
   const [pays, setPays] = useState([]);
-
+  const [isChangedCandidat, setIsChangedCandidat] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -65,7 +65,7 @@ function PromotionDetails() {
       //console.log("pays::", res.data);
       setPays(res.data);
     });
-  }, []);
+  }, [isChangedCandidat]);
 
 
   const theme = useTheme();
@@ -161,6 +161,7 @@ function PromotionDetails() {
                 setLp={setLp}
                 setLa={setLa}
                 setNbEtudiant={setNbEtudiant}
+                setIsChangedCandidat= {setIsChangedCandidat}
               />
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>

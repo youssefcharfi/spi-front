@@ -34,6 +34,7 @@ function Candidats({
   setLp,
   setLa,
   setNbEtudiant,
+  setIsChangedCandidat
 }) {
   let keys = Array.from(universite.keys());
   var listeDeSelection = new Map();
@@ -355,7 +356,12 @@ function Candidats({
         onCancel={handleCancelListPrincipale}
         width={1000}
       >
-        <DndTable promotion={promotion} candidats={candidatsLpUpdated}/>
+        <DndTable promotion={promotion} 
+        candidats={candidatsLpUpdated}
+        candidatsDataGrid= {setCandidats} closeModal={handleCancelListPrincipale}
+        candidatLP={setCandidatsLP}
+        setIsChangedCandidat = {setIsChangedCandidat}
+        />
       </Modal>
 
       {candidats.length > 0 ? (
@@ -379,11 +385,11 @@ function Candidats({
           }}
           checkboxSelection
           onSelectionModelChange={(ids) => {
+            let lengthListprincipale = candidatsLP.length+1;
             const selectedIDs = new Set(ids);
             const selectedRowData = candidats.filter((row) =>
               selectedIDs.has(row.noCandidat.toString())
             );
-            console.log(candidatsLP);
             setSelectedCandidats(selectedRowData);
             setCandidatsLpUpdated([...candidatsLP,...selectedRowData])
           }}

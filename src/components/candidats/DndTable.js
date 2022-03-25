@@ -1,15 +1,11 @@
 import React, { Component } from "react"
-import { TableContainer, Table, TableBody, TableCell, TableHead, TableRow, Paper } from '@material-ui/core'
+import { TableContainer, Table, TableBody, TableCell, TableHead, TableRow, Paper, TableFooter } from '@material-ui/core'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import ReactDOM from "react-dom"
 import axios from "axios"
-
-const getItems = count =>
-    Array.from({ length: count }, (v, k) => k).map(k => ({
-        id: `item-${k}`,
-        primary: `item ${k}`,
-        secondary: k % 2 === 0 ? `Whatever for ${k}` : undefined
-    }))
+import { Grid } from "antd"
+import { Container } from "@mui/material"
+import toastr from "toastr"
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -53,20 +49,37 @@ export default class DndTable extends Component {
         }
     }
 
+    handleEnvoieListPrincipale(i,items) {
+        i.map((candidat,index) => {
+            candidat.selectionNoOrdre = index+1;
+            candidat.listeSelection = "LP"
+        })
+        axios
+        .put(`http://localhost:8034/candidats/updateListe`, i)
+        .then((res) => {
+          toastr.info(
+            "Les candidats selectionnes on été bien ajouter",
+            "Addmision Candidat en list principale"
+          );
+          this.props.setIsChangedCandidat(true);
+          this.props.closeModal();
+          this.props.setIsChangedCandidat(false);
+        })
+        .catch((error) => {
+          toastr.error(error.response.data.errorMeassage, "Ajout Promotion");
+        });
+    }
 
     onDragEnd(result) {
         // dropped outside the list
         if (!result.destination) {
             return
         }
-
-        console.log(`dragEnd ${result.source.index} to  ${result.destination.index}`)
         const items = reorder(
             this.state.items,
             result.source.index,
             result.destination.index
         )
-        console.log(items);
         this.setState({
             items
         })
@@ -74,7 +87,8 @@ export default class DndTable extends Component {
 
     render() {
         return (
-            <TableContainer component={Paper}>
+            <Container>
+                <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -86,14 +100,23 @@ export default class DndTable extends Component {
                     <TableBody component={DroppableComponent(this.onDragEnd)}>
                         {this.state.items.map((item, index) => (
                             <TableRow component={DraggableComponent(item.noCandidat, index)} key={item.noCandidat} >
-                                <TableCell scope="row">{index + 1}</TableCell>
+                                <TableCell scope="row">{index+1}</TableCell>
                                 <TableCell>{item.nom}</TableCell>
                                 <TableCell>{item.prenom}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
+                </TableContainer>
+                <button
+                type="button"
+                size="large"
+                onClick={this.handleEnvoieListPrincipale.bind(this,this.state.items)}
+                className="btn btn-primary my-3 float-right"
+                >
+                Ajouter
+                </button>
+            </Container>
         )
     }
 }

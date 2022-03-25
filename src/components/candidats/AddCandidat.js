@@ -34,10 +34,10 @@ const { Option } = Select;
 //const rules = [{ required: true, message: "champs obligatoire!!" }];
 
 toastr.options = {
-  "closeButton": true,
-  "positionClass": "toast-top-center",
-  "timeOut": 0,
-  "extendedTimeOut": 0
+  closeButton: true,
+  positionClass: "toast-top-center",
+  timeOut: 0,
+  extendedTimeOut: 0,
 };
 
 function AddCandidat({
@@ -47,6 +47,7 @@ function AddCandidat({
   ajouterCandidat,
   fermerPopUp,
   pays,
+  setIsChangedCandidat,
 }) {
   console.log("codeformation:", codeFormation);
   console.log("annnee universitaire:", anneeUniversitaire);
@@ -142,7 +143,8 @@ function AddCandidat({
       .then((res) => {
         ajoutConfirmationError = false;
         ajouterCandidat(res.data);
-
+        setIsChangedCandidat(true);
+        setIsChangedCandidat(false);
         toastr.success(
           "Candidat : " +
             candidat.prenom +
@@ -436,7 +438,7 @@ function AddCandidat({
                     style={{ float: "left" }}
                   >
                     Vider
-                  </button>               
+                  </button>
                   <button
                     type="button"
                     size="large"

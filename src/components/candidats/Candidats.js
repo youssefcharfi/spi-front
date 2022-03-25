@@ -52,10 +52,13 @@ function Candidats({
   const [candidatsLP, setCandidatsLP] = useState(
     candidats?.filter((cand) => cand.listeSelection === "LP")
   );
+  const [candidatsLA, setCandidatsLA] = useState(candidats?.filter((cand) => cand.listeSelection === "LA"))
   const [candidatsLpUpdated, setCandidatsLpUpdated] = useState([
     ...candidatsLP,
   ]);
-  const [candidatsLA, setCandidatsLA] = useState(promotion.candidatsLA);
+  const [candidatsLpUpdatedListeAttente, setCandidatsLpUpdatedListeAttente] = useState([
+    ...candidatsLA,
+  ]);
 
   const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats);
   const [selectedCandidats, setSelectedCandidats] = useState([]);
@@ -163,6 +166,8 @@ function Candidats({
 
   const [isModalListPrincipale, setIsModalListPrincipale] = useState(false);
 
+  const [isModalListAttente, setIsModalListAttente] = useState(false);
+
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -205,12 +210,16 @@ function Candidats({
     console.log("selected", selectedCandidats);
     verifierListeSelection(selectedCandidats);
 
-    if (!selectedNull) setIsModalListPrincipale(true);
+    if (!selectedNull) setIsModalListAttente(true);
     //A changer
   };
 
   const handleCancelListPrincipale = () => {
     setIsModalListPrincipale(false);
+  };
+
+  const handleCancelListAttente = () => {
+    setIsModalListAttente(false);
   };
 
   const enEtudiant = () => {
@@ -335,7 +344,7 @@ function Candidats({
             <Grid item>
               <Button
                 variant="outlined"
-                //onClick={showModalListPrincipale}
+                onClick={showModalListAttente}
                 style={{
                   color: "blue",
                   borderColor: "Gray",
@@ -421,7 +430,7 @@ function Candidats({
       <Modal
         title={
           <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-            Admission d'un candidats
+            Admission d'un candidats en liste principale
           </h3>
         }
         visible={isModalListPrincipale}
@@ -432,15 +441,33 @@ function Candidats({
         width={1000}
       >
         <DndTable
-          promotion={promotion}
           candidats={candidatsLpUpdated}
-          candidatsDataGrid={setCandidats}
           closeModal={handleCancelListPrincipale}
-          candidatLP={setCandidatsLP}
           setIsChangedCandidat={setIsChangedCandidat}
+          listeSelection="LP"
         />
       </Modal>
-
+      
+      <Modal
+        title={
+          <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
+            Admission d'un candidats en liste d'attente
+          </h3>
+        }
+        visible={isModalListAttente}
+        cancelButtonProps={{ style: { display: "none" } }}
+        okButtonProps={{ style: { display: "none" } }}
+        // onOk={handleOk}
+        onCancel={handleCancelListAttente}
+        width={1000}
+      >
+        <DndTable
+          candidats={candidatsLpUpdatedListeAttente}
+          closeModal={handleCancelListAttente}
+          setIsChangedCandidat={setIsChangedCandidat}
+          listeSelection="LA"
+        />
+      </Modal>
       {candidats.length > 0 ? (
         <DataGrid
           rows={candidats}
@@ -469,6 +496,7 @@ function Candidats({
             );
             setSelectedCandidats(selectedRowData);
             setCandidatsLpUpdated([...candidatsLP, ...selectedRowData]);
+            setCandidatsLpUpdatedListeAttente([...candidatsLA, ...selectedRowData]);
           }}
         />
       ) : (

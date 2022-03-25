@@ -10,6 +10,7 @@ import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
 import HelpCenterIcon from "@mui/icons-material/HelpCenter";
+import InfoIcon from "@mui/icons-material/Info";
 import { Modal } from "antd";
 import AddCandidat from "./AddCandidat";
 import Tooltip from "@mui/material/Tooltip";
@@ -17,6 +18,7 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import toastr from "toastr";
 import { useConfirm } from "material-ui-confirm";
 import Error from "../shared/Error";
+import { useNavigate } from "react-router-dom";
 
 toastr.options = {
   "closeButton": true,
@@ -43,6 +45,8 @@ function Candidats({
   //promotion.candidats = [];
   const [selection, setSelection] = React.useState([]);
   const confirm = useConfirm();
+
+  let navigate = useNavigate()
 
   const [candidats, setCandidats] = useState(promotion.candidats);
   const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats);
@@ -141,6 +145,25 @@ function Candidats({
           >
             <HelpCenterIcon fontSize="large" color="danger" />
           </Tooltip>
+        );
+      },
+    },
+    {
+      headerName: "Détails",
+      field: "detail",
+      flex: 0.1,
+      align: "center",
+      renderCell: (params) => {
+        return (
+          <IconButton
+            onClick={() =>
+              navigate(
+                `/candidats/${params.row.noCandidat}`
+              )
+            }
+          >
+            <InfoIcon fontSize="small" color="primary" />
+          </IconButton>
         );
       },
     },

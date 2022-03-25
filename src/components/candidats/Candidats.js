@@ -173,14 +173,24 @@ function Candidats({
 
   var selectedNull = false;
   const verifierListeSelection = (liste) => {
-    liste.map((l) => {
-      if (l.listeSelection != null) {
+    for (var i = 0; i < liste.length; i++) {
+      if (liste[i].listeSelection != null) {
+        selectedNull = true;
         toastr.error(
           "Merci de ne sélectionner que les candidats qui ne sont pas encore attribués à une liste."
         );
-        selectedNull = true;
+        break;
       }
-    });
+    }
+
+    // liste.map((l) => {
+    //   if (l.listeSelection != null) {
+    //     selectedNull = true;
+    //     toastr.error(
+    //       "Merci de ne sélectionner que les candidats qui ne sont pas encore attribués à une liste."
+    //     );
+    //   }
+    // });
   };
 
   const showModalListPrincipale = () => {
@@ -198,6 +208,7 @@ function Candidats({
       );
       NbrMaxLPReached = true;
     }
+
     if (!selectedNull && !NbrMaxLPReached) setIsModalListPrincipale(true);
   };
   ///////

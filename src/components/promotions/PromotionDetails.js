@@ -29,6 +29,8 @@ function PromotionDetails() {
   const [nbEtudiant, setNbEtudiant] = useState(0);
   const [pays, setPays] = useState([]);
 
+  const [isChangedCandidat, setIsChangedCandidat] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -70,7 +72,7 @@ function PromotionDetails() {
       //console.log("pays::", res.data);
       setPays(res.data);
     });
-  }, []);
+  }, [isChangedCandidat]);
 
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -134,13 +136,13 @@ function PromotionDetails() {
                     <div className="col-md-3 my-auto">CANDIDATS</div>
                     <div className="col-sm-9">
                       <div
-                        style={{ marginLeft: "60px" }}
+                        style={{ marginLeft: "50px" }}
                         className="text-lowercase fw-bold"
                       >
                         liste principale: {lp}
                       </div>
                       <div
-                        style={{ marginLeft: "45px" }}
+                        style={{ marginLeft: "35px" }}
                         className="text-lowercase"
                       >
                         liste d'attente: {la}
@@ -156,14 +158,14 @@ function PromotionDetails() {
                     <div className="col-md-3 my-auto">ÉTUDIANTS</div>
                     <div className="col-sm-9">
                       <div
-                        style={{ marginLeft: "90px" }}
+                        style={{ marginLeft: "45px" }}
                         className="text-lowercase"
                       >
-                        nombre des étudiants : {nbEtudiant}/
+                        nombre d'étudiants : {nbEtudiant}/
                         {promotion.nbMaxEtudiant}
                       </div>
                       <div
-                        style={{ marginLeft: "45px" }}
+                        style={{ marginLeft: "15px" }}
                         className="text-lowercase"
                       >
                         places réstantes :{" "}
@@ -193,6 +195,7 @@ function PromotionDetails() {
                 setLp={setLp}
                 setLa={setLa}
                 setNbEtudiant={setNbEtudiant}
+                setIsChangedCandidat={setIsChangedCandidat}
               />
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>

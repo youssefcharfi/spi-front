@@ -16,7 +16,7 @@ function Promotion({ promotion }) {
                 <div className="card-body">
                     <div className="row my-4">
                         <div className="col-sm-2">
-                            <h6 className="mb-0 fw-bold">Nombre max des étudiants :</h6>
+                            <h6 className="mb-0 fw-bold">Nombre max d'étudiants :</h6>
                         </div>
                         <div className="col-sm-10 text-secondary fw-bold">{promotion.nbMaxEtudiant}</div>
                     </div>
@@ -98,7 +98,7 @@ function Promotion({ promotion }) {
                     </div>
                     <div className="row my-2">
                         <div className="col-md-3">
-                            <h6>Cours magistral (CM) :   {promotion.nombreHeureCM} h</h6>
+                            <h6>Cours magistraux (CM) :   {promotion.nombreHeureCM} h</h6>
                         </div>
                         <div className="col-md-3">
                             <h6>Travaux pratiques (TP) :   {promotion.nombreHeureTP} h</h6>

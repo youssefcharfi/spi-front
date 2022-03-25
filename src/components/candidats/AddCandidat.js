@@ -47,6 +47,7 @@ function AddCandidat({
   ajouterCandidat,
   fermerPopUp,
   pays,
+  setIsChangedCandidat,
 }) {
   console.log("codeformation:", codeFormation);
   console.log("annnee universitaire:", anneeUniversitaire);
@@ -142,7 +143,8 @@ function AddCandidat({
       .then((res) => {
         ajoutConfirmationError = false;
         ajouterCandidat(res.data);
-
+        setIsChangedCandidat(true);
+        setIsChangedCandidat(false);
         toastr.success(
           "Candidat : " +
             candidat.prenom +

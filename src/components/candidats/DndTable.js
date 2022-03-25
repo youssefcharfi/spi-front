@@ -52,14 +52,22 @@ export default class DndTable extends Component {
     handleEnvoieListPrincipale(i,items) {
         i.map((candidat,index) => {
             candidat.selectionNoOrdre = index+1;
-            candidat.listeSelection = "LP"
+            if(this.props.listeSelection == "LP")
+                candidat.listeSelection = "LP"
+            else
+                candidat.listeSelection = "LA"
         })
+        let msg;
+            if(this.props.listeSelection == "LP")
+                msg = "Les candidats selectionnes on été bien ajouter en liste principale";
+            else
+                msg = "Les candidats selectionnes on été bien ajouter en liste d'attente"
         axios
         .put(`http://localhost:8034/candidats/updateListe`, i)
         .then((res) => {
           toastr.info(
-            "Les candidats selectionnes on été bien ajouter",
-            "Addmision Candidat en list principale"
+            msg,
+            "Addmision Candidat"
           );
           this.props.setIsChangedCandidat(true);
           this.props.closeModal();

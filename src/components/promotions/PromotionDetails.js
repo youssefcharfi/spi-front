@@ -130,23 +130,6 @@ function PromotionDetails() {
               aria-label="action tabs example"
             >
               <Tab label="DÉTAILS" {...a11yProps(0)} />
-<<<<<<< HEAD
-              <Tab label={
-                <div className="row">
-                  <div className="col-md-3 my-auto">CANDIDATS</div>
-                  <div className="col-sm-9">
-                    <div style={{marginLeft:"60px"}} className="text-lowercase fw-bold">liste principale: {lp}</div>
-                    <div style={{marginLeft:"45px"}} className="text-lowercase">liste d'attente: {la}</div>
-                  </div>
-                </div>
-              } {...a11yProps(1)} />
-              <Tab label={
-                <div className="row">
-                  <div className="col-md-3 my-auto">ÉTUDIANTS</div>
-                  <div className="col-sm-9">
-                    <div style={{marginLeft:"90px"}} className="text-lowercase  fw-bold">nombre des étudiants : {nbEtudiant}/{promotion.nbMaxEtudiant}</div> 
-                    <div style={{marginLeft:"35px"}} className="text-lowercase">places réstantes : {promotion.nbMaxEtudiant - nbEtudiant}</div> 
-=======
               <Tab
                 label={
                   <div className="row">
@@ -164,7 +147,6 @@ function PromotionDetails() {
                       >
                         liste d'attente: {la}
                       </div>
->>>>>>> 4dadfaea136eb1d9098fcf9fad07d4c2460a00cb
                     </div>
                   </div>
                 }

@@ -17,13 +17,10 @@ import AddCandidat from "./AddCandidat";
 import Tooltip from "@mui/material/Tooltip";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import toastr from "toastr";
+import {useNavigate} from 'react-router-dom'
 import { useConfirm } from "material-ui-confirm";
 import Error from "../shared/Error";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-=======
 import DndTable from "./DndTable";
->>>>>>> 4dadfaea136eb1d9098fcf9fad07d4c2460a00cb
 
 toastr.options = {
   closeButton: true,
@@ -408,10 +405,6 @@ function Candidats({
                 // }}
               />
             </Grid>
-<<<<<<< HEAD
-=======
-
->>>>>>> 4dadfaea136eb1d9098fcf9fad07d4c2460a00cb
             <Grid item>
               <Tooltip title="Ajouter un candidat" placement="bottom">
                 <IconButton aria-label="add">

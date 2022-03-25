@@ -56,10 +56,14 @@ function Candidats({
   const [candidatsLP, setCandidatsLP] = useState(
     candidats?.filter((cand) => cand.listeSelection === "LP")
   );
+  const [candidatsLA, setCandidatsLA] = useState(
+    candidats?.filter((cand) => cand.listeSelection === "LA")
+  );
   const [candidatsLpUpdated, setCandidatsLpUpdated] = useState([
     ...candidatsLP,
   ]);
-  const [candidatsLA, setCandidatsLA] = useState(promotion.candidatsLA);
+  const [candidatsLpUpdatedListeAttente, setCandidatsLpUpdatedListeAttente] =
+    useState([...candidatsLA]);
 
   const [candidatsSearch, setCandidatsSearch] = useState(promotion.candidats);
   const [selectedCandidats, setSelectedCandidats] = useState([]);
@@ -186,6 +190,8 @@ function Candidats({
 
   const [isModalListPrincipale, setIsModalListPrincipale] = useState(false);
 
+  const [isModalListAttente, setIsModalListAttente] = useState(false);
+
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -196,32 +202,31 @@ function Candidats({
 
   var selectedNull = false;
   const verifierListeSelection = (liste) => {
-    liste.map((l) => {
-      if (l.listeSelection != null) {
+    for (var i = 0; i < liste.length; i++) {
+      if (liste[i].listeSelection != null) {
+        selectedNull = true;
         toastr.error(
           "Merci de ne sélectionner que les candidats qui ne sont pas encore attribués à une liste."
         );
-        selectedNull = true;
+        break;
       }
-    });
+    }
+
+    // liste.map((l) => {
+    //   if (l.listeSelection != null) {
+    //     selectedNull = true;
+    //     toastr.error(
+    //       "Merci de ne sélectionner que les candidats qui ne sont pas encore attribués à une liste."
+    //     );
+    //   }
+    // });
   };
 
-  const showModalListPrincipale = async () => {
+  const showModalListPrincipale = () => {
     var NbrMaxLPReached = false;
     console.log(candidatsLP);
     console.log("selected", selectedCandidats);
     verifierListeSelection(selectedCandidats);
-
-    console.log("nbr LP : ", candidatsLP.length);
-    console.log("nbr promotion.nbMaxEtudiant : ", promotion.nbMaxEtudiant);
-    console.log(
-      "nbr promotion.etudiants.length : ",
-      promotion.etudiants.length
-    );
-    console.log(
-      "nbr candidat restant:  ",
-      promotion.nbMaxEtudiant - promotion.etudiants.length - candidatsLP.length
-    );
 
     if (
       selectedCandidats.length >
@@ -232,11 +237,21 @@ function Candidats({
       );
       NbrMaxLPReached = true;
     }
+
     if (!selectedNull && !NbrMaxLPReached) setIsModalListPrincipale(true);
+  };
+  ///////
+  const showModalListAttente = () => {
+    verifierListeSelection(selectedCandidats);
+    if (!selectedNull) setIsModalListAttente(true);
   };
 
   const handleCancelListPrincipale = () => {
     setIsModalListPrincipale(false);
+  };
+
+  const handleCancelListAttente = () => {
+    setIsModalListAttente(false);
   };
 
   const enEtudiant = () => {
@@ -361,7 +376,7 @@ function Candidats({
             <Grid item>
               <Button
                 variant="outlined"
-                //onClick={showModalListPrincipale}
+                onClick={showModalListAttente}
                 style={{
                   color: "blue",
                   borderColor: "Gray",
@@ -446,7 +461,7 @@ function Candidats({
       <Modal
         title={
           <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-            Admission d'un candidats
+            Admission d'un candidats en liste principale
           </h3>
         }
         visible={isModalListPrincipale}
@@ -457,15 +472,33 @@ function Candidats({
         width={1000}
       >
         <DndTable
-          promotion={promotion}
           candidats={candidatsLpUpdated}
-          candidatsDataGrid={setCandidats}
           closeModal={handleCancelListPrincipale}
-          candidatLP={setCandidatsLP}
           setIsChangedCandidat={setIsChangedCandidat}
+          listeSelection="LP"
         />
       </Modal>
 
+      <Modal
+        title={
+          <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
+            Admission d'un candidat à la liste d'attente
+          </h3>
+        }
+        visible={isModalListAttente}
+        cancelButtonProps={{ style: { display: "none" } }}
+        okButtonProps={{ style: { display: "none" } }}
+        // onOk={handleOk}
+        onCancel={handleCancelListAttente}
+        width={1000}
+      >
+        <DndTable
+          candidats={candidatsLpUpdatedListeAttente}
+          closeModal={handleCancelListAttente}
+          setIsChangedCandidat={setIsChangedCandidat}
+          listeSelection="LA"
+        />
+      </Modal>
       {candidats.length > 0 ? (
         <DataGrid
           rows={candidats}
@@ -494,6 +527,10 @@ function Candidats({
             );
             setSelectedCandidats(selectedRowData);
             setCandidatsLpUpdated([...candidatsLP, ...selectedRowData]);
+            setCandidatsLpUpdatedListeAttente([
+              ...candidatsLA,
+              ...selectedRowData,
+            ]);
           }}
         />
       ) : (

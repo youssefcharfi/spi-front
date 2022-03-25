@@ -90,6 +90,7 @@ const columns = ({ navigate }) => [
     headerName: "Nombre max des étudiants",
     type: "string",
     flex: 0.4,
+    align: "center",
   },
   {
     field: "dateReponseLp",

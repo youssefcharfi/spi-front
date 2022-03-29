@@ -3,18 +3,20 @@ import { DataGrid, frFR } from "@mui/x-data-grid";
 // import axios from "axios";
 import { Container, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { Tooltip } from "antd";
 
 export default function Etudiants({ etudiants }) {
   const columns = [
     // { field: "noEtudiant", headerName: "Numéro", flex: 0.3 },
     { field: "nom", headerName: "Nom", flex: 0.4 },
-    { field: "prenom", headerName: "Prenom", flex: 0.3 },
+    { field: "prenom", headerName: "Prénom", flex: 0.3 },
     { field: "mobile", headerName: "mobile", flex: 0.4 },
     { field: "email", headerName: "Email", flex: 0.6 },
     {
       field: "universiteOrigine",
       headerName: "Universite d'origine",
       flex: 0.4,
+     
     },
     {
       field: "groupeTp",

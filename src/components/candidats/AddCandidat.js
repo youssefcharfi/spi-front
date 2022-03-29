@@ -401,7 +401,7 @@ function AddCandidat({
                     </Item>
                   </Col>
                 </Row>
-                <Item
+                {/*<Item
                   label="Liste de sélection"
                   name="listeSelection"
 

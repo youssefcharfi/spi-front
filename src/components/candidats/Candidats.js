@@ -107,8 +107,8 @@ function Candidats({
   };
 
   const columns = [
-    { field: "prenom", headerName: "Prénom", flex: 0.3 },
     { field: "nom", headerName: "Nom", flex: 0.3 },
+    { field: "prenom", headerName: "Prénom", flex: 0.3 },  
     { field: "email", headerName: "Email", flex: 0.5 },
 
     {
@@ -427,7 +427,7 @@ function Candidats({
                 margin=""
                 size="small"
                 id="outlined-basic"
-                label="Chercher par Nom ou Prénom"
+                label="Chercher par nom ou prénom"
                 variant="outlined"
                 onChange={(e) => handleChange(e)}
                 // sx={{

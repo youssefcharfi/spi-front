@@ -76,7 +76,11 @@ export default class DndTable extends Component {
     axios
       .put(`http://localhost:8034/candidats/updateListe`, i)
       .then((res) => {
-        toastr.info(msg, "Admission des candidats", {closeButton: false,timeOut: 4000, extendedTimeOut: 100,});
+        toastr.info(msg, "Admission des candidats", {
+          closeButton: false,
+          timeOut: 4000,
+          extendedTimeOut: 100,
+        });
         this.props.setIsChangedCandidat(true);
         this.props.closeModal();
         this.props.setIsChangedCandidat(false);

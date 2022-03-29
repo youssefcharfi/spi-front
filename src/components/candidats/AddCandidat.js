@@ -49,15 +49,12 @@ function AddCandidat({
   pays,
   setIsChangedCandidat,
 }) {
-  console.log("codeformation:", codeFormation);
-  console.log("annnee universitaire:", anneeUniversitaire);
   const [form] = Form.useForm();
   const [messageErreur, setMessageErreur] = useState("");
   const rules = [{ required: true, message: "champs obligatoire!!" }];
   //const [ajoutConfirmationError, setAjoutConfirmationError] = useState(false);
   var ajoutConfirmationError = false;
   var AbreviationsUniversite = Array.from(universite.keys());
-  console.log("keys: ", AbreviationsUniversite);
 
   //////////////////////////////////////////////
 
@@ -153,9 +150,9 @@ function AddCandidat({
             " est ajouté avec succes",
           "Ajout d'un candidat"
         );
-        console.log("res: ", res);
-        console.log("data: ", res.data);
-        console.log("error: ", res.error);
+        // console.log("res: ", res);
+        // console.log("data: ", res.data);
+        // console.log("error: ", res.error);
         vider();
       })
       .catch((error) => {
@@ -164,10 +161,10 @@ function AddCandidat({
         setMessageErreur(error.response.data.errorMeassage);
         toastr.error(error.response.data.errorMeassage, "Erreur d'Ajout");
 
-        console.log(
-          "error message errorMeassage ",
-          error.response.data.errorMeassage
-        );
+        // console.log(
+        //   "error message errorMeassage ",
+        //   error.response.data.errorMeassage
+        // );
       });
   };
 

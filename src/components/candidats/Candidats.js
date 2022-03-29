@@ -17,10 +17,11 @@ import AddCandidat from "./AddCandidat";
 import Tooltip from "@mui/material/Tooltip";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import toastr from "toastr";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import { useConfirm } from "material-ui-confirm";
 import Error from "../shared/Error";
 import DndTable from "./DndTable";
+import Confirmation from "./Confirmation";
 
 toastr.options = {
   closeButton: true,
@@ -50,7 +51,25 @@ function Candidats({
 
   const confirm = useConfirm();
 
-  let navigate = useNavigate()
+  let navigate = useNavigate();
+  /////////////////////////////////////:Confirmation
+  const [candidatAConfirmer, setCandidatAConfirmer] = useState({});
+  const [open, setOpen] = useState(false);
+
+  // const getCandidatAConfirmer = (candidatConfirmation) => {
+  //   setCandidatAConfirmer(candidatConfirmation);
+
+  //   new Promise((resolve, reject) => {
+  //     if (candidatAConfirmer != null) resolve("ok");
+  //     else reject("candidat null");
+  //   });
+  // };
+
+  const handleOpenDialog = (candidatConfirmation) => {
+    setCandidatAConfirmer(candidatConfirmation);
+    setOpen(true);
+  };
+  ////////////////////////////////////////:
 
   const [candidats, setCandidats] = useState(promotion.candidats);
   const [candidatsLP, setCandidatsLP] = useState(
@@ -71,13 +90,17 @@ function Candidats({
   const ajouterCandidat = (candidat) => {
     if (candidat.listeSelection === "LP")
       setLp(
-        candidatsSearch?.filter((cand) => cand.listeSelection === "LP").length +
-          1
+        candidatsSearch?.filter(
+          (cand) =>
+            cand.listeSelection === "LP" && cand.confirmationCandidat !== "N"
+        ).length + 1
       );
     if (candidat.listeSelection === "LA")
       setLa(
-        candidatsSearch?.filter((cand) => cand.listeSelection === "LA").length +
-          1
+        candidatsSearch?.filter(
+          (cand) =>
+            cand.listeSelection === "LA" && cand.confirmationCandidat !== "N"
+        ).length + 1
       );
     setCandidats([candidat, ...candidats]);
     setCandidatsSearch([candidat, ...candidatsSearch]);
@@ -92,6 +115,7 @@ function Candidats({
       headerName: "Université d'origine",
       field: "universiteOrigine",
       flex: 0.3,
+      height: 90,
       //align: "center",
       renderCell: (params) => {
         return (
@@ -123,7 +147,7 @@ function Candidats({
 
     {
       headerName: "Confirmation",
-      field: "detail",
+      field: "",
       flex: 0.2,
       align: "center",
       renderCell: (params) => {
@@ -160,7 +184,9 @@ function Candidats({
             placement="bottom-start"
             followCursor
           >
-            <HelpCenterIcon fontSize="large" color="danger" />
+            <IconButton onClick={() => handleOpenDialog(params.row)}>
+              <HelpCenterIcon fontSize="large" color="danger" />
+            </IconButton>
           </Tooltip>
         );
       },
@@ -173,11 +199,7 @@ function Candidats({
       renderCell: (params) => {
         return (
           <IconButton
-            onClick={() =>
-              navigate(
-                `/candidats/${params.row.noCandidat}`
-              )
-            }
+            onClick={() => navigate(`/candidats/${params.row.noCandidat}`)}
           >
             <InfoIcon fontSize="small" color="primary" />
           </IconButton>
@@ -259,8 +281,8 @@ function Candidats({
       confirm({
         cancellationText: "Non",
         confirmationText: "Oui",
-        title: "Admission Candidats",
-        description: `Est ce que vous voulez accepter les candidats de cette promotion ?`,
+        title: "Admission des candidats",
+        description: `Voulez-vous accepter les candidats de cette promotion ?`,
       })
         .then(() => {
           axios
@@ -302,13 +324,16 @@ function Candidats({
             .catch((error) => {
               toastr.error(
                 error.response.data.errorMeassage,
-                "Admission Candidats"
+                "Admission des candidats"
               );
             });
         })
         .catch(() => console.log("Deletion cancelled."));
     } else {
-      toastr.info("Pas de candidats pour l'admission!", "Admission Candidats");
+      toastr.info(
+        "Il n'y a pas de candidat pour l'admission!",
+        "Admission des candidats"
+      );
     }
   };
 
@@ -325,16 +350,6 @@ function Candidats({
     } else setCandidats(candidatsSearch);
   };
 
-  const options = {
-    textLabels: {
-      pagination: {
-        next: "Suivant >",
-        previous: "< Precedent",
-        //rowsPerPage: "Total items Per Page",
-        displayRows: "/",
-      },
-    },
-  };
   return (
     <Container style={{ height: 426.5 }} maxWidth>
       <Grid
@@ -499,6 +514,14 @@ function Candidats({
           listeSelection="LA"
         />
       </Modal>
+
+      <Confirmation
+        open={open}
+        setOpen={setOpen}
+        candidat={candidatAConfirmer}
+        setIsChangedCandidat={setIsChangedCandidat}
+      ></Confirmation>
+
       {candidats.length > 0 ? (
         <DataGrid
           rows={candidats}

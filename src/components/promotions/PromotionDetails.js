@@ -39,12 +39,16 @@ function PromotionDetails() {
       )
       .then((res) => {
         setLp(
-          res.data?.candidats?.filter((cand) => cand.listeSelection === "LP")
-            .length
+          res.data?.candidats?.filter(
+            (cand) =>
+              cand.listeSelection === "LP" && cand.confirmationCandidat !== "N"
+          ).length
         );
         setLa(
-          res.data?.candidats?.filter((cand) => cand.listeSelection === "LA")
-            .length
+          res.data?.candidats?.filter(
+            (cand) =>
+              cand.listeSelection === "LA" && cand.confirmationCandidat !== "N"
+          ).length
         );
         setNbEtudiant(res.data?.etudiants.length);
         setPromotion(res.data);

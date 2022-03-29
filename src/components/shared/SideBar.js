@@ -22,7 +22,7 @@ import Home from "../Home.jsx";
 import PageNotFound from "../PageNotFound";
 import ListPromotions from "../promotions/ListPromotions";
 import Formations from "../formations/Formations";
-import Candidat from "../candidats/Candidat";
+//import Candidat from "../candidats/Candidat";
 import PromotionDetails from "../promotions/PromotionDetails";
 import CreatePromotion from "../promotions/CreatePromotion";
 import { Link, Route, Routes } from "react-router-dom";
@@ -186,7 +186,7 @@ function SideBar() {
             element={<PromotionDetails />}
           />
           <Route exact path="/formations" element={<Formations />} />
-          <Route exact path="/candidats/:noCandidat" element={<Candidat />} />
+          {/* <Route exact path="/candidats/:noCandidat" element={<Candidat />} /> */}
         </Routes>
       </Main>
     </Box>

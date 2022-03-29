@@ -97,13 +97,13 @@ function Formations() {
 
     {
       field: "debutAccreditation",
-      headerName: "Début d'accreditation",
+      headerName: "Début d'accréditation",
       type: "date",
       flex: 0.3,
     },
     {
       field: "finAccreditation",
-      headerName: "Fin d'accreditation",
+      headerName: "Fin d'accréditation",
       type: "string",
       flex: 0.3,
     },
@@ -148,7 +148,7 @@ function Formations() {
             <TextField
               id="outlined-basic"
               size="small"
-              label="Chercher par Code ou Nom"
+              label="Chercher par code ou nom"
               variant="outlined"
               onChange={(e) => handleChange(e)}
             />

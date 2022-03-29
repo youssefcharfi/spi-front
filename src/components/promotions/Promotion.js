@@ -109,7 +109,7 @@ function Promotion({ promotion }) {
                             <h6>Travaux dirigés (TD) :   {promotion.nombreHeureTD} h</h6>
                         </div>
                         <div className="col-md-3">
-                            <h6>Equivalent travaux dirigés (ETD) :   {Number.parseFloat(promotion.nombreHeureETD).toFixed(2)} h</h6>
+                            <h6>Équivalent travaux dirigés (ETD) :   {Number.parseFloat(promotion.nombreHeureETD).toFixed(2)} h</h6>
                         </div>
                     </div>
                 </div>

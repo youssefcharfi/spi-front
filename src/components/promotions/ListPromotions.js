@@ -103,7 +103,7 @@ const columns = ({ navigate }) => [
   },
   {
     field: "dateReponseLalp",
-    headerName: "Date de réponse LalP",
+    headerName: "Date de réponse LALP",
     type: "string",
     flex: 0.3,
   },

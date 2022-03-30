@@ -65,11 +65,11 @@ function Candidat() {
             case null:
                 return null
             case "NR":
-                return "Non Retenu"
+                return "Non retenu"
             case "LP":
-                return "Liste Principale"
+                return "Liste principale"
             case "LA":
-                return "Liste d'Attente"
+                return "Liste d'attente"
             default:
                 break;
         }

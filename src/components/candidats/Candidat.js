@@ -151,10 +151,12 @@ function Candidat() {
                         </h5>
                     </div>
                 </div>
-                <div className="row justify-content-end">
-                    <div className="col-2" style={{ float: 'right' }}>
-                        <button className="btn btn-primary mx-2" disabled={edit} onClick={handleEdit}>Editer</button>
+                <div className="d-flex flex-row-reverse">
+                    <div className="p-2">
                         <button type='submit' className="btn btn-outline-success" disabled={!edit || !validate()} onClick={handleSave}>Enregistrer</button>
+                    </div>
+                    <div className="p-2">
+                        <button className="btn btn-primary" disabled={edit} onClick={handleEdit}>Editer</button>
                     </div>
                 </div>
                 <div className="card-title">

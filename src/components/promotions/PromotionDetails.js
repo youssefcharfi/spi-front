@@ -162,7 +162,7 @@ function PromotionDetails() {
                     <div className="col-md-3 my-auto">ÉTUDIANTS</div>
                     <div className="col-sm-9">
                       <div
-                        style={{ marginLeft: "67px" }}
+                        style={{ marginLeft: "53px" }}
                         className="text-lowercase fw-bold"
                       >
                         nombre d'étudiants : {nbEtudiant}/

@@ -15,20 +15,19 @@ import Tooltip from "@mui/material/Tooltip";
 import "toastr/build/toastr.css";
 import toastr from "toastr";
 import InfoIcon from "@mui/icons-material/Info";
-import DeleteIcon from '@mui/icons-material/DeleteForever';
+import DeleteIcon from "@mui/icons-material/DeleteForever";
 import ServerError from "../ServerError";
 import Typography from "@mui/material/Typography";
 //import dateFormat from "dateformat";
 
 toastr.options = {
-  "closeButton": true,
-  "positionClass": "toast-top-center",
-  "timeOut": 0,
-  "extendedTimeOut": 0
+  closeButton: true,
+  positionClass: "toast-top-center",
+  timeOut: 0,
+  extendedTimeOut: 0,
 };
 
 const Promotion = () => {
-
   const confirm = useConfirm();
   const [promo, setPromo] = useState([]);
   const [error, setError] = useState(false);
@@ -57,138 +56,174 @@ const Promotion = () => {
     });
   }, []);
 
+  let stage = new Map([
+    ["EC", "Stage en cours"],
+    ["EVAL", "Stage evalué"],
+    ["RECH", "Recherche en cours"],
+    ["SOUT", "Sessions de soutenance définies"],
+    ["TUT", "Tuteurs attribués"],
+  ]);
 
-  
-let stage = new Map([
-  ['EC', 'Stage en cours'],
-  ['EVAL', 'Stage evalué'],
-  ['RECH', 'Recherche en cours'],
-  ['SOUT', 'Sessions de soutenance définies'],
-  ['TUT', 'Tuteurs attribués']
-])
+  const columns = ({ navigate }) => [
+    {
+      headerName: "Année universitaire",
+      field: "anneeUniversitaire",
+      type: "string",
+      flex: 0.3,
+      valueGetter: (params) => `${params.row.anneeUniversitaire || ""}`,
+    },
+    {
+      headerName: "Enseignant",
+      field: "enseignantByNoEnseignant",
+      type: "string",
+      flex: 0.3,
+      valueGetter: (params) =>
+        `${params.row?.enseignantByNoEnseignant?.prenom || ""}` +
+        ` ${params.row?.enseignantByNoEnseignant?.nom || ""}`,
+    },
 
-const columns = ({ navigate }) => [
-  {
-    headerName: "Année universitaire",
-    field: "anneeUniversitaire",
-    type: "string",
-    flex: 0.3,
-    valueGetter: (params) => `${params.row.anneeUniversitaire || ""}`,
-  },
-  {
-    headerName: "Enseignant",
-    field: "enseignantByNoEnseignant",
-    type: "string",
-    flex: 0.3,
-    valueGetter: (params) =>
-      `${params.row?.enseignantByNoEnseignant?.prenom || ""}` +
-      ` ${params.row?.enseignantByNoEnseignant?.nom || ""}`,
-  },
+    {
+      field: "nbMaxEtudiant",
+      headerName: "Nombre max des étudiants",
+      type: "string",
+      flex: 0.4,
+      align: "center",
+    },
+    {
+      field: "dateReponseLp",
+      headerName: "Date de réponse LP",
+      type: "string",
+      flex: 0.3,
+      // renderCell: (params) => {
+      //   return dateFormat(params.row.dateReponseLp, "dd/mm/yyyy");
+      // },
+    },
+    {
+      field: "dateReponseLalp",
+      headerName: "Date de réponse LALP",
+      type: "string",
+      flex: 0.3,
+    },
+    {
+      field: "dateRentree",
+      headerName: "Date de rentrée",
+      type: "string",
+      flex: 0.3,
+    },
+    {
+      field: "lieuRentree",
+      headerName: "Lieu de rentrée",
+      type: "string",
+      flex: 0.3,
+    },
+    {
+      field: "processusStage",
+      headerName: "Processus de stage",
+      type: "string",
+      flex: 0.3,
+      valueGetter: (params) =>
+        params.row.processusStage != null
+          ? stage.get(params.row.processusStage)
+          : "Pas de processus de stage",
+    },
 
-  {
-    field: "nbMaxEtudiant",
-    headerName: "Nombre max des étudiants",
-    type: "string",
-    flex: 0.4,
-    align: "center",
-  },
-  {
-    field: "dateReponseLp",
-    headerName: "Date de réponse LP",
-    type: "string",
-    flex: 0.3,
-    // renderCell: (params) => {
-    //   return dateFormat(params.row.dateReponseLp, "dd/mm/yyyy");
+    {
+      headerName: "",
+      field: "detail",
+      flex: 0.2,
+      align: "center",
+      renderCell: (params) => {
+        return (
+          <p>
+            <IconButton
+              onClick={() =>
+                navigate(
+                  `/promotions/${params.row.codeFormation}/${params.row.anneeUniversitaire}`
+                )
+              }
+            >
+              <InfoIcon fontSize="small" color="primary" />
+            </IconButton>
+            <Tooltip
+              title={
+                "Supprimer la promotion " +
+                params.row.codeFormation +
+                " " +
+                params.row.anneeUniversitaire
+              }
+              placement="bottom"
+            >
+              <IconButton onClick={() => deletePromo(params.row)}>
+                <DeleteIcon style={{ color: "red" }} />
+              </IconButton>
+            </Tooltip>
+          </p>
+        );
+      },
+    },
+    // {
+    //   field: "supprimer",
+    //   headerName: "",
+    //   flex: 0.1,
+    //   renderCell: (params) => {
+    //     return (
+    //       <Tooltip
+    //         title={
+    //           "Supprimer la promotion " +
+    //           params.row.codeFormation +
+    //           " " +
+    //           params.row.anneeUniversitaire
+    //         }
+    //         placement="bottom"
+    //       >
+    //         <IconButton onClick={() => deletePromo(params.row)}>
+    //           <DeleteIcon style={{ color: "red" }} />
+    //         </IconButton>
+    //       </Tooltip>
+    //     );
+    //   },
     // },
-  },
-  {
-    field: "dateReponseLalp",
-    headerName: "Date de réponse LALP",
-    type: "string",
-    flex: 0.3,
-  },
-  {
-    field: "dateRentree",
-    headerName: "Date de rentrée",
-    type: "string",
-    flex: 0.3,
-  },
-  {
-    field: "lieuRentree",
-    headerName: "Lieu de rentrée",
-    type: "string",
-    flex: 0.3,
-  },
-  {
-    field: "processusStage",
-    headerName: "Processus de stage",
-    type: "string",
-    flex: 0.3,
-    valueGetter: (params) =>
-      params.row.processusStage != null
-        ? stage.get(params.row.processusStage)
-        : "Pas de processus de stage",
-  },
+  ];
 
-  {
-    headerName: "Détails",
-    field: "detail",
-    flex: 0.1,
-    align: "center",
-    renderCell: (params) => {
-      return (
-        <IconButton
-          onClick={() =>
-            navigate(
-              `/promotions/${params.row.codeFormation}/${params.row.anneeUniversitaire}`
-            )
-          }
-        >
-          <InfoIcon fontSize="small" color="primary" />
-        </IconButton>
-      );
-    },
-  },
-  {
-    field: "supprimer",
-    headerName: "",
-    flex: 0.1,
-    renderCell: (params) => {
-      return (
-        <Tooltip title={"Supprimer la promotion " + params.row.codeFormation + " " + params.row.anneeUniversitaire} placement="bottom">
-          <IconButton
-            onClick={() => deletePromo(params.row)}
-          >
-            <DeleteIcon style={{ color: "red" }} />
-          </IconButton>
-        </Tooltip>
-
-      );
-    },
-  },
-];
-
-const deletePromo = (promoToDelete) => {
-  confirm({
-    cancellationText: "Non",
-    confirmationText: "Oui",
-    title: "Supprimer une promotion",
-    description: `Êtes vous sûrs de supprimer la promotion ${promoToDelete.codeFormation} ${promoToDelete.anneeUniversitaire} ?`,
-  })
-    .then(() => {
-      axios.delete(`http://localhost:8034/promotions/${promoToDelete.codeFormation}/${promoToDelete.anneeUniversitaire}`)
-        .then(() =>{
-          setPromo(promo.filter(p => p.codeFormation !== promoToDelete.codeFormation && p.anneeUniversitaire !== promoToDelete.anneeUniversitaire))
-           toastr.info("La promotion " + promoToDelete.codeFormation + " " + promoToDelete.anneeUniversitaire + " est supprimée avec succés", "Suppréssion d'une promotion")
-          })
-        .catch(err => {
-          if (err.response.status === 409) toastr.error(err.response.data.errorMeassage, "Suppréssion d'une promotion")
-        })
+  const deletePromo = (promoToDelete) => {
+    confirm({
+      cancellationText: "Non",
+      confirmationText: "Oui",
+      title: "Supprimer une promotion",
+      description: `Êtes vous sûrs de supprimer la promotion ${promoToDelete.codeFormation} ${promoToDelete.anneeUniversitaire} ?`,
     })
-    .catch(err => console.log(err))
-
-}
-
+      .then(() => {
+        axios
+          .delete(
+            `http://localhost:8034/promotions/${promoToDelete.codeFormation}/${promoToDelete.anneeUniversitaire}`
+          )
+          .then(() => {
+            setPromo(
+              promo.filter(
+                (p) =>
+                  p.codeFormation !== promoToDelete.codeFormation &&
+                  p.anneeUniversitaire !== promoToDelete.anneeUniversitaire
+              )
+            );
+            toastr.info(
+              "La promotion " +
+                promoToDelete.codeFormation +
+                " " +
+                promoToDelete.anneeUniversitaire +
+                " est supprimée avec succés",
+              "Suppréssion d'une promotion"
+            );
+          })
+          .catch((err) => {
+            if (err.response.status === 409)
+              toastr.error(
+                err.response.data.errorMeassage,
+                "Suppréssion d'une promotion"
+              );
+          });
+      })
+      .catch((err) => console.log(err));
+  };
 
   const ajoutPromo = (promotion) => {
     setPromo([promotion, ...promo]);

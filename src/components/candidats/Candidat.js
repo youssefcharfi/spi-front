@@ -166,13 +166,13 @@ function Candidat() {
                     <div className="card-body">
                         <div className="row my-2">
                             <div className="col-md-4">
-                                <h6> <label style={{ fontWeight: 550 }}> Nom : </label><input type="text" style={{ border: 0, outline: "none" }} readOnly id="nom" name="nom" onChange={(e) => handleChange(e)} value={candidat.nom} /></h6>
+                                <h6> <label style={{ fontWeight: 550 }}> Nom : </label> <input type="text" style={{ border: 0, outline: "none" }} readOnly id="nom" name="nom" onChange={(e) => handleChange(e)} value={candidat.nom} /></h6>
                                 <div className="row">
                                     <span id='errornom' style={{ color: "red" }}>{candidat.nom?.trim()?.length == 0 ? "ce champs est obligatoire" : null}</span>
                                 </div>
                             </div>
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Prénom : </label><input type="text" style={{ border: 0, outline: "none" }} readOnly name="prenom" onChange={(e) => handleChange(e)} value={candidat.prenom} /></h6>
+                                <h6><label style={{ fontWeight: 550 }}>Prénom : </label> <input type="text" style={{ border: 0, outline: "none" }} readOnly name="prenom" onChange={(e) => handleChange(e)} value={candidat.prenom} /></h6>
                                 <div className="row">
                                     <span style={{ color: "red" }}>{candidat.prenom?.trim()?.length == 0 ? "ce champs est obligatoire" : null}</span>
                                 </div>
@@ -180,16 +180,16 @@ function Candidat() {
                         </div>
                         <div className="row my-2">
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Date de naissance : </label>
+                                <h6><label style={{ fontWeight: 550 }}>Date de naissance : </label> 
                                     {edit ?
                                         <input required type="date" min="1900-08-01" name="dateNaissance" onChange={handleChange} value={candidat.dateNaissance?.split("/").join("-").split("-").reverse().join("-")} />
                                         :
-                                        candidat.dateNaissance
+                                        <span> {candidat.dateNaissance}</span> 
                                     }
                                 </h6>
                             </div>
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Lieu de naissance : </label><input type="text" style={{ border: 0, outline: "none" }} readOnly name="lieuNaissance" onChange={(e) => handleChange(e)} value={candidat.lieuNaissance} /></h6>
+                                <h6><label style={{ fontWeight: 550 }}>Lieu de naissance : </label> <input type="text" style={{ border: 0, outline: "none" }} readOnly name="lieuNaissance" onChange={(e) => handleChange(e)} value={candidat.lieuNaissance} /></h6>
                                 <div className="row">
                                     <span style={{ color: "red" }}>{candidat.lieuNaissance?.trim()?.length == 0 ? "ce champs est obligatoire" : null}</span>
                                 </div>
@@ -197,23 +197,38 @@ function Candidat() {
                         </div>
                         <div className="row my-2">
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Sexe : </label>
+                                <h6><label style={{ fontWeight: 550 }}>Sexe : </label>    
                                     {edit ?
                                         <>
                                             {"   "} Homme<input className='mx-1' type="radio" value={candidat.sexe} onChange={handleChange} id="H" defaultChecked={candidat.sexe === "H"} name="sexe" />
                                             {"   "} Femme<input className='mx-1' type="radio" value={candidat.sexe} onChange={handleChange} id="F" defaultChecked={candidat.sexe === "F"} name="sexe" />
                                         </>
 
-                                        :
-                                        <input type="text" style={{ border: 0, outline: "none" }} readOnly value={candidat.sexe === "H" ? "Homme" : "Femme"} />
+                                        : 
+                                        <input type="text" style={{ border: 0, outline: "none" }} readOnly value={candidat.sexe === "H" ? " Homme" : " Femme"} />
                                     }
                                 </h6>
                             </div>
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Nationalité : </label><input type="text" style={{ border: 0, outline: "none" }} readOnly name="nationalite" onChange={(e) => handleChange(e)} value={candidat.nationalite} /></h6>
+                                <h6><label style={{ fontWeight: 550 }}>Nationalité : </label> <input type="text" style={{ border: 0, outline: "none" }} readOnly name="nationalite" onChange={(e) => handleChange(e)} value={candidat.nationalite} /></h6>
                                 <div className="row">
                                     <span style={{ color: "red" }}>{candidat.nationalite?.trim()?.length == 0 ? "ce champs est obligatoire" : null}</span>
                                 </div>
+                            </div>
+                        </div>
+                        <div className="row my-2">
+                            <div className="col-md-4">
+                                <h6><label style={{ fontWeight: 550 }}>Université d'origine : </label> 
+                                    {edit ?
+                                        <select style={{ width: "50%" }} name="universiteOrigine" value={candidat.universiteOrigine} onChange={(e) => handleChange(e)}>
+                                            {universiteList.map(p => (
+                                                <option key={p.abreviation} value={p.abreviation}>{p.signification}</option>
+                                            ))}
+                                        </select>
+                                        :
+                                        <span> {universite.get(candidat.universiteOrigine)}</span> 
+                                    }
+                                </h6>
                             </div>
                         </div>
                     </div>
@@ -226,7 +241,7 @@ function Candidat() {
                     <div className="card-body">
                         <div className="row my-2">
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Mobile : </label><input type="text" style={{ border: 0, outline: "none" }} readOnly name="mobile" onChange={(e) => handleChange(e)} value={candidat.mobile} /></h6>
+                                <h6><label style={{ fontWeight: 550 }}>Mobile : </label> <input type="text" style={{ border: 0, outline: "none" }} readOnly name="mobile" onChange={(e) => handleChange(e)} value={candidat.mobile} /></h6>
                                 <div className="row">
                                     <span style={{ color: "red" }}>{candidat.mobile?.trim()?.length == 0 ? "ce champs est obligatoire" : (
                                         String(candidat.mobile).match(/^[+][0-9]{0,15}$/) ? null
@@ -236,7 +251,7 @@ function Candidat() {
                                 </div>
                             </div>
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Téléphone : </label><input type="text" style={{ border: 0, outline: "none" }} readOnly name="telephone" onChange={(e) => handleChange(e)} value={candidat.telephone} /></h6>
+                                <h6><label style={{ fontWeight: 550 }}>Téléphone : </label> <input type="text" style={{ border: 0, outline: "none" }} readOnly name="telephone" onChange={(e) => handleChange(e)} value={candidat.telephone} /></h6>
                                 <div className="row">
                                     <span style={{ color: "red" }}>{
                                         candidat.telephone == null || String(candidat.telephone).match(/^[+][0-9]{0,15}$/) || candidat.telephone?.trim()?.length == 0 ? null
@@ -246,7 +261,7 @@ function Candidat() {
                                 </div>
                             </div>
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Email : </label><input type="text" style={{ border: 0, outline: "none" }} readOnly name="email" onChange={(e) => handleChange(e)} value={candidat.email} /></h6>
+                                <h6><label style={{ fontWeight: 550 }}>Email : </label> <input type="text" style={{ border: 0, outline: "none" }} readOnly name="email" onChange={(e) => handleChange(e)} value={candidat.email} /></h6>
                                 <div className="row">
                                     <span style={{ color: "red" }}>{candidat.email?.trim()?.length == 0 ? "ce champs est obligatoire" : (
                                         String(candidat.email).toLowerCase()
@@ -259,13 +274,13 @@ function Candidat() {
                         </div>
                         <div className="row my-2">
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Adresse : </label><input type="text" style={{ border: 0, outline: "none" }} readOnly name="adresse" onChange={(e) => handleChange(e)} value={candidat.adresse} /></h6>
+                                <h6><label style={{ fontWeight: 550 }}>Adresse : </label> <input type="text" style={{ border: 0, outline: "none" }} readOnly name="adresse" onChange={(e) => handleChange(e)} value={candidat.adresse} /></h6>
                                 <div className="row">
                                     <span style={{ color: "red" }}>{candidat.adresse?.trim()?.length == 0 ? "ce champs est obligatoire" : null}</span>
                                 </div>
                             </div>
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Code postal : </label><input type="text" style={{ border: 0, outline: "none" }} readOnly name="codePostal" onChange={(e) => handleChange(e)} value={candidat.codePostal} /></h6>
+                                <h6><label style={{ fontWeight: 550 }}>Code postal : </label> <input type="text" style={{ border: 0, outline: "none" }} readOnly name="codePostal" onChange={(e) => handleChange(e)} value={candidat.codePostal} /></h6>
                                 <div className="row">
                                     <span style={{ color: "red" }}>{candidat.codePostal?.trim()?.length == 0 ? "ce champs est obligatoire" : null}</span>
                                 </div>
@@ -279,7 +294,7 @@ function Candidat() {
                                 </div>
                             </div>
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Pays d'origine : </label>
+                                <h6><label style={{ fontWeight: 550 }}>Pays d'origine : </label> 
                                     {edit ?
                                         <select name="paysOrigine" value={candidat.paysOrigine} onChange={(e) => handleChange(e)}>
                                             {paysList.map(p => (
@@ -302,40 +317,26 @@ function Candidat() {
                     <div className="card-body">
                         <div className="row my-2">
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Université d'origine : </label>
-                                    {edit ?
-                                        <select style={{ width: "50%" }} name="universiteOrigine" value={candidat.universiteOrigine} onChange={(e) => handleChange(e)}>
-                                            {universiteList.map(p => (
-                                                <option key={p.abreviation} value={p.abreviation}>{p.signification}</option>
-                                            ))}
-                                        </select>
-                                        :
-                                        universite.get(candidat.universiteOrigine)
-                                    }
+                                <h6><label style={{ fontWeight: 550 }}>Liste de sélection : </label> 
+                                    <span> {switchSelection(candidat.listeSelection)}</span>
                                 </h6>
                             </div>
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Liste de sélection : </label>
-                                    <span>{switchSelection(candidat.listeSelection)}</span>
-                                </h6>
+                                <h6><label style={{ fontWeight: 550 }}>Numéro d'ordre : </label> {candidat.selectionNoOrdre}</h6>
                             </div>
                         </div>
                         <div className="row my-2">
                             <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Numéro d'ordre : </label>{candidat.selectionNoOrdre}</h6>
-                            </div>
-                            <div className="col-md-4">
-                                <h6><label style={{ fontWeight: 550 }}>Confirmation candidat : </label>
-                                    {candidat.confirmationCandidat == null ? candidat.listeSelection === "LP" || candidat.listeSelection === "LA" ? <span className='fst-italic'>En attente</span> : null
+                                <h6><label style={{ fontWeight: 550 }}>Confirmation candidat : </label> 
+                                    {candidat.confirmationCandidat == null ? candidat.listeSelection === "LP" || candidat.listeSelection === "LA" ? <span className='fst-italic'> En attente</span> : null
                                         :
-                                        candidat.confirmationCandidat === "N" ? <span>Refusé</span> : <span>Accepter</span>
+                                        candidat.confirmationCandidat === "N" ? <span> Refusé</span> : <span> Accepté</span>
                                     }
                                 </h6>
                             </div>
-                        </div>
-                        <div className="row my-2">
-                            <div className="col-md-5">
-                                <h6><label style={{ fontWeight: 550 }}>Date réponse du candidat : </label>{candidat.dateReponseCandidat == null ? <span className='fst-italic'> pas encore renseigné</span> : candidat.dateReponseCandidat}
+                            <div className="col-md-4">
+                                <h6>
+                                    <label style={{ fontWeight: 550 }}>Date réponse du candidat : </label> {candidat.dateReponseCandidat == null ? <span className='fst-italic'> pas encore renseigné</span> : candidat.dateReponseCandidat}
                                 </h6>
                             </div>
                         </div>

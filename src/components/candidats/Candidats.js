@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import HelpCenterIcon from "@mui/icons-material/HelpCenter";
 import InfoIcon from "@mui/icons-material/Info";
-import { Modal } from "antd";
+import { Divider, Modal } from "antd";
 import AddCandidat from "./AddCandidat";
 import Tooltip from "@mui/material/Tooltip";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
@@ -500,6 +500,7 @@ function Candidats({
                   borderColor: "Gray",
                   textTransform: "none",
                 }}
+                onClick={enEtudiant}
               >
                 {/* <ArrowCircleRightIcon
                     fontSize="large"
@@ -631,8 +632,8 @@ function Candidats({
             sorting: {
               sortModel: [
                 {
-                  field: "nom",
-                  sort: "asc",
+                  field: "listeSelection",
+                  sort: "desc",
                 },
               ],
             },

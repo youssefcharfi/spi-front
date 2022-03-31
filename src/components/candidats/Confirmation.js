@@ -86,8 +86,8 @@ function Confirmation({ open, setOpen, candidat, setIsChangedCandidat }) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Réponse du candidat
-            {candidat.nom} {candidat.prenom}:
+            Réponse du candidat :
+            {candidat.nom} {candidat.prenom}
           </DialogContentText>
         </DialogContent>
         <DialogActions style={{ alignItems: "center" }}>

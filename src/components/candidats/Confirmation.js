@@ -9,7 +9,7 @@ import Slide from "@mui/material/Slide";
 import { useConfirm } from "material-ui-confirm";
 import axios from "axios";
 import toastr from "toastr";
-
+import { Container, Grid } from "@mui/material";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -71,6 +71,9 @@ function Confirmation({ open, setOpen, candidat, setIsChangedCandidat }) {
     handleClose();
     reponse("N");
   };
+  const annuler = () => {
+    handleClose();
+  };
 
   return (
     <div>
@@ -82,17 +85,57 @@ function Confirmation({ open, setOpen, candidat, setIsChangedCandidat }) {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>
-          {"Mise à jour de l'état de confirmation du candidat"}
+          Réponse du candidat {candidat.nom} {candidat.prenom}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Réponse du candidat :
-            {candidat.nom} {candidat.prenom}
-          </DialogContentText>
+          {/* <DialogContentText id="alert-dialog-slide-description">
+            Réponse du candidat {candidat.nom} {candidat.prenom}:
+          </DialogContentText> */}
+          <Grid
+            container
+            spacing={2}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Grid item>
+              <Button
+                variant="outlined"
+                style={{
+                  color: "green",
+                  borderColor: "Gray",
+                  textTransform: "none",
+                }}
+                onClick={accepter}
+              >
+                Acceptation
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="outlined"
+                style={{
+                  color: "red",
+                  borderColor: "Gray",
+                  textTransform: "none",
+                }}
+                onClick={refuser}
+              >
+                Refus
+              </Button>
+            </Grid>
+          </Grid>
         </DialogContent>
-        <DialogActions style={{ alignItems: "center" }}>
-          <Button onClick={accepter}>Acceptation</Button>
-          <Button onClick={refuser}>Refus</Button>
+        <DialogActions>
+          <Button
+            variant="contained"
+            onClick={annuler}
+            style={{
+              borderColor: "Gray",
+              textTransform: "none",
+            }}
+          >
+            {" "}
+            Annuler{" "}
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

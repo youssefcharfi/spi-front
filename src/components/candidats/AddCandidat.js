@@ -109,6 +109,7 @@ function AddCandidat({
   };
 
   const onFinishReAdd = async (values) => {
+    console.log("readd");
     // const {
     //   // anneeUniversitaire,
     //   // dateNaissance,
@@ -140,8 +141,7 @@ function AddCandidat({
       .then((res) => {
         ajoutConfirmationError = false;
         ajouterCandidat(res.data);
-        setIsChangedCandidat(true);
-        setIsChangedCandidat(false);
+
         toastr.info(
           "Candidat : " +
             candidat.prenom +
@@ -174,9 +174,12 @@ function AddCandidat({
   };
 
   const onFinish = async (values) => {
+    console.log("add");
     await onFinishReAdd(values);
-    if (ajoutConfirmationError == false) {
+    if (ajoutConfirmationError === false) {
       fermerPopUp();
+      setIsChangedCandidat(true);
+      setIsChangedCandidat(false);
     }
   };
   return (
@@ -432,7 +435,7 @@ function AddCandidat({
                 <p style={{ color: "red" }}>{messageErreur}</p>
               </Row> */}
                 <Row>
-                  <button
+                  {/* <button
                     type="button"
                     size="large"
                     onClick={vider}
@@ -440,7 +443,7 @@ function AddCandidat({
                     style={{ float: "left" }}
                   >
                     Vider
-                  </button>
+                  </button> */}
                   <button
                     type="button"
                     size="large"

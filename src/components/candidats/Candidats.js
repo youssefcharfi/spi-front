@@ -246,8 +246,8 @@ function Candidats({
 
   const showModalListPrincipale = () => {
     var NbrMaxLPReached = false;
-    console.log(candidatsLP);
-    console.log("selected", selectedCandidats);
+    // console.log(candidatsLP);
+    // console.log("selected", selectedCandidats);
     verifierListeSelection(selectedCandidats);
 
     if (
@@ -266,6 +266,45 @@ function Candidats({
   const showModalListAttente = () => {
     verifierListeSelection(selectedCandidats);
     if (!selectedNull) setIsModalListAttente(true);
+  };
+  const showModalNonRetenu = () => {
+    verifierListeSelection(selectedCandidats);
+    console.log("NR");
+    if (!selectedNull)
+      //setIsModalListAttente(true);
+      confirm({
+        cancellationText: "Non",
+        confirmationText: "Oui",
+        title: "Refuser un candidat",
+        description: `Êtes-vous sûr de mettre ces candidats dans la liste des non retenus?`,
+      }).then(() => {
+        selectedCandidats.map((c) => {
+          c.listeSelection = "NR";
+        });
+        axios
+          .put(`http://localhost:8034/candidats/updateListe`, selectedCandidats)
+          .then(() => {
+            setIsChangedCandidat(true);
+            setIsChangedCandidat(false);
+            toastr.info(
+              "",
+              "Les candidats sélectionnés sont bien ajoutés à la liste des non retenus.",
+              {
+                closeButton: false,
+                timeOut: 4000,
+                extendedTimeOut: 100,
+              }
+            );
+          })
+          .catch((error) => {
+            selectedCandidats.map((c) => {
+              c.listeSelection = "";
+            });
+            toastr.error(
+              "Pardon une erreure est survenue veillez réessayer plus tard"
+            );
+          });
+      });
   };
 
   const handleCancelListPrincipale = () => {
@@ -429,7 +468,7 @@ function Candidats({
               >
                 <Button
                   variant="outlined"
-                  //onClick={showModalListPrincipale}
+                  onClick={showModalNonRetenu}
                   style={{
                     color: "red",
                     borderColor: "Gray",

@@ -270,6 +270,7 @@ function Candidats({
   const showModalNonRetenu = () => {
     verifierListeSelection(selectedCandidats);
     console.log("NR");
+    console.log("liste candidat nr1: ", selectedCandidats);
     if (!selectedNull)
       //setIsModalListAttente(true);
       confirm({
@@ -278,6 +279,7 @@ function Candidats({
         title: "Refuser un candidat",
         description: `Êtes-vous sûr de mettre ces candidats dans la liste des non retenus?`,
       }).then(() => {
+        console.log("liste candidat nr2: ", selectedCandidats);
         selectedCandidats.map((c) => {
           c.listeSelection = "NR";
         });
@@ -300,9 +302,8 @@ function Candidats({
             selectedCandidats.map((c) => {
               c.listeSelection = "";
             });
-            toastr.error(
-              "Pardon une erreure est survenue veillez réessayer plus tard"
-            );
+            toastr.error(error.response.data.errorMeassage);
+            console.log(error.response.data.errorMeassage);
           });
       });
   };

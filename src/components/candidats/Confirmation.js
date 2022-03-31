@@ -14,6 +14,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+toastr.options = {
+  closeButton: true,
+  positionClass: "toast-top-center",
+  timeOut: 0,
+  extendedTimeOut: 0,
+};
+
 function Confirmation({ open, setOpen, candidat, setIsChangedCandidat }) {
   const confirm = useConfirm();
   //   const [candidatAConfirmer, setCandidatAConfirmer] = React.useState(candidat);
@@ -41,6 +48,11 @@ function Confirmation({ open, setOpen, candidat, setIsChangedCandidat }) {
         .then(() => {
           setIsChangedCandidat(true);
           setIsChangedCandidat(false);
+          toastr.info("", "État de confirmation enregistrée", {
+            closeButton: false,
+            timeOut: 4000,
+            extendedTimeOut: 100,
+          });
         })
         .catch((error) => {
           candidat.confirmationCandidat = "";

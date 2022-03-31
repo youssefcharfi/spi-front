@@ -142,13 +142,18 @@ function AddCandidat({
         ajouterCandidat(res.data);
         setIsChangedCandidat(true);
         setIsChangedCandidat(false);
-        toastr.success(
+        toastr.info(
           "Candidat : " +
             candidat.prenom +
             " " +
             candidat.nom +
-            " est ajouté avec succes",
-          "Ajout d'un candidat"
+            " est ajouté avec succès",
+          "Ajout d'un candidat",
+          {
+            closeButton: false,
+            timeOut: 4000,
+            extendedTimeOut: 100,
+          }
         );
         // console.log("res: ", res);
         // console.log("data: ", res.data);

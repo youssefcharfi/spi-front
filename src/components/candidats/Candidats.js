@@ -442,6 +442,7 @@ function Candidats({
                   variant="outlined"
                   onClick={showModalListAttente}
                   style={{
+                    color: "red",
                     borderColor: "Gray",
                   }}
                 >
@@ -496,7 +497,7 @@ function Candidats({
               <Button
                 variant="outlined"
                 style={{
-                  color: "green",
+                  color: "black",
                   borderColor: "Gray",
                   textTransform: "none",
                 }}

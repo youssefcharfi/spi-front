@@ -201,7 +201,6 @@ const Promotion = () => {
             setPromo(
               promo.filter(
                 (p) =>
-                  p.codeFormation !== promoToDelete.codeFormation &&
                   p.anneeUniversitaire !== promoToDelete.anneeUniversitaire
               )
             );

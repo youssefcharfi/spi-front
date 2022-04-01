@@ -39,7 +39,7 @@ function Confirmation({ open, setOpen, candidat, setIsChangedCandidat }) {
     confirm({
       cancellationText: "Non",
       confirmationText: "Oui",
-      title: "Réponse de la confirmation du candidat",
+      title: "Confirmation d'un candidat",
       description: `Êtes-vous sûr de cette réponse?`,
     }).then(() => {
       candidat.confirmationCandidat = rep;

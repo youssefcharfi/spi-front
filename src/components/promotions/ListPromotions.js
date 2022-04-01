@@ -190,7 +190,7 @@ const Promotion = () => {
       cancellationText: "Non",
       confirmationText: "Oui",
       title: "Supprimer une promotion",
-      description: `Êtes vous sûrs de supprimer la promotion ${promoToDelete.codeFormation} ${promoToDelete.anneeUniversitaire} ?`,
+      description: `Êtes vous sûr de vouloir supprimer la promotion ${promoToDelete.codeFormation} ${promoToDelete.anneeUniversitaire} ?`,
     })
       .then(() => {
         axios
@@ -209,7 +209,7 @@ const Promotion = () => {
                 promoToDelete.codeFormation +
                 " " +
                 promoToDelete.anneeUniversitaire +
-                " est supprimée avec succés",
+                " a été supprimée avec succés",
               "Suppréssion d'une promotion"
             );
           })

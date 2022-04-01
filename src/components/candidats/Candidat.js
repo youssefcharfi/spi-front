@@ -246,7 +246,7 @@ function Candidat() {
                                     <span style={{ color: "red" }}>{candidat.mobile?.trim()?.length == 0 ? "ce champs est obligatoire" : (
                                         String(candidat.mobile).match(/^[+][0-9]{0,15}$/) ? null
                                             :
-                                            "le mobile doit commencer par un + suivi que des numéros"
+                                            "le mobile doit commencer par un + suivi uniquement de chiffres"
                                     )}</span>
                                 </div>
                             </div>
@@ -256,7 +256,7 @@ function Candidat() {
                                     <span style={{ color: "red" }}>{
                                         candidat.telephone == null || String(candidat.telephone).match(/^[+][0-9]{0,15}$/) || candidat.telephone?.trim()?.length == 0 ? null
                                             :
-                                            "le mobile doit commencer par un + suivi que des numéros"
+                                            "le mobile doit commencer par un + suivi uniquement de chiffres"
                                     }</span>
                                 </div>
                             </div>

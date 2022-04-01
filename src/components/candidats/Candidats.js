@@ -276,8 +276,8 @@ function Candidats({
       confirm({
         cancellationText: "Non",
         confirmationText: "Oui",
-        title: "Refuser un candidat",
-        description: `Êtes-vous sûr de mettre ces candidats dans la liste des non retenus?`,
+        title: "Refuser des candidats",
+        description: `Êtes-vous sûr de vouloir mettre ces candidats dans la liste des non retenus?`,
       }).then(() => {
         console.log("liste candidat nr2: ", selectedCandidats);
         selectedCandidats.map((c) => {
@@ -290,7 +290,7 @@ function Candidats({
             setIsChangedCandidat(false);
             toastr.info(
               "",
-              "Les candidats sélectionnés sont bien ajoutés à la liste des non retenus.",
+              "Les candidats sélectionnés ont bien été ajoutés à la liste des non retenus.",
               {
                 closeButton: false,
                 timeOut: 4000,
@@ -371,7 +371,7 @@ function Candidats({
         .catch(() => console.log("Deletion cancelled."));
     } else {
       toastr.info(
-        "Il n'y a pas de candidat pour l'admission!",
+        "Il n'y a pas de candidat à admettre!",
         "Admission des candidats"
       );
     }
@@ -574,7 +574,7 @@ function Candidats({
       <Modal
         title={
           <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-            Admission d'un candidats en liste principale
+            Admission des candidats en liste principale
           </h3>
         }
         visible={isModalListPrincipale}
@@ -595,7 +595,7 @@ function Candidats({
       <Modal
         title={
           <h3 style={{ marginTop: "15px", marginLeft: "15px" }}>
-            Admission d'un candidat à la liste d'attente
+            Admission des candidats en liste d'attente
           </h3>
         }
         visible={isModalListAttente}

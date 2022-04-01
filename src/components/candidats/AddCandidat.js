@@ -264,7 +264,7 @@ function AddCandidat({
                           required: true,
                           pattern: "^[+][0-9]{0,15}$",
                           message:
-                            "le champs '${label}' doit commencer par un + suivi que des numéros !",
+                            "le champs '${label}' doit commencer par un + suivi uniquement de chiffres !",
                         },
                       ]}
                     >

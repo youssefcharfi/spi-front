@@ -86,10 +86,10 @@ export default class DndTable extends Component {
     let msg;
     if (this.props.listeSelection == "LP")
       msg =
-        "Les candidats sélectionnés sont bien ajoutés à la liste principale.";
+        "Les candidats sélectionnés ont bien été ajoutés à la liste principale.";
     else
       msg =
-        "Les candidats sélectionnés sont bien ajoutés à la liste d'attente.";
+        "Les candidats sélectionnés ont bien été ajoutés à la liste d'attente.";
     axios
       .put(`http://localhost:8034/candidats/updateListe`, i)
       .then((res) => {
@@ -135,7 +135,7 @@ export default class DndTable extends Component {
       >
         <DialogContent>
           <DialogContentText>
-            Êtes vous sûrs d'ajouter et approuver le nouveau ordre de sélection de la liste {this.props.listeSelection == "LP"? "principale":"d'attente"}
+            Êtes vous sûr d'ajouter et approuver le nouveau ordre de sélection de la liste {this.props.listeSelection == "LP"? "principale":"d'attente"}?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
